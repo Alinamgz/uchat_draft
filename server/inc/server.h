@@ -1,7 +1,6 @@
 #pragma once
 
 // ===== defines =====
-// #define SRVR_ADDR
 #define SRVR_PORT 9001
 
 // ===== includes =====

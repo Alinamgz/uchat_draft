@@ -2,9 +2,7 @@
 
 // ===== defines =====
 #define MAXSLEEP 16
-#define SRVR_ADDR
 #define SRVR_PORT 9001
-
 
 // ===== includes =====
 #include <errno.h>
