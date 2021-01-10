@@ -1,17 +1,20 @@
 #include "server.h"
 
 int main(void) {
-	char srvr_msg[256] = "You have reached the server!";
-	int srvr_sock_fd = -1;
-	int cl_sock_fd = -1;
+	int srvr_socket = -1;
+	int client_socket = -1;
+
 	struct sockaddr_in server_addr;
 	struct sockaddr_in client_addr;
 	socklen_t cl_addr_len = sizeof(client_addr);
 
+	char buf[1024] = "";
+	pid_t childpid;
+
 // create server socket
-	srvr_sock_fd = socket(AF_INET, SOCK_STREAM, 0);
-	if (srvr_sock_fd < 0) {
-		mx_server_err(errno, srvr_sock_fd, cl_sock_fd);
+	srvr_socket = socket(AF_INET, SOCK_STREAM, 0);
+	if (srvr_socket < 0) {
+		mx_server_err(errno, srvr_socket, client_socket);
 	}
 
 // define addr structure
@@ -23,23 +26,45 @@ int main(void) {
 	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
 // bind the cocket to our specified IP and port
-	if ((bind(srvr_sock_fd, (struct sockaddr*)&server_addr,  sizeof(server_addr))) < 0) {
-		mx_server_err(errno, srvr_sock_fd, cl_sock_fd);
+	if ((bind(srvr_socket, (struct sockaddr*)&server_addr,  sizeof(server_addr))) < 0) {
+		mx_server_err(errno, srvr_socket, client_socket);
 	}
 
-	if ((listen(srvr_sock_fd, SOMAXCONN)) < 0) {
-		mx_server_err(errno, srvr_sock_fd, cl_sock_fd);
+	if ((listen(srvr_socket, SOMAXCONN)) < 0) {
+		mx_server_err(errno, srvr_socket, client_socket);
 	}
+	printf("Listening...\n");
 
-	cl_sock_fd = accept(srvr_sock_fd, (struct sockaddr*)&client_addr, &cl_addr_len);
-	if (cl_sock_fd < 0) {
-		mx_server_err(errno, srvr_sock_fd, cl_sock_fd);
+	while (1) {
+		client_socket = accept(srvr_socket, (struct sockaddr*)&client_addr, &cl_addr_len);
+		if (client_socket < 0) {
+			mx_server_err(errno, srvr_socket, client_socket);
+		}
+
+		printf("Connection acceptd from %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+
+		if ((childpid = fork()) == 0) {
+			close(srvr_socket);
+
+			while (1) {
+				recv(client_socket, buf, 1024, 0);
+				 if (!strcmp(buf, "exit")) {
+					 printf("Disconnecting from %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+					 break;				 
+				 }
+				 else {
+					 printf("[+] msg from client:\t%s\n", buf);
+					 send(client_socket, "Hoi frm srvr!", strlen("Hoi frm srvr!"), 0);
+					 bzero(buf, sizeof(buf));
+				 }
+			}
+		}
+
 	}
+	// send(client_socket, srvr_msg, sizeof(srvr_msg), 0);
 
-	send(cl_sock_fd, srvr_msg, sizeof(srvr_msg), 0);
-
-	close(srvr_sock_fd);
-	close(cl_sock_fd);
+	close(srvr_socket);
+	close(client_socket);
 
 	system("leaks -q server");
 	return 0;

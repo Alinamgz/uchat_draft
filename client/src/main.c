@@ -45,9 +45,8 @@ int main(void) {
 		if (read_chars < 0) {
 			perror("Read from client");
 			close(client_socket);
-			// if (buf) free(buf);
-			write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt read ---\n"));
-			system("leaks -q uchat");
+write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt read ---\n"));
+system("leaks -q uchat");
 		}
 		else {
 			buf[read_chars - 1] = '\0';
@@ -56,23 +55,37 @@ int main(void) {
 
 		if (!strcmp(buf, "exit")) {
 			close(client_socket);
-			// if (buf) free(buf);
-			write(1, "\t --- ch frm clnt exit ---\n", strlen( "\t --- ch frm clnt read ---\n"));
-			system("leaks -q uchat");
+write(1, "\t --- ch frm clnt exit ---\n", strlen( "\t --- ch frm clnt read ---\n"));
+system("leaks -q uchat");
 			exit(0);
 		}
+
+printf("ama gonna send...\n");
+		if (send(client_socket, buf, strlen(buf), 0) < 0) {
+			err = errno;
+			perror("Sending from client");
+			// if (buf) free(buf);
+			close(client_socket);
+write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt send ---\n"));
+system("leaks -q uchat");
+			exit(err);
+		}
+
+		if ((recv(client_socket, buf, 1024, 0)) < 0) {
+			err = errno;
+			perror("Client recv");
+			close(client_socket);
+write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt recv ---\n"));
+system("leaks -q uchat");
+		}
+		else {
+			printf("[+] msg from srvr:\t%s\n", buf);
+		}
+
 		free(buf);
 		buf = NULL;
-
-// printf("ama gonna send...\n");
-// 		if (send(client_socket, buf, strlen(buf), 0) < 0) {
-// 			err = errno;
-// 			perror("Sending from client");
-// 			// if (buf) free(buf);
-// 			close(client_socket);
-// 			exit(err);
-// 		}
 	}
+
 
 	system("leaks -q uchat");
 	return 0;
