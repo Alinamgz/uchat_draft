@@ -14,11 +14,11 @@ all: $(SERVER) $(CLIENT)
 
 $(SERVER):
 	@$(MAKE) -sC $(SERVER_DIR)
-	@mv $(SERVER_DIR)/$(SERVER) .
+	@cp $(SERVER_DIR)/$(SERVER) .
 
 $(CLIENT):
 	@$(MAKE) -sC $(CLIENT_DIR)
-	@mv $(CLIENT_DIR)/$(CLIENT) .
+	@cp $(CLIENT_DIR)/$(CLIENT) .
 
 clean:
 	@$(MAKE) clean -C $(SERVER_DIR)
