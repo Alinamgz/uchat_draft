@@ -1,4 +1,4 @@
-#include "server.h"
+#include "client.h"
 
 void mx_usg_err(char *name) {
 	write(STDERR_FILENO, USG_ERR_START, sizeof(USG_ERR_START) - 1);
