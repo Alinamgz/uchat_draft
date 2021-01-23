@@ -12,8 +12,6 @@ void *mx_recv_msg_handler(void *arg) {
 	char msg[msg_len];
 
 	while (client->th_ret) {
-	// while (flag_ex) {
-		printf("recv th_rslt: %d\n", client->th_ret);
 		memset(msg, 0, BUF_SZ);
 		recv_rslt = recv(client->sock_fd, msg, msg_len, 0);
 
@@ -25,11 +23,10 @@ void *mx_recv_msg_handler(void *arg) {
 			break;
 		}
 		else if (recv_rslt > 0) {
-			printf(" <:> %s\n", msg);
+			printf("<:> %s\n", msg);
 		}
 
 		str_overwrite_stdout();
-		printf("\nrecv th_rslt: %d\n", client->th_ret);
 	}
 
 	return (void*)client;

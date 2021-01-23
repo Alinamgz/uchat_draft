@@ -1,13 +1,5 @@
 #include "server.h"
 
-// t_client *mx_create_cl_node(t_client **list, t_cl_data data) {
-// 	t_client *rslt = (t_client*)malloc(sizeof(t_client));
-
-// 	rslt->data = data;
-// 	rslt->next = list && *list ? *list : NULL;
-// 	return rslt;	
-// }
-
 void mx_add_cl_node(t_cl_data *client) {
 	pthread_mutex_lock(client->mut);
 

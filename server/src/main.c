@@ -35,22 +35,7 @@ int main(int argc, char **argv) {
 		pthread_create(&tid, NULL, mx_handle_client, (void*)&client);
 
 	// --------------------------------------
-		// recv_rslt = recv(client_fd, buf, sizeof(buf), 0);
-		// if (recv_rslt < 0)
-		// 	mx_server_err(errno, listener, client_fd);
-		// else {
-		// 	// buf[recv_rslt - 1] = 0;
-		// 	printf("Got msg: %s\n", buf);
-		// }
-
-		// if (!strcmp(buf, "exit")) {
-		// 	break;
-		// }
-		// memset(buf, 0, recv_rslt);
-		// // if(send(client_fd, ))
-
-	// --------------------------------------
-		// Reduce CPU usage
+		// Reduce CPU usage/ TODO: find better way
 		sleep(1);
 	}
 
