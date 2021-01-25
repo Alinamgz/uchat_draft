@@ -5,10 +5,9 @@ void *mx_handle_client(void *arg) {
 	int recv_rslt = -1;
 	char buf[BUF_SZ] = "";
 	t_cl_data *client = (t_cl_data*)arg;
-	t_list *cur_client = client->cl_list;
+	t_list *cur_client = client->cl_list->next;
 
 	// Name
-
 	if (recv(cur_client->sock_fd, buf, BUF_SZ, 0) <= 0
 		|| strlen(buf) < 2
 		|| strlen(buf) >= NAME_LEN - 1) {
@@ -22,6 +21,7 @@ void *mx_handle_client(void *arg) {
 		mx_send_msg(buf, cur_client, client);
 
 	}
+// printf("\t__ch\n");
 
 	while (!leave_fl) {
 		recv_rslt = recv(cur_client->sock_fd, buf, BUF_SZ, 0);

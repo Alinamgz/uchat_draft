@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
 			mx_server_err(errno, server.sock_fd, client.sock_fd);
 		// TODO: Do we need nonblocking I/O ? 
 
-		client.uid = server.uid++;
+		client.uid = ++server.uid;
 		mx_add_cl_node(&client);
 		
 		pthread_create(&tid, NULL, mx_handle_client, (void*)&client);

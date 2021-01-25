@@ -9,9 +9,17 @@ void mx_add_cl_node(t_cl_data *client) {
 	new_node->addr = client->addr;
 	new_node->sock_fd = client->sock_fd;
 	new_node->uid = client->uid;
-	new_node->next = tmp ? tmp : NULL;
+	memset(new_node->name, 0, NAME_LEN);
 
-	client->cl_list = new_node;
+	new_node->next = tmp ? tmp->next : NULL;
+
+	if (client->cl_list) {
+		client->cl_list->next = new_node;
+	}
+	else {
+		client->cl_list = new_node;
+	}
+
 
 	// TODO: Delete it
 	printf("Connection acceptd from %s:%d\n",

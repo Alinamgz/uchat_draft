@@ -1,7 +1,7 @@
 #include "server.h"
 
 void mx_init_server_and_client(int argc, char **argv, t_srvr_data *server, t_cl_data *client) {
-	server->uid = 1;
+	server->uid = 0;
 	server->sock_fd = mx_create_listener(argc, argv[0]);
 
 	client->sock_fd = -1;
@@ -11,6 +11,12 @@ void mx_init_server_and_client(int argc, char **argv, t_srvr_data *server, t_cl_
 	client->mut = &(server->mut);
 
 	mx_set_addr(&server->addr, &client->addr, argv[1]);
+// -------------------------------------
+printf("\n\t_ch\n");
+	mx_add_cl_node(client);
+	strcpy(client->cl_list->name, "__head");
+printf("\n\tch_ name: %s\n", client->cl_list->name);
+// -------------------------------------
 
 	if (bind(server->sock_fd, (struct sockaddr*)&server->addr, sizeof(server->addr)) < 0)
 		mx_server_err(errno, server->sock_fd, client->sock_fd);
