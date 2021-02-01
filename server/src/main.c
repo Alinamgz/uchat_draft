@@ -1,7 +1,7 @@
 #include "server.h"
 
 // TODO: del it
-static inline void leaks_ch(int sig) {	
+static inline void leaks_ch(int sig) {
 
 	printf("\n--------------- Signal ------------\n");
 	system("leaks -q uchat_server");
@@ -11,7 +11,7 @@ static inline void leaks_ch(int sig) {
 
 int main(int argc, char **argv) {
 	pthread_t tid;
-	
+
 	t_srvr_data server;
 	t_cl_data client;
 
@@ -21,17 +21,18 @@ int main(int argc, char **argv) {
 
 	mx_init_server_and_client(argc, argv, &server, &client);
 
+
 	while (1) {
 		client.sock_fd = accept(server.sock_fd,
 								(struct sockaddr*)&client.addr,
 								&client.addr_len);
 		if(client.sock_fd < 0)
 			mx_server_err(errno, server.sock_fd, client.sock_fd);
-		// TODO: Do we need nonblocking I/O ? 
+		// TODO: Do we need nonblocking I/O ?
 
 		client.uid = ++server.uid;
 		mx_add_cl_node(&client);
-		
+
 		pthread_create(&tid, NULL, mx_handle_client, (void*)&client);
 
 	// --------------------------------------
@@ -46,5 +47,5 @@ int main(int argc, char **argv) {
 	printf("\n---------------------------\n");
 	system("leaks -q uchat_server");
 
-	return 0;	
+	return 0;
 }

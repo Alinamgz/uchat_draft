@@ -22,10 +22,15 @@ void mx_add_cl_node(t_cl_data *client) {
 
 
 	// TODO: Delete it
-	printf("Connection acceptd from %s:%d\n",
+	if (tmp) {
+		printf("Connection acceptd from %s:%d\n",
 			inet_ntoa(client->cl_list->addr.sin_addr),
 			ntohs(client->cl_list->addr.sin_port));
-
+	}
+	else {
+		printf("Added client list head\n");
+	}
+	
 	pthread_mutex_unlock(client->mut);
 }
 

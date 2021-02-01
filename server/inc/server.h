@@ -60,6 +60,8 @@ typedef struct s_cl_data {
 bool mx_switch_nonblock(int sock_fd, bool turn_on);
 
 int mx_create_listener(int argc, char *app_name);
+
+void mx_authorization(t_cl_data *client, t_list *cur_client, int *leave_fl);
 void mx_init_server_and_client(int argc, char **argv, t_srvr_data *srvr, t_cl_data *client);
 
 void mx_set_addr(struct sockaddr_in *srvr_addr, struct sockaddr_in *cl_addr, char *port_str);

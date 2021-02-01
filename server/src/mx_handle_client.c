@@ -8,20 +8,7 @@ void *mx_handle_client(void *arg) {
 	t_list *cur_client = client->cl_list->next;
 
 	// Name
-	if (recv(cur_client->sock_fd, buf, BUF_SZ, 0) <= 0
-		|| strlen(buf) < 2
-		|| strlen(buf) >= NAME_LEN - 1) {
-			write(STDERR_FILENO, NAME_ERR, sizeof(NAME_ERR) - 1);
-			leave_fl = 1;
-	}
-	else {
-		strcpy(cur_client->name, buf);
-		strcat(buf, " has joined!");
-		printf("%s\n", buf);
-		mx_send_msg(buf, cur_client, client);
-
-	}
-// printf("\t__ch\n");
+	mx_authorization(client, cur_client, &leave_fl);
 
 	while (!leave_fl) {
 		recv_rslt = recv(cur_client->sock_fd, buf, BUF_SZ, 0);
@@ -29,11 +16,10 @@ void *mx_handle_client(void *arg) {
 		if (recv_rslt > 0) {
 			if (strlen(buf) > 0) {
 				mx_send_msg(buf, cur_client, client);
-				printf("%s -> %s\n", buf, cur_client->name);
 			}
 		}
 		else if (!recv_rslt || !strcmp(buf, "exit")) {
-			sprintf(buf, "%s has let\n", cur_client->name);
+			sprintf(buf, "%s has left\n", cur_client->name);
 			mx_send_msg(buf, cur_client, client);
 			leave_fl = 1;
 		}

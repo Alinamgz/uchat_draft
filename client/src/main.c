@@ -2,7 +2,7 @@
 
 // volatile sig_atomic_t flag_ex = 1;
 
-static inline void leaks_ch(int sig) {	
+static inline void leaks_ch(int sig) {
 	printf("\n--------------- Signal ------------\n");
 	system("leaks -q uchat");
 
@@ -12,15 +12,16 @@ static inline void leaks_ch(int sig) {
 
 
 int main(int argc, char **argv) {
-	if (argc!= 2)
+	if (argc!= 3)
+		// TODO: pass srvr addr from argv -> init_client() -> set_addr() -> etc if needed
 		mx_usg_err(argv[0]);
-	
+
 	t_client *client = (t_client*)malloc(sizeof(t_client));
 	pthread_t send_msg_th;
 	pthread_t recv_msg_th;
 
 	signal(SIGINT, leaks_ch);
-	
+
 	mx_init_client(client, argv[1]);
 	mx_authorization(client);
 

@@ -23,7 +23,7 @@ void *mx_send_msg_handler(void *arg) {
 
 		if (getline(&msg, &msg_len, stdin) < 0)
 			perror("Msg reading err");
-		
+
 		mx_strtrim(&msg);
 
 		if (!strcmp(msg, "exit")) {
@@ -38,7 +38,7 @@ void *mx_send_msg_handler(void *arg) {
 			// break;
 		}
 		else {
-			sprintf(buf, "%s: %s\n", client->name, msg);
+			sprintf(buf, "%s: %s", client->name, msg);
 			if (send(client->sock_fd, buf, strlen(buf), 0) < 0) {
 				perror("Msg sending err");
 			}

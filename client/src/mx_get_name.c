@@ -38,3 +38,8 @@ void mx_get_name(char **str) {
 
 	*str = name;
 }
+
+// void mx_get_type() {}
+// void mx_get_login() {}
+// void mx_get_password() {}
+// void mx_get_name(char **str) {}

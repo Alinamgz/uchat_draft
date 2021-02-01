@@ -7,7 +7,7 @@
 #define NAME_LEN 32
 
 #define USG_ERR_START "Usage: "
-#define USG_ERR_END " [port number]\n"
+#define USG_ERR_END " [server IP address] [port number]\n"
 #define NAME_ERR "\nERR: wrong name length! min 2, max 31 chars.\n NB: To exit enter 'q')\n >> "
 #define SEND_TH_ERR "Err: failed to create sending msg handler thread\n"
 #define RECV_TH_ERR "Err: failed to create receiving msg handler thread\n"
