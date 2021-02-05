@@ -1,6 +1,7 @@
 #include "client.h"
 
 void mx_authorization(t_client *client) {
+	// cJSON *req = cJSON_CreateObject();
 
 	mx_get_name(&client->name);
 

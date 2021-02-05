@@ -22,7 +22,12 @@ int main(int argc, char **argv) {
 
 	signal(SIGINT, leaks_ch);
 
-	mx_init_client(client, argv[1]);
+// test gtk run
+// printf("------ Bef wind init\n");
+// 	mx_init_gtk_app();
+// printf("------ After wind init\n");
+
+	mx_init_client(client, argv[1], argv[2]);
 	mx_authorization(client);
 
 	printf("\n\t --- Welcome! ---\n");

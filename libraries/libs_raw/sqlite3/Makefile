@@ -1,23 +1,23 @@
 # ======== variables ========
-NAME = cJSON
+NAME = sqlite3
 
 # -- files and dirs --
-DST_INC_DIR = ../../include
+DST_INC_DIR = ../../libs/include
 DST_LIB_DIR = ../../libs
 
 INC_FILE = $(NAME).h
 SRC_FILE = $(NAME).c
 OBJ_FILE = $(NAME).o
 
-STATIC_LIB = $(DST_LIB_DIR)/libcjson.a
+STATIC_LIB = $(DST_LIB_DIR)/libsqlite3.a
 
 # -- commands --
 RM = rm -rdf
 MKDIR = mkdir -p
 
 CC = clang -std=c89
-PIC_FLAGS = -fPIC
-R_CFLAGS = $(PIC_FLAGS) -pedantic -Wall -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wc++-compat -Wundef -Wswitch-default -Wconversion
+# WHY do we use this flag???
+SQL_FLAGS = -DSQLITE_ENABLE_UPDATE_DELETE_LIMIT=1
 
 # ======== body ========
 
@@ -26,7 +26,7 @@ all: static
 static: $(STATIC_LIB)
 
 .c.o:
-	@$(CC) -c $(R_CFLAGS) $<
+	@$(CC) -c $(SQL_FLAGS) $<
 	@printf "$(notdir $@)\033[32;1m created\033[0m\n"
 
 $(STATIC_LIB): $(OBJ_FILE)

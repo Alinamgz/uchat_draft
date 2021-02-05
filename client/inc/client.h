@@ -30,6 +30,8 @@
 #include <pthread.h>
 #include <signal.h>
 
+#include "cJSON.h"
+#include <gtk/gtk.h>
 
 // ===== structs =====
 typedef struct s_client {
@@ -43,14 +45,17 @@ typedef struct s_client {
 
 int mx_connect_retry(const struct sockaddr *adr);
 
+int mx_init_gtk_app(void);
+
 void mx_authorization(t_client *client);
 void mx_client_err(int err, int fd);
 void mx_get_name(char **str);
 // TODO:
-void mx_init_client(t_client *client, char *port);
+void mx_init_client(t_client *client, char *addr_input, char *port_input);
 
 void *mx_recv_msg_handler(void *arg);
 void *mx_send_msg_handler(void *arg);
-void mx_set_addr(struct sockaddr_in *srvr_addr, char *port_str);
+
+void mx_set_addr(struct sockaddr_in *srvr_addr, char *addr_str, char *port_str);
 void mx_strtrim(char **str);
 void mx_usg_err(char *name);

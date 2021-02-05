@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
 
 	mx_init_server_and_client(argc, argv, &server, &client);
 
+	mx_db_init();
 
 	while (1) {
 		client.sock_fd = accept(server.sock_fd,
@@ -36,7 +37,8 @@ int main(int argc, char **argv) {
 		pthread_create(&tid, NULL, mx_handle_client, (void*)&client);
 
 	// --------------------------------------
-		// Reduce CPU usage/ TODO: find better way
+		// Reduce CPU usage/
+		// TODO: find better way
 		sleep(1);
 	}
 
