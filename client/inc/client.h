@@ -44,10 +44,16 @@ typedef enum e_scene {
 }			 t_scene;
 
 typedef struct s_ui {
-	GtkWidget *ok_window;
+	// err dialog
 	GtkWidget *err_dialog;
 	GtkWidget *retry_btn;
 	GtkWidget *fail_reason_msg;
+	// login window
+	GtkWidget *login_window;
+	GtkWidget *show_registration_btn;
+	// registration
+	GtkWidget *registration_window;
+	GtkWidget *show_login_btn;
 }			   t_ui;
 
 typedef struct s_client {
@@ -91,3 +97,8 @@ void mx_strtrim(char **str);
 void mx_usg_err(char *name);
 
 void mx_init_gtk_app(t_client *client);
+
+// init gtk windows
+void mx_init_error_dialog(t_client *client);
+void mx_init_login_window(t_client *client);
+void mx_init_registration_window(t_client *client);

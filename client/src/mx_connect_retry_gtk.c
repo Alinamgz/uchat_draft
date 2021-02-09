@@ -25,6 +25,7 @@ write(STDOUT_FILENO, "------ conn ----\n", strlen("------ conn ----\n"));
 			return;
 		}
 
+ gtk_widget_show_now(client->ui->err_dialog);
 		close(client->sock_fd);
 printf("\t---- NO conn --- \n");
 
