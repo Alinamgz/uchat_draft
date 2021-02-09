@@ -13,21 +13,25 @@ static inline void leaks_ch(int sig) {
 
 int main(int argc, char **argv) {
 	if (argc!= 3)
-		// TODO: pass srvr addr from argv -> init_client() -> set_addr() -> etc if needed
 		mx_usg_err(argv[0]);
 
-	t_client *client = (t_client*)malloc(sizeof(t_client));
 	pthread_t send_msg_th;
 	pthread_t recv_msg_th;
 
+	t_client *client = (t_client*)malloc(sizeof(t_client));
+	client->ui = (t_ui*)malloc(sizeof(t_ui));
+	client->argv = argv;
+	client->th_ret = 1;
+	client->scene = CONNECTION;
+	pthread_mutex_init(&client->mut, NULL);
+
 	signal(SIGINT, leaks_ch);
 
-// test gtk run
-// printf("------ Bef wind init\n");
-// 	mx_init_gtk_app();
+	mx_init_gtk_app(client);
 // printf("------ After wind init\n");
 
-	mx_init_client(client, argv[1], argv[2]);
+	// mx_init_client(client, argv[1], argv[2]);
+	// mx_init_client(Gtkwidget *label, gpointer *data);
 	mx_authorization(client);
 
 	printf("\n\t --- Welcome! ---\n");

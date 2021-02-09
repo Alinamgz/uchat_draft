@@ -1,7 +1,7 @@
 #pragma once
 
 // ===== defines =====
-#define MAXSLEEP 16
+#define MAXSLEEP 8
 #define SRVR_PORT 9001
 #define BUF_SZ 128
 #define NAME_LEN 32
@@ -34,24 +34,54 @@
 #include <gtk/gtk.h>
 
 // ===== structs =====
+typedef enum e_scene {
+	CONNECTION,
+	CONNECTION_ERR,
+	LOGIN,
+	REGISTRATION,
+	CHAT,
+	TOTAL
+}			 t_scene;
+
+typedef struct s_ui {
+	GtkWidget *ok_window;
+	GtkWidget *err_dialog;
+	GtkWidget *retry_btn;
+	GtkWidget *fail_reason_msg;
+}			   t_ui;
+
 typedef struct s_client {
 	pthread_mutex_t mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
+
+	char **argv;
+	t_ui *ui;
+	t_scene scene;
 }			   t_client;
 
 // ====== funcs ======
 
-int mx_connect_retry(const struct sockaddr *adr);
+// int mx_connect_retry(const struct sockaddr *adr);
+// int mx_connect_retry( const struct sockaddr *addr, gpointer *data);
+// int mx_connect_retry(const struct sockaddr *addr, t_client *client);
+// void mx_connect_retry_gtk(t_client *client);
+void mx_connect_retry_gtk(GtkWidget *widget, gpointer data);
 
-int mx_init_gtk_app(void);
+// int mx_init_gtk_app(void);
+void mx_init_gtk_app(t_client *client);
+
 
 void mx_authorization(t_client *client);
 void mx_client_err(int err, int fd);
 void mx_get_name(char **str);
 // TODO:
-void mx_init_client(t_client *client, char *addr_input, char *port_input);
+// void mx_init_client(t_client *client, char *addr_input, char *port_input);
+// void mx_init_client(GtkWidget *window, gpointer *data);
+// void mx_init_client(t_client *client);
+void mx_init_client_gtk(t_client *client);
+
 
 void *mx_recv_msg_handler(void *arg);
 void *mx_send_msg_handler(void *arg);
@@ -59,3 +89,5 @@ void *mx_send_msg_handler(void *arg);
 void mx_set_addr(struct sockaddr_in *srvr_addr, char *addr_str, char *port_str);
 void mx_strtrim(char **str);
 void mx_usg_err(char *name);
+
+void mx_init_gtk_app(t_client *client);

@@ -3,6 +3,7 @@ SERVER_NAME := uchat_server
 CLIENT_NAME := uchat
 CJSON_NAME := libcjson
 SQLITE_NAME := libsqlite3
+DB_NAME := uchat.db
 
 # -- files and dirs --
 SERVER_DIR := server
@@ -73,6 +74,7 @@ uninstall: clean
 	@$(MAKE) uninstall -sC $(SQLITE_DIR)
 	@$(RM) $(SERVER_NAME)
 	@$(RM) $(CLIENT_NAME)
+	@$(RM) $(DB_NAME)
 
 reinstall: uninstall all
 
