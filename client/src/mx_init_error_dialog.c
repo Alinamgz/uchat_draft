@@ -1,6 +1,5 @@
 #include "client.h"
 
-
 static void do_connect_retry(GtkWidget *widget, gpointer data);
 
 void mx_init_error_dialog(t_client *client) {
@@ -18,10 +17,10 @@ void mx_init_error_dialog(t_client *client) {
     client->ui->retry_btn = GTK_WIDGET(gtk_builder_get_object(builder, "retry_btn"));
     if (!client->ui->retry_btn) g_critical("Can't get fail_reason_msg");
 
-    g_signal_connect(G_OBJECT(client->ui->retry_btn), "clicked", G_CALLBACK(do_connect_retry), client);
-
-    // while(gtk_events_pending())
-	//     gtk_main_iteration();
+    g_signal_connect(G_OBJECT(client->ui->retry_btn),
+                     "clicked",
+                     G_CALLBACK(do_connect_retry),
+                     client);
 }
 
  static void do_connect_retry(GtkWidget *widget, gpointer data) {
@@ -33,6 +32,5 @@ void mx_init_error_dialog(t_client *client) {
 	    gtk_main_iteration();
 
     client->scene = CONNECTION_ERR;
-    // mx_connect_retry_gtk(widget, data);
     mx_connection_retry_th(widget, data);
 }

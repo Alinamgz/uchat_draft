@@ -59,6 +59,11 @@ typedef struct s_ui {
 
 	// registration
 	GtkWidget *registration_window;
+	GtkWidget *r_username_entry;
+	GtkWidget *r_username_status;
+	GtkWidget *r_pass_entry;
+	GtkWidget *r_pass_status;
+	GtkWidget *register_btn;
 	GtkWidget *show_login_btn;
 }			   t_ui;
 

@@ -50,6 +50,7 @@ static void init_widgets(GtkBuilder *builder, t_client *client) {
 
 }
 static void connect_signals(t_client *client) {
+    // TODO: what's the point in signal_conect "activate" for entry?
     g_signal_connect(G_OBJECT(client->ui->l_username_entry),
                               "activate",
                               G_CALLBACK(mx_get_input_values),
