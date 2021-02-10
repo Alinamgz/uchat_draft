@@ -35,7 +35,6 @@
 
 // ===== structs =====
 typedef enum e_scene {
-	CONNECTION,
 	CONNECTION_ERR,
 	LOGIN,
 	REGISTRATION,
@@ -48,9 +47,11 @@ typedef struct s_ui {
 	GtkWidget *err_dialog;
 	GtkWidget *retry_btn;
 	GtkWidget *fail_reason_msg;
+
 	// login window
 	GtkWidget *login_window;
 	GtkWidget *show_registration_btn;
+
 	// registration
 	GtkWidget *registration_window;
 	GtkWidget *show_login_btn;
@@ -69,23 +70,14 @@ typedef struct s_client {
 
 // ====== funcs ======
 
-// int mx_connect_retry(const struct sockaddr *adr);
-// int mx_connect_retry( const struct sockaddr *addr, gpointer *data);
-// int mx_connect_retry(const struct sockaddr *addr, t_client *client);
-// void mx_connect_retry_gtk(t_client *client);
 void mx_connect_retry_gtk(GtkWidget *widget, gpointer data);
-
-// int mx_init_gtk_app(void);
 void mx_init_gtk_app(t_client *client);
 
 
 void mx_authorization(t_client *client);
 void mx_client_err(int err, int fd);
 void mx_get_name(char **str);
-// TODO:
-// void mx_init_client(t_client *client, char *addr_input, char *port_input);
-// void mx_init_client(GtkWidget *window, gpointer *data);
-// void mx_init_client(t_client *client);
+
 void mx_init_client_gtk(t_client *client);
 
 
@@ -102,3 +94,4 @@ void mx_init_gtk_app(t_client *client);
 void mx_init_error_dialog(t_client *client);
 void mx_init_login_window(t_client *client);
 void mx_init_registration_window(t_client *client);
+gboolean mx_check_scene(void *param);

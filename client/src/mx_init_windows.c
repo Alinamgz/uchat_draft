@@ -3,32 +3,27 @@
 static void switch_form(GtkWidget *widget, gpointer data) {
     t_client *client = (t_client*)data;
 
-printf("\\\\ Gonna change between login and registration\n");
     if (client->scene == LOGIN) {
-        // if (!client->ui->registration_window) {
-        //     mx_init_registration_window(client);
-        // }
+        if (!client->ui->registration_window) {
+            mx_init_registration_window(client);
+        }
         client->scene = REGISTRATION;
     }
     else if (client->scene == REGISTRATION)  {
         client->scene = LOGIN;
     }
-printf("done\n");
 }
 
  static void chck_clk(GtkWidget *widget, gpointer data) {
     t_client *client = (t_client*)data;
 
-printf("====== Click ==== \n");
     gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), "Retrying...");
 
-        while(gtk_events_pending())
-	        gtk_main_iteration();
+    while(gtk_events_pending())
+	    gtk_main_iteration();
 
-printf("====== Click_2 ==== \n");
-    client->scene = CONNECTION;
+    client->scene = CONNECTION_ERR;
     mx_connect_retry_gtk(widget, data);
-// return;
 }
 
 void mx_init_error_dialog(t_client *client) {
@@ -47,11 +42,9 @@ void mx_init_error_dialog(t_client *client) {
     if (!client->ui->retry_btn) g_critical("Can't get fail_reason_msg");
 
     g_signal_connect(G_OBJECT(client->ui->retry_btn), "clicked", G_CALLBACK(chck_clk), client);
-    // g_signal_connect(G_OBJECT(client->ui->retry_btn), "clicked", G_CALLBACK(mx_connect_retry_gtk), client);
 
-    while(gtk_events_pending())
-	    gtk_main_iteration();
-    // g_signal_connect(G_OBJECT(client->ui->retry_btn), "clicked", G_CALLBACK(chck_clk), client);
+    // while(gtk_events_pending())
+	//     gtk_main_iteration();
 }
 
 void mx_init_login_window(t_client *client) {

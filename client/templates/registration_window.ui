@@ -7,6 +7,7 @@
     <property name="window-position">center</property>
     <property name="default-width">400</property>
     <property name="gravity">center</property>
+    <signal name="destroy" handler="exit_gtk" swapped="no"/>
     <child>
       <object class="GtkBox" id="login_box">
         <property name="visible">True</property>
@@ -109,6 +110,7 @@
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="max-length">24</property>
+                <property name="visibility">False</property>
                 <property name="invisible-char">●</property>
                 <property name="width-chars">10</property>
                 <property name="max-width-chars">30</property>
@@ -160,6 +162,7 @@
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="max-length">24</property>
+                <property name="visibility">False</property>
                 <property name="invisible-char">●</property>
                 <property name="width-chars">10</property>
                 <property name="max-width-chars">30</property>

@@ -7,8 +7,7 @@
     <property name="window-position">center</property>
     <property name="type-hint">dialog</property>
     <!-- <signal name="close" handler="exit_gtk" swapped="no"/> -->
-    <signal name="close" handler="exit_gtk" swapped="no"/>
-     <signal name="destroy" handler="exit_gtk" swapped="no"/>
+    <signal name="destroy" handler="exit_gtk" swapped="no"/>
 
     <child internal-child="vbox">
       <object class="GtkBox">

@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 	client->ui = (t_ui*)malloc(sizeof(t_ui));
 	client->argv = argv;
 	client->th_ret = 1;
-	client->scene = CONNECTION;
+	// client->scene = CONNECTION;
 	pthread_mutex_init(&client->mut, NULL);
 
 	signal(SIGINT, leaks_ch);
