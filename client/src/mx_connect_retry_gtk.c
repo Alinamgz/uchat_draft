@@ -1,7 +1,20 @@
 #include "client.h"
 
-void mx_connect_retry_gtk(GtkWidget *widget, gpointer data) {
+void mx_connection_retry_th(GtkWidget *widget, gpointer data) {
 	t_client *client = (t_client*)data;
+
+	gtk_widget_set_sensitive(client->ui->retry_btn, 0);
+
+	if (pthread_create(&client->connection_th, NULL, mx_connect_retry_gtk, (void *)client) != 0) {
+	write(STDERR_FILENO, SEND_TH_ERR, sizeof(SEND_TH_ERR));
+	exit(1);
+	}
+}
+
+void *mx_connect_retry_gtk(void *arg) {
+	t_client *client = (t_client*)arg;
+
+	pthread_mutex_lock(&client->connection_mut);
 
 	struct sockaddr_in srvr_addr;
 	int numsec = 0;
@@ -17,15 +30,22 @@ write(STDOUT_FILENO, "------ conn ----\n", strlen("------ conn ----\n"));
 			g_critical("%s\n", strerror(errno));
 			gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), strerror(errno));
 		    client->scene = CONNECTION_ERR;
-			return;
+				gtk_widget_set_sensitive(client->ui->retry_btn, 1);
+	pthread_mutex_unlock(&client->connection_mut);
+			return NULL;
 		}
-
+printf("\tch\n");
 		if (connect(client->sock_fd, (struct sockaddr *)&srvr_addr, addr_len) == 0) {
 		    client->scene = LOGIN;
-			return;
+				gtk_widget_set_sensitive(client->ui->retry_btn, 1);
+	pthread_mutex_unlock(&client->connection_mut);
+			return NULL;
 		}
 
- gtk_widget_show_now(client->ui->err_dialog);
+printf("\tck\n");
+//  gtk_widget_show_now(client->ui->err_dialog);
+		    client->scene = CONNECTION_ERR;
+printf("\t\tck\n");
 		close(client->sock_fd);
 printf("\t---- NO conn --- \n");
 
@@ -42,5 +62,7 @@ printf("\t---- NO conn --- \n");
 		gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), strerror(errno));;
 		client->scene = CONNECTION_ERR;
 		client->sock_fd = -1;
-		return;
+			gtk_widget_set_sensitive(client->ui->retry_btn, 1);
+	pthread_mutex_unlock(&client->connection_mut);
+		return NULL;
 }

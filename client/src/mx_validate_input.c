@@ -1,7 +1,7 @@
 #include "client.h"
 
-char *mx_validate_input(const gchar *str) {
-    if (!str || !*str)
+char *mx_validate_input(const gchar *str, bool is_req) {
+    if (is_req && (!str || !*str))
         return "Required field!";
 
     if (strlen(str) < 4)

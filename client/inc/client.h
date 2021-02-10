@@ -63,7 +63,9 @@ typedef struct s_ui {
 }			   t_ui;
 
 typedef struct s_client {
+	pthread_t connection_th;
 	pthread_mutex_t mut;
+	pthread_mutex_t connection_mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
@@ -75,7 +77,8 @@ typedef struct s_client {
 
 // ====== funcs ======
 
-void mx_connect_retry_gtk(GtkWidget *widget, gpointer data);
+void *mx_connect_retry_gtk(gpointer data);
+void mx_connection_retry_th(GtkWidget *widget, gpointer data);
 void mx_init_gtk_app(t_client *client);
 
 
@@ -103,6 +106,6 @@ gboolean mx_check_scene(void *param);
 
 void mx_switch_form(GtkWidget *widget, gpointer data);
 void mx_get_input_values(GtkWidget *widget, gpointer data);
-char *mx_validate_input(const gchar *username);
+char *mx_validate_input(const gchar *username, bool is_req);
 
 bool mx_isalpha_digital(char c);

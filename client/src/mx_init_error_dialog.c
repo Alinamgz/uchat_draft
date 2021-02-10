@@ -33,5 +33,6 @@ void mx_init_error_dialog(t_client *client) {
 	    gtk_main_iteration();
 
     client->scene = CONNECTION_ERR;
-    mx_connect_retry_gtk(widget, data);
+    // mx_connect_retry_gtk(widget, data);
+    mx_connection_retry_th(widget, data);
 }

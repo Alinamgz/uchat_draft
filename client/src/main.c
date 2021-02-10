@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
 	client->th_ret = 1;
 	// client->scene = CONNECTION;
 	pthread_mutex_init(&client->mut, NULL);
+	pthread_mutex_init(&client->connection_mut, NULL);
 
 	signal(SIGINT, leaks_ch);
 

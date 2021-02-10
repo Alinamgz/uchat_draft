@@ -10,7 +10,8 @@ void mx_init_gtk_app(t_client *client) {
     mx_init_login_window(client);
 	gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), "Trying to reach...");
 
-    mx_connect_retry_gtk(NULL, (gpointer*)client);
+    mx_connection_retry_th(NULL, (gpointer*)client);
+    // mx_connect_retry_gtk(NULL, (gpointer*)client);
 
     g_timeout_add(50, mx_check_scene, client);
 
