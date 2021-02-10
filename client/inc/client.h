@@ -50,6 +50,11 @@ typedef struct s_ui {
 
 	// login window
 	GtkWidget *login_window;
+	GtkWidget *l_username_entry;
+	GtkWidget *l_username_status;
+	GtkWidget *l_pass_entry;
+	GtkWidget *l_pass_status;
+	GtkWidget *login_btn;
 	GtkWidget *show_registration_btn;
 
 	// registration
@@ -95,3 +100,9 @@ void mx_init_error_dialog(t_client *client);
 void mx_init_login_window(t_client *client);
 void mx_init_registration_window(t_client *client);
 gboolean mx_check_scene(void *param);
+
+void mx_switch_form(GtkWidget *widget, gpointer data);
+void mx_get_input_values(GtkWidget *widget, gpointer data);
+char *mx_validate_input(const gchar *username);
+
+bool mx_isalpha_digital(char c);

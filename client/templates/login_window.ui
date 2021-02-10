@@ -39,7 +39,7 @@
               <object class="GtkLabel" id="username_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Username</property>
+                <property name="label" translatable="yes">Username *</property>
                 <property name="xalign">0.10000000149011612</property>
               </object>
               <packing>
@@ -49,7 +49,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="username_entry">
+              <object class="GtkEntry" id="l_username_entry">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="margin-start">20</property>
@@ -67,11 +67,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="username_status">
+              <object class="GtkLabel" id="l_username_status">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-bottom">10</property>
-                <property name="label" translatable="yes">Err!</property>
+                <!-- <property name="label" translatable="yes"></property> -->
                 <property name="xalign">0.10000000149011612</property>
                 <attributes>
                   <attribute name="foreground" value="#eded33333b3b"/>
@@ -87,7 +87,7 @@
               <object class="GtkLabel" id="password_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Password</property>
+                <property name="label" translatable="yes">Password *</property>
                 <property name="xalign">0.10000000149011612</property>
               </object>
               <packing>
@@ -97,7 +97,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="pass_entry">
+              <object class="GtkEntry" id="l_pass_entry">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="margin-start">20</property>
@@ -118,11 +118,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="pass_status">
+              <object class="GtkLabel" id="l_pass_status">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-bottom">5</property>
-                <property name="label" translatable="yes">Booo</property>
+                <!-- <property name="label" translatable="yes">Booo</property> -->
                 <property name="xalign">0.10000000149011612</property>
                 <attributes>
                   <attribute name="foreground" value="#eded33333b3b"/>

@@ -14,6 +14,9 @@ void mx_init_gtk_app(t_client *client) {
 
     g_timeout_add(50, mx_check_scene, client);
 
+    while(gtk_events_pending())
+	    gtk_main_iteration();
+
     gtk_main();
 }
 

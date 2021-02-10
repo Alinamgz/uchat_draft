@@ -6,11 +6,10 @@ gboolean mx_check_scene(void *param) {
 
     switch(scene) {
         case CONNECTION_ERR:
-            // gtk_widget_hide(client->ui->err_dialog);
             if (!client->ui->err_dialog) {
                 mx_init_error_dialog(client);
             }
-            gtk_widget_show_all(client->ui->err_dialog);
+            gtk_widget_show(client->ui->err_dialog);
             return G_SOURCE_CONTINUE;
         case LOGIN:
             if (client->ui->err_dialog)
@@ -25,7 +24,6 @@ gboolean mx_check_scene(void *param) {
             return G_SOURCE_CONTINUE;
         case REGISTRATION:
             gtk_widget_hide(client->ui->login_window);
-            // gtk_widget_hide(client->ui->registration_window);
              if (!client->ui->registration_window) {
                 mx_init_registration_window(client);
             }
