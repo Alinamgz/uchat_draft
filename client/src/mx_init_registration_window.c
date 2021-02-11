@@ -49,6 +49,22 @@ static void init_widgets(GtkBuilder *builder, t_client *client) {
     if (!client->ui->conf_pass_status)
         g_critical("Can't get conf_pass_status");
 
+    client->ui->firstname_entry = GTK_WIDGET(gtk_builder_get_object(builder, "firstname_entry"));
+    if (!client->ui->firstname_entry)
+        g_critical("Can't get firstname_entry");
+
+    client->ui->firstname_status = GTK_WIDGET(gtk_builder_get_object(builder, "firstname_status"));
+    if (!client->ui->firstname_status)
+        g_critical("Can't get firstname_status");
+
+    client->ui->lastname_entry = GTK_WIDGET(gtk_builder_get_object(builder, "lastname_entry"));
+    if (!client->ui->lastname_entry)
+        g_critical("Can't get lastname_entry");
+
+    client->ui->lastname_status = GTK_WIDGET(gtk_builder_get_object(builder, "lastname_status"));
+    if (!client->ui->lastname_status)
+        g_critical("Can't get lastname_status");
+
     client->ui->register_btn = GTK_WIDGET(gtk_builder_get_object(builder, "register_btn"));
     if (!client->ui->register_btn)
         g_critical("Can't get register_btn");
@@ -72,7 +88,7 @@ static void connect_signals(t_client *client) {
 
     g_signal_connect(G_OBJECT(client->ui->register_btn),
                               "clicked",
-                              G_CALLBACK(mx_get_input_values),
+                              G_CALLBACK(mx_submit_registration_handler),
                               client);
 
     g_signal_connect(G_OBJECT(client->ui->show_login_btn),

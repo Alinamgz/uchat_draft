@@ -64,7 +64,7 @@ static void connect_signals(t_client *client) {
 
     g_signal_connect(G_OBJECT(client->ui->login_btn),
                               "clicked",
-                              G_CALLBACK(mx_get_input_values),
+                              G_CALLBACK(mx_submit_login_handler),
                               client);
 
     g_signal_connect(G_OBJECT(client->ui->show_registration_btn),

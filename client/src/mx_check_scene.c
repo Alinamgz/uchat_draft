@@ -6,18 +6,16 @@ gboolean mx_check_scene(void *param) {
 
     switch (scene) {
         case CONNECTION_ERR:
-            // if (client->scene != client->prev_scene) {
+            client->prev_scene = client->scene;
+            gtk_widget_show(client->ui->err_dialog);
 
-                client->prev_scene = client->scene;
-                gtk_widget_show(client->ui->err_dialog);
-            // }
             return G_SOURCE_CONTINUE;
         case LOGIN:
             if (client->scene != client->prev_scene) {
-                if (client->prev_scene == CONNECTION_ERR){
+                if (client->prev_scene == CONNECTION_ERR) {
                     gtk_widget_hide(client->ui->err_dialog);
                 }
-                if (client->prev_scene == REGISTRATION){
+                if (client->prev_scene == REGISTRATION) {
                     gtk_widget_hide(client->ui->registration_window);
                 }
 
@@ -28,7 +26,7 @@ gboolean mx_check_scene(void *param) {
             return G_SOURCE_CONTINUE;
         case REGISTRATION:
             if (client->scene != client->prev_scene) {
-                if (client->prev_scene == LOGIN){
+                if (client->prev_scene == LOGIN) {
                     gtk_widget_hide(client->ui->login_window);
                 }
                 // gtk_widget_show_all(client->ui->registration_window);

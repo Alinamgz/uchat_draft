@@ -34,6 +34,16 @@
 #include <gtk/gtk.h>
 
 // ===== structs =====
+
+typedef struct s_raw_inputs {
+	const gchar *username;
+    const gchar *password;
+
+    const gchar *conf_password;
+    const gchar *first_name;
+    const gchar *last_name;
+}			   t_raw_inputs;
+
 typedef enum e_scene {
 	CONNECTION_ERR,
 	LOGIN,
@@ -65,6 +75,10 @@ typedef struct s_ui {
 	GtkWidget *r_pass_status;
 	GtkWidget *conf_pass_entry;
 	GtkWidget *conf_pass_status;
+	GtkWidget *firstname_entry;
+	GtkWidget *firstname_status;
+	GtkWidget *lastname_entry;
+	GtkWidget *lastname_status;
 	GtkWidget *register_btn;
 	GtkWidget *show_login_btn;
 }			   t_ui;
@@ -112,8 +126,13 @@ void mx_init_login_window(t_client *client);
 void mx_init_registration_window(t_client *client);
 gboolean mx_check_scene(void *param);
 
+// switch btwee login/registration forms
 void mx_switch_form(GtkWidget *widget, gpointer data);
-void mx_get_input_values(GtkWidget *widget, gpointer data);
-char *mx_validate_input(const gchar *username, bool is_req);
 
-bool mx_isalpha_digital(char c);
+// getting form input and validation it
+// void mx_get_input_values(GtkWidget *widget, gpointer data);
+void mx_submit_login_handler(GtkWidget *widget, gpointer data);
+void mx_submit_registration_handler(GtkWidget *widget, gpointer data);
+bool mx_get_input_values(t_client *client, t_raw_inputs *inputs, t_scene type);
+const gchar *mx_get_n_check_entry(char **err, bool is_req, gpointer entry, gpointer status);
+
