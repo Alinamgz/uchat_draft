@@ -28,9 +28,10 @@ void mx_init_error_dialog(t_client *client) {
 
     gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), "Retrying...");
 
-    while(gtk_events_pending())
-	    gtk_main_iteration();
+    // while(gtk_events_pending())
+	//     gtk_main_iteration();
 
+    client->prev_scene = client->scene;
     client->scene = CONNECTION_ERR;
     mx_connection_retry_th(widget, data);
 }

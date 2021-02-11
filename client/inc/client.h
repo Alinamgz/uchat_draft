@@ -78,6 +78,7 @@ typedef struct s_client {
 	char **argv;
 	t_ui *ui;
 	t_scene scene;
+	t_scene prev_scene;
 }			   t_client;
 
 // ====== funcs ======

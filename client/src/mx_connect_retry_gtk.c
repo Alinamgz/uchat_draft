@@ -10,6 +10,7 @@ void mx_connection_retry_th(GtkWidget *widget, gpointer data) {
         write(STDERR_FILENO, SEND_TH_ERR, sizeof(SEND_TH_ERR));
         exit(1);
     }
+    // pthread_join(client->connection_th, NULL);
 }
 
 // TODO: make here some Ordnung!
@@ -32,6 +33,8 @@ void *mx_connect_retry_gtk(void *arg) {
             g_critical("%s\n", strerror(errno));
             gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg),
                                strerror(errno));
+
+            client->prev_scene = client->scene;
             client->scene = CONNECTION_ERR;
             gtk_widget_set_sensitive(client->ui->retry_btn, 1);
             pthread_mutex_unlock(&client->connection_mut);
@@ -40,6 +43,7 @@ void *mx_connect_retry_gtk(void *arg) {
         printf("\tch\n");
         if (connect(client->sock_fd, (struct sockaddr *)&srvr_addr, addr_len) ==
             0) {
+            client->prev_scene = client->scene;
             client->scene = LOGIN;
             gtk_widget_set_sensitive(client->ui->retry_btn, 1);
             pthread_mutex_unlock(&client->connection_mut);
@@ -47,15 +51,11 @@ void *mx_connect_retry_gtk(void *arg) {
         }
 
         printf("\tck\n");
-        //  gtk_widget_show_now(client->ui->err_dialog);
+        client->prev_scene = client->scene;
         client->scene = CONNECTION_ERR;
-        printf("\t\tck\n");
         close(client->sock_fd);
-        printf("\t---- NO conn --- \n");
 
         perror("Connecting to server");
-        // gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg),
-        // strerror(errno));; client->sock_fd = -1; return;
 
         write(2, "\tretrying...\n", 13);
         if (numsec <= MAXSLEEP)
@@ -64,6 +64,7 @@ void *mx_connect_retry_gtk(void *arg) {
     g_critical("%s\n", strerror(errno));
     gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), strerror(errno));
 
+    client->prev_scene = client->scene;
     client->scene = CONNECTION_ERR;
     client->sock_fd = -1;
     gtk_widget_set_sensitive(client->ui->retry_btn, 1);

@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
 	t_client *client = (t_client*)malloc(sizeof(t_client));
 	client->ui = (t_ui*)malloc(sizeof(t_ui));
 	client->argv = argv;
+	client->prev_scene = -1;
 	client->th_ret = 1;
 	// client->scene = CONNECTION;
 	pthread_mutex_init(&client->mut, NULL);
