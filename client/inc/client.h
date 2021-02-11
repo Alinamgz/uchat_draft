@@ -133,3 +133,6 @@ void mx_submit_registration_handler(GtkWidget *widget, gpointer data);
 bool mx_get_input_values(t_client *client, t_raw_inputs *inputs, t_scene type);
 const gchar *mx_get_n_check_entry(char **err, bool is_req, gpointer entry, gpointer status);
 
+// create req JSON
+cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs, t_scene type);
+

@@ -32,10 +32,10 @@ static char *validate_input(const gchar *str, bool is_req) {
 
 static bool is_alpha_digital(char c) {
 
-    if (c >= '0' && c < '9') {
+    if (c >= '0' && c <= '9') {
         return 1;
     }
-    else if (c >= 'A' && c < 'Z') {
+    else if (c >= 'A' && c <= 'Z') {
         return 1;
     }
     else if (c >= 'a' && c <= 'z') {

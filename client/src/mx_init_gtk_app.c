@@ -29,5 +29,6 @@ static void init_windows(t_client *client) {
 
  void exit_gtk(GtkWidget *widget, void *param) {
     gtk_main_quit();
+    system("leaks -q uchat");
     exit(0);
 }
