@@ -11,7 +11,6 @@ bool mx_get_input_values(t_client *client, t_raw_inputs *inputs, t_scene type){
         if (err[0])
             return 1;
 
-
         inputs->password = mx_get_n_check_entry(&err,
                                TRUE,
                                client->ui->l_pass_entry,

@@ -103,13 +103,11 @@ void *mx_connect_retry_gtk(gpointer data);
 void mx_connection_retry_th(GtkWidget *widget, gpointer data);
 void mx_init_gtk_app(t_client *client);
 
-
 void mx_authorization(t_client *client);
 void mx_client_err(int err, int fd);
 void mx_get_name(char **str);
 
 void mx_init_client_gtk(t_client *client);
-
 
 void *mx_recv_msg_handler(void *arg);
 void *mx_send_msg_handler(void *arg);
@@ -126,11 +124,10 @@ void mx_init_login_window(t_client *client);
 void mx_init_registration_window(t_client *client);
 gboolean mx_check_scene(void *param);
 
-// switch btwee login/registration forms
+// switch between login/registration forms
 void mx_switch_form(GtkWidget *widget, gpointer data);
 
 // getting form input and validation it
-// void mx_get_input_values(GtkWidget *widget, gpointer data);
 void mx_submit_login_handler(GtkWidget *widget, gpointer data);
 void mx_submit_registration_handler(GtkWidget *widget, gpointer data);
 bool mx_get_input_values(t_client *client, t_raw_inputs *inputs, t_scene type);
