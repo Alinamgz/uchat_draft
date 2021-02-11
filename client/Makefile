@@ -2,6 +2,9 @@
 CLIENT := uchat
 
 # -- files and dirs --
+LIB_DIR := libs
+LIB_INC_DIR := $(LIB_DIR)/include
+
 SRC_DIR := src
 INC_DIR := inc
 OBJ_DIR := obj
@@ -15,13 +18,17 @@ RM := rm -rdf
 MKDIR := mkdir -p
 
 CC := clang
-CFLAGS := -std=c11 -Wall -Werror -Wextra -Wpedantic
+
+CFLAGS := -rdynamic `pkg-config --cflags --libs gtk+-3.0`\
+          -std=c11 -Wall -Werror -Wextra -Wpedantic\
+          -Wno-unused-command-line-argument -Wno-unused-variable \
+          -Wno-unused-function -Wno-unused-parameter -g
 
 # ------------------ body -------------------
 all: $(CLIENT)
 
 $(CLIENT): $(OBJ_FILES)
-	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $@
+	@$(CC)  $(CFLAGS) $(OBJ_FILES) -L $(LIB_DIR) -lcjson -o $@
 
 $(OBJ_FILES): | $(OBJ_DIR)
 
@@ -29,13 +36,13 @@ $(OBJ_DIR):
 	@$(MKDIR) $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
-	@$(CC) $(CFLAGS) -c $< -I $(INC_DIR) -o $@
+	@$(CC) $(CFLAGS) -c $< -I $(INC_DIR) -I $(LIB_INC_DIR) -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)
 
 uninstall: clean
-	@$(RM) $(CLIENT)
+	@$(RM) $(CLIENT) $(LIB_DIR)
 
 reinstall: uninstall all
 

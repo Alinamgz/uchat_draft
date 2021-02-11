@@ -1,92 +1,64 @@
 #include "client.h"
 
-int main(void) {
-	int err = 0;
-	int client_socket = -1;
-	struct sockaddr_in server_addr;
-	// char srvr_res[256] = "";
-	char *buf = NULL;
-	size_t buf_sz = 32;
-	ssize_t read_chars = -1;
+// volatile sig_atomic_t flag_ex = 1;
 
-	// specify an address for the socket
-	memset(&server_addr, 0, sizeof(server_addr));
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(SRVR_PORT);
-	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-	// create client socket and connection with server
-	// (see src/mx_connect_retry.c)
-	client_socket = mx_connect_retry((struct sockaddr*)&server_addr, sizeof(server_addr), &err);
-
-	// throw err msg if connection failed
-	if (client_socket < 0) {
-		perror("Chat client err");
-		exit(err);
-	}
-
-// --------------- OLD tutorial: -----------------
-	// // recieve data from srvr
-	// recv(client_socket, &srvr_res, sizeof(srvr_res), 0);
-	// // print what we've received
-	// printf("Msg from srvr: %s\n", srvr_res);
-	// // close socket when we don't need it anymore
-	// close(client_socket);
-// --------------- ----------------- -----------------
-// ============================================================================
-// --------------- NEW tutorial: ---------------------
-	while (1) {
-		printf("Client:\t");
-
-		buf = (char*)malloc(buf_sz);
-		memset(buf, 0, buf_sz);
-		
-		read_chars = getline(&buf, &buf_sz, stdin);
-		if (read_chars < 0) {
-			perror("Read from client");
-			close(client_socket);
-write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt read ---\n"));
-system("leaks -q uchat");
-		}
-		else {
-			buf[read_chars - 1] = '\0';
-			printf("--- you entered: %s\t---\n", buf);
-		}
-
-		if (!strcmp(buf, "exit")) {
-			close(client_socket);
-write(1, "\t --- ch frm clnt exit ---\n", strlen( "\t --- ch frm clnt read ---\n"));
-system("leaks -q uchat");
-			exit(0);
-		}
-
-printf("ama gonna send...\n");
-		if (send(client_socket, buf, strlen(buf), 0) < 0) {
-			err = errno;
-			perror("Sending from client");
-			// if (buf) free(buf);
-			close(client_socket);
-write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt send ---\n"));
-system("leaks -q uchat");
-			exit(err);
-		}
-
-		if ((recv(client_socket, buf, 1024, 0)) < 0) {
-			err = errno;
-			perror("Client recv");
-			close(client_socket);
-write(1, "\t --- ch frm clnt read ---\n", strlen( "\t --- ch frm clnt recv ---\n"));
-system("leaks -q uchat");
-		}
-		else {
-			printf("[+] msg from srvr:\t%s\n", buf);
-		}
-
-		free(buf);
-		buf = NULL;
-	}
-
-
+static inline void leaks_ch(int sig) {
+	printf("\n--------------- Signal ------------\n");
 	system("leaks -q uchat");
+
+	// flag = 0;
+	exit(sig);
+}
+
+
+int main(int argc, char **argv) {
+	if (argc!= 3)
+		mx_usg_err(argv[0]);
+
+	pthread_t send_msg_th;
+	pthread_t recv_msg_th;
+
+	t_client *client = (t_client*)malloc(sizeof(t_client));
+	client->ui = (t_ui*)malloc(sizeof(t_ui));
+	client->argv = argv;
+	client->prev_scene = -1;
+	client->th_ret = 1;
+	// client->scene = CONNECTION;
+	pthread_mutex_init(&client->mut, NULL);
+	pthread_mutex_init(&client->connection_mut, NULL);
+
+	signal(SIGINT, leaks_ch);
+
+	mx_init_gtk_app(client);
+	mx_authorization(client);
+
+	printf("\n\t --- Welcome! ---\n");
+
+// TODO: write send msg handler
+// TODO: wtf is with this argument
+	if (pthread_create(&send_msg_th, NULL, mx_send_msg_handler, (void *)client) != 0) {
+		write(STDERR_FILENO, SEND_TH_ERR, sizeof(SEND_TH_ERR));
+		exit(1);
+	}
+
+// TODO: write recv msg handler
+// TODO: wtf is with this argument
+	if (pthread_create(&recv_msg_th, NULL, mx_recv_msg_handler, (void *)client) != 0) {
+		write(STDERR_FILENO, RECV_TH_ERR, sizeof(RECV_TH_ERR));
+		exit(1);
+	}
+
+	pthread_join(send_msg_th, (void*)&client->th_ret);
+	pthread_join(recv_msg_th, (void*)&client->th_ret);
+
+	// pthread_join(send_msg_th, NULL);
+	// pthread_join(recv_msg_th, NULL);
+
+	close(client->sock_fd);
+
+	pthread_mutex_destroy(&client->mut);
+
+	printf("\n---------------------------------------------\n");
+	// system("leaks -q uchat");
 	return 0;
 }

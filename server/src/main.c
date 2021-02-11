@@ -1,71 +1,53 @@
 #include "server.h"
 
-int main(void) {
-	int srvr_socket = -1;
-	int client_socket = -1;
+// TODO: del it
+static inline void leaks_ch(int sig) {
 
-	struct sockaddr_in server_addr;
-	struct sockaddr_in client_addr;
-	socklen_t cl_addr_len = sizeof(client_addr);
+	printf("\n--------------- Signal ------------\n");
+	system("leaks -q uchat_server");
 
-	char buf[1024] = "";
-	pid_t childpid;
+	exit(sig);
+}
 
-// create server socket
-	srvr_socket = socket(AF_INET, SOCK_STREAM, 0);
-	if (srvr_socket < 0) {
-		mx_server_err(errno, srvr_socket, client_socket);
-	}
+int main(int argc, char **argv) {
+	pthread_t tid;
 
-// define addr structure
-	memset(&server_addr, 0, sizeof(server_addr));
-	memset(&client_addr, 0, sizeof(client_addr));
+	t_srvr_data server;
+	t_cl_data client;
 
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(SRVR_PORT);
-	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	// TODO: del it
+	signal(SIGINT, &leaks_ch);
+	signal(SIGPIPE, SIG_IGN);
 
-// bind the cocket to our specified IP and port
-	if ((bind(srvr_socket, (struct sockaddr*)&server_addr,  sizeof(server_addr))) < 0) {
-		mx_server_err(errno, srvr_socket, client_socket);
-	}
+	mx_init_server_and_client(argc, argv, &server, &client);
 
-	if ((listen(srvr_socket, SOMAXCONN)) < 0) {
-		mx_server_err(errno, srvr_socket, client_socket);
-	}
-	printf("Listening...\n");
+	mx_db_init();
 
 	while (1) {
-		client_socket = accept(srvr_socket, (struct sockaddr*)&client_addr, &cl_addr_len);
-		if (client_socket < 0) {
-			mx_server_err(errno, srvr_socket, client_socket);
-		}
+		client.sock_fd = accept(server.sock_fd,
+								(struct sockaddr*)&client.addr,
+								&client.addr_len);
+		if(client.sock_fd < 0)
+			mx_server_err(errno, server.sock_fd, client.sock_fd);
+		// TODO: Do we need nonblocking I/O ?
 
-		printf("Connection acceptd from %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+		client.uid = ++server.uid;
+		mx_add_cl_node(&client);
 
-		if ((childpid = fork()) == 0) {
-			close(srvr_socket);
+		pthread_create(&tid, NULL, mx_handle_client, (void*)&client);
 
-			while (1) {
-				recv(client_socket, buf, 1024, 0);
-				 if (!strcmp(buf, "exit")) {
-					 printf("Disconnecting from %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-					 break;				 
-				 }
-				 else {
-					 printf("[+] msg from client:\t%s\n", buf);
-					 send(client_socket, "Hoi frm srvr!", strlen("Hoi frm srvr!"), 0);
-					 bzero(buf, sizeof(buf));
-				 }
-			}
-		}
-
+	// --------------------------------------
+		// Reduce CPU usage/
+		// TODO: find better way
+		sleep(1);
 	}
-	// send(client_socket, srvr_msg, sizeof(srvr_msg), 0);
 
-	close(srvr_socket);
-	close(client_socket);
+	close(server.sock_fd);
+	close(client.sock_fd);
+	pthread_mutex_destroy(&server.mut);
 
-	system("leaks -q server");
+	printf("\n---------------------------\n");
+	system("leaks -q uchat_server");
+
 	return 0;
 }
