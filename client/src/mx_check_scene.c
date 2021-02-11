@@ -40,7 +40,6 @@ gboolean mx_check_scene(void *param) {
         case CHAT:
             if (client->scene != client->prev_scene) {
                 gtk_widget_hide(client->ui->login_window);
-                client->change_scene = 0;
                 gtk_widget_show_all(client->ui->login_window);
             }
             return G_SOURCE_CONTINUE;

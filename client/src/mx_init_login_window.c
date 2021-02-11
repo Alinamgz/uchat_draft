@@ -9,6 +9,7 @@ void mx_init_login_window(t_client *client) {
     builder = gtk_builder_new_from_file("client/templates/login_window.ui");
     if (!builder)
         g_critical("Builder getting error!");
+
     gtk_builder_connect_signals(builder, NULL);
 
     init_widgets(builder, client);
