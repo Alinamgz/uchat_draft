@@ -20,7 +20,7 @@ void mx_init_registration_window(t_client *client) {
 
 static void init_widgets(GtkBuilder *builder, t_client *client) {
     if (!builder) return;
-    
+
 // ----------- window ---------------
     client->ui->registration_window = GTK_WIDGET(gtk_builder_get_object(builder, "registration_window"));
     if (!client->ui->registration_window)

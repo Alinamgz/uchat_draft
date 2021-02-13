@@ -10,7 +10,6 @@ static inline void leaks_ch(int sig) {
 	exit(sig);
 }
 
-
 int main(int argc, char **argv) {
 	if (argc!= 3)
 		mx_usg_err(argv[0]);
@@ -19,6 +18,7 @@ int main(int argc, char **argv) {
 	pthread_t recv_msg_th;
 
 	t_client *client = (t_client*)malloc(sizeof(t_client));
+
 	client->ui = (t_ui*)malloc(sizeof(t_ui));
 	client->argv = argv;
 	client->prev_scene = -1;

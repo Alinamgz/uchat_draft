@@ -7,7 +7,7 @@ cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs,
         G_CHECKSUM_SHA256, inputs->password, -1);
 
     cJSON_AddNumberToObject(req, "type", type);
-    cJSON_AddStringToObject(req, "user_name", inputs->username);
+    cJSON_AddStringToObject(req, "username", inputs->username);
     cJSON_AddStringToObject(req, "password", hashed_pass);
 
     if (type == REGISTRATION) {
