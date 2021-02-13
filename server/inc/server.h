@@ -1,7 +1,7 @@
 #pragma once
 
 // ===== defines =====
-#define BUF_SZ 2048
+#define BUF_SZ 1024
 #define NAME_LEN 32
 
 #include "err_msg_defines.h"
@@ -10,6 +10,22 @@
 #include "srvr_includes.h"
 
 // ===== structs =====
+
+typedef enum e_req_type {
+	ERR,
+	LOGIN,
+	REGISTRATION,
+	TOTAL
+}			 t_req_type;
+
+typedef struct s_auth_req {
+	int req_type;
+	char *username;
+	char *password;
+	char *first_name;
+	char *last_name;
+}			   t_auth_req;
+
 typedef struct s_srvr_data {
 	struct sockaddr_in addr;
 	int sock_fd;
@@ -22,6 +38,7 @@ typedef struct s_list {
 	int sock_fd;
 	unsigned uid;
 	char name[NAME_LEN];
+	t_auth_req *auth_req;
 	struct s_list *next;
 }			   t_list;
 
@@ -32,6 +49,9 @@ typedef struct s_cl_data {
 	int sock_fd;
 	unsigned uid;
 	pthread_mutex_t *mut;
+
+	t_req_type req_type;
+	t_auth_req *auth_req;
 }			   t_cl_data;
 
 
@@ -53,6 +73,9 @@ void mx_set_addr(struct sockaddr_in *srvr_addr, struct sockaddr_in *cl_addr, cha
 void mx_remove_cl_node(unsigned cur_uid, t_cl_data *client);
 void mx_usg_err(char *name);
 
+// ----------------------------------
+// t_auth_req *mx_parse_auth_req(const char *req_str);
+void mx_parse_auth_req(t_auth_req *req_parsed, const char *req_str);
 
 
 

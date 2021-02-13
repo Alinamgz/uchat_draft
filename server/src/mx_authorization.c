@@ -19,6 +19,7 @@
 void mx_authorization(t_cl_data *client, t_list *cur_client, int *leave_fl) {
     char auth_buf[BUF_SZ] = "";
     char *resp = "Nu taki sho-to priletelo";
+    t_auth_req *auth_req_parsed = (t_auth_req*)malloc(sizeof(t_auth_req));
 
     if (client) {
         if (recv(cur_client->sock_fd, auth_buf, BUF_SZ, 0) <= 0) {
@@ -29,6 +30,9 @@ void mx_authorization(t_cl_data *client, t_list *cur_client, int *leave_fl) {
 		else {
             printf("recvd: %s", auth_buf);
 			fflush(stdout);
+
+            mx_parse_auth_req(auth_req_parsed, auth_buf);
+// TODO: you stopped here. Go do smthng with DB: if login -> search for user, if found -> check password etc:
             if (send(cur_client->sock_fd, resp, strlen(resp), 0) < 0)
                 write(STDERR_FILENO, "Err: send auth response failed\n",
                       strlen("/!\\Err: send auth response failed\n"));
