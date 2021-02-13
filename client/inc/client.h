@@ -85,8 +85,10 @@ typedef struct s_ui {
 
 typedef struct s_client {
 	pthread_t connection_th;
+	pthread_t auth_th;
 	pthread_mutex_t mut;
 	pthread_mutex_t connection_mut;
+	pthread_mutex_t auth_mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
@@ -95,6 +97,8 @@ typedef struct s_client {
 	t_ui *ui;
 	t_scene scene;
 	t_scene prev_scene;
+
+	cJSON *auth_req;
 }			   t_client;
 
 // ====== funcs ======
@@ -136,3 +140,4 @@ const gchar *mx_get_n_check_entry(char **err, bool is_req, gpointer entry, gpoin
 // create req JSON
 cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs, t_scene type);
 
+void *mx_do_auth_th(void *arg);
