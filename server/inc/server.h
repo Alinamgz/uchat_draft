@@ -19,11 +19,12 @@ typedef enum e_req_type {
 }			 t_req_type;
 
 typedef struct s_auth_req {
-	int req_type;
 	char *username;
 	char *password;
 	char *first_name;
 	char *last_name;
+	int req_type;
+	int res_code;
 }			   t_auth_req;
 
 typedef struct s_srvr_data {
@@ -50,6 +51,7 @@ typedef struct s_cl_data {
 	unsigned uid;
 	pthread_mutex_t *mut;
 
+	sqlite3 *db;
 	t_req_type req_type;
 	t_auth_req *auth_req;
 }			   t_cl_data;
@@ -63,7 +65,7 @@ int mx_create_listener(int argc, char *app_name);
 void mx_add_cl_node(t_cl_data *client);
 void mx_authorization(t_cl_data *client, t_list *cur_client, int *leave_fl);
 
-void mx_db_init(void);
+void mx_db_init(t_cl_data *client);
 
 void mx_init_server_and_client(int argc, char **argv, t_srvr_data *srvr, t_cl_data *client);
 void *mx_handle_client(void *arg);
@@ -74,8 +76,8 @@ void mx_remove_cl_node(unsigned cur_uid, t_cl_data *client);
 void mx_usg_err(char *name);
 
 // ----------------------------------
-// t_auth_req *mx_parse_auth_req(const char *req_str);
-void mx_parse_auth_req(t_auth_req *req_parsed, const char *req_str);
+void mx_parse_auth_req(t_auth_req **data, const char *req_str);
 
+void mx_do_login(t_cl_data *client, t_auth_req *req_parsed);
 
-
+char *mx_create_auth_res(int res_code);

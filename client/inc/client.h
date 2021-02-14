@@ -12,6 +12,13 @@
 #define SEND_TH_ERR "Err: failed to create sending msg handler thread\n"
 #define RECV_TH_ERR "Err: failed to create receiving msg handler thread\n"
 
+// response codes
+#define OK 200
+#define CREATED 201
+#define BAD_REQ 400
+#define UNAUTHORIZED 401
+#define NOT_FOUND 404
+
 // ===== includes =====
 #include <errno.h>
 #include <stdbool.h>

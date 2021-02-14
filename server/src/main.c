@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 
 	mx_init_server_and_client(argc, argv, &server, &client);
 
-	mx_db_init();
+	mx_db_init(&client);
 
 	while (1) {
 		client.sock_fd = accept(server.sock_fd,

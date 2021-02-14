@@ -1,7 +1,7 @@
 #include "server.h"
 
-void mx_db_init(void) {
-	sqlite3 *db;
+void mx_db_init(t_cl_data *client) {
+	// sqlite3 *db;
 	char *err = NULL;
 	char *create_users_sql = "CREATE TABLE IF NOT EXISTS users ("\
 				"uid		INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,"\
@@ -15,39 +15,39 @@ void mx_db_init(void) {
 				"uid		INTEGER NOT NULL ,"\
 				"fd			INTEGER NOT NULL );";
 
-	char *insert_init_val_sql = "INSERT INTO users (uid,user_name,password,first_name,last_name)"\
+	char *insert_init_val_sql = "INSERT OR IGNORE INTO users (uid,user_name,password,first_name,last_name)"\
 		  		"VALUES (0, '__head', 'head_pass', '__head_name', 'head_lastname');"\
-				"INSERT INTO connected_users (connection_id,uid,fd)"\
+				"INSERT OR IGNORE INTO connected_users (connection_id,uid,fd)"\
 		  		"VALUES (0, 0, -1);";
 
-	if (sqlite3_open("uchat.db", &db)) {
-		fprintf(stderr, "%s%s\n", DB_OPEN_ERR, sqlite3_errmsg(db));
+	if (sqlite3_open("uchat.db", &client->db)) {
+		fprintf(stderr, "%s%s\n", DB_OPEN_ERR, sqlite3_errmsg(client->db));
 	}
 
-	if (sqlite3_exec(db, create_users_sql, NULL, NULL, &err)) {
-		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(db));
+	if (sqlite3_exec(client->db, create_users_sql, NULL, NULL, &err)) {
+		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(client->db));
 		free(err);
 	}
 	else {
 		printf("Created table users\n");
 	}
 
-	if (sqlite3_exec(db, create_connected_users_sql, NULL, NULL, &err)) {
-		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(db));
+	if (sqlite3_exec(client->db, create_connected_users_sql, NULL, NULL, &err)) {
+		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(client->db));
 		free(err);
 	}
 	else {
 		printf("Created table connected_users\n");
 	}
-
-	if (sqlite3_exec(db, insert_init_val_sql, NULL, NULL, &err)) {
-		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(db));
+// TODO: first check for _head, then add if neeed;
+	if (sqlite3_exec(client->db, insert_init_val_sql, NULL, NULL, &err)) {
+		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(client->db));
 		free(err);
 	}
 	else {
 		printf("Inserted init values\n");
 	}
 
-	sqlite3_close(db);
+	// sqlite3_close(client->db);
 	return;
 }

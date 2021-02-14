@@ -16,26 +16,77 @@
 // 	}
 // }
 
+static void auth_req_memfree(t_auth_req *auth_req_parsed) {
+    if (auth_req_parsed) {
+        if (auth_req_parsed->username) {
+            free(auth_req_parsed->username);
+            auth_req_parsed->username = NULL;
+        }
+        if (auth_req_parsed->password) {
+            free(auth_req_parsed->password);
+            auth_req_parsed->password = NULL;
+        }
+        if (auth_req_parsed->first_name) {
+            free(auth_req_parsed->first_name);
+            auth_req_parsed->first_name = NULL;
+        }
+        if (auth_req_parsed->last_name) {
+            free(auth_req_parsed->last_name);
+            auth_req_parsed->last_name = NULL;
+        }
+    }
+}
+
 void mx_authorization(t_cl_data *client, t_list *cur_client, int *leave_fl) {
     char auth_buf[BUF_SZ] = "";
-    char *resp = "Nu taki sho-to priletelo";
-    t_auth_req *auth_req_parsed = (t_auth_req*)malloc(sizeof(t_auth_req));
+    char *resp = NULL;
+
+    t_auth_req *auth_req_parsed = (t_auth_req *)malloc(sizeof(t_auth_req));
+    auth_req_parsed->res_code = 0;
 
     if (client) {
-        if (recv(cur_client->sock_fd, auth_buf, BUF_SZ, 0) <= 0) {
-            write(STDERR_FILENO, "Err: recv auth response failed\n",
-                  strlen("/!\\Err: recv auth response failed\n"));
-				  *leave_fl = 1;
-        }
-		else {
-            printf("recvd: %s", auth_buf);
-			fflush(stdout);
+        // TODO: watch this loop and ways to exit it if client closes auth
+        // window
+        while (*leave_fl == 0) {
+            memset(auth_buf, 0, BUF_SZ);
 
-            mx_parse_auth_req(auth_req_parsed, auth_buf);
-// TODO: you stopped here. Go do smthng with DB: if login -> search for user, if found -> check password etc:
-            if (send(cur_client->sock_fd, resp, strlen(resp), 0) < 0)
-                write(STDERR_FILENO, "Err: send auth response failed\n",
-                      strlen("/!\\Err: send auth response failed\n"));
+            if (recv(cur_client->sock_fd, auth_buf, BUF_SZ, 0) <= 0) {
+                write(STDERR_FILENO, "/!\\Err: recv auth response failed\n",
+                      strlen("/!\\Err: recv auth response failed\n"));
+                // *leave_fl = 1;
+                break;
+            }
+            else {
+                printf("recvd: %s", auth_buf);
+                fflush(stdout);
+
+                mx_parse_auth_req(&auth_req_parsed, auth_buf);
+
+                if (auth_req_parsed->req_type == LOGIN) {
+                    mx_do_login(client, auth_req_parsed);
+                }
+                // else if (auth_req_parsed->req_type == REGISTRATION) {
+                //     mx_do_registration();
+                // }
+
+                resp = mx_create_auth_res(auth_req_parsed->res_code);
+
+                if (send(cur_client->sock_fd, resp, strlen(resp), 0) < 0)
+                    write(STDERR_FILENO, "Err: send auth response failed\n",
+                          strlen("/!\\Err: send auth response failed\n"));
+                free(resp);
+
+                if (auth_req_parsed->res_code == OK) {
+                    auth_req_memfree(auth_req_parsed);
+                    break;
+                }
+                auth_req_memfree(auth_req_parsed);
+            }
         }
+
+        free(auth_req_parsed);
+
+        printf("\t-- auth kinda done --\n");
+        fflush(stdout);
     }
 }
