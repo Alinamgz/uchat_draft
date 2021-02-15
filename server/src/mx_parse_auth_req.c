@@ -20,7 +20,6 @@ void mx_parse_auth_req(t_auth_req **data, const char *req_str) {
 
         req_parsed->first_name = strdup(first_name->valuestring);
         req_parsed->last_name = strdup(last_name->valuestring);
-        // req_parsed->res_code = BAD_REQ;
     }
     else {
         req_parsed->first_name = NULL;
@@ -29,9 +28,4 @@ void mx_parse_auth_req(t_auth_req **data, const char *req_str) {
     }
 
     cJSON_Delete(req);
-
-    printf("\n===================================\n");
-    system("leaks -q uchat_server");
-    printf("\n===================================\n");
-    fflush(stdout);
 }
