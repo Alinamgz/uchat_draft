@@ -21,7 +21,6 @@ gboolean mx_check_scene(void *param) {
 
                 client->prev_scene = client->scene;
                 gtk_widget_show(client->ui->login_window);
-                // gtk_widget_show_all(client->ui->login_window);
             }
             return G_SOURCE_CONTINUE;
         case REGISTRATION:
@@ -29,7 +28,6 @@ gboolean mx_check_scene(void *param) {
                 if (client->prev_scene == LOGIN) {
                     gtk_widget_hide(client->ui->login_window);
                 }
-                // gtk_widget_show_all(client->ui->registration_window);
                 client->prev_scene = client->scene;
                 gtk_widget_show(client->ui->registration_window);
             }
@@ -39,6 +37,7 @@ gboolean mx_check_scene(void *param) {
             if (client->scene != client->prev_scene) {
                 gtk_widget_hide(client->ui->login_window);
                 gtk_widget_show_all(client->ui->uchat_client);
+                client->prev_scene = client->scene;
                 mx_init_chat_ths(client);
             }
             return G_SOURCE_CONTINUE;

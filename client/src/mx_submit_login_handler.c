@@ -16,21 +16,11 @@ void mx_submit_login_handler(GtkWidget *widget, gpointer data) {
     gtk_widget_set_sensitive(client->ui->login_btn, 0);
     gtk_widget_set_sensitive(client->ui->show_registration_btn, 0);
 
-    client->auth_req = mx_create_auth_req(client, &inputs, client->scene);
+    mx_create_auth_req(client, &inputs, client->scene);
 
-    char *chck = cJSON_Print(client->auth_req);
-    
-    if (client->auth_req) {
-        printf("Kukusiki\n%s\n", chck);
-
-        if (pthread_create(&client->auth_th, NULL, mx_do_auth_th,
-                           (void *)client) != 0) {
-            write(STDERR_FILENO, RECV_TH_ERR, sizeof(RECV_TH_ERR));
-        }
+    if (pthread_create(&client->auth_th, NULL, mx_do_auth_th, (void *)client) != 0) {
+        write(STDERR_FILENO, RECV_TH_ERR, sizeof(RECV_TH_ERR));
     }
-
-    // cJSON_Delete(client->auth_req);
-    free(chck);
 
     gtk_widget_set_sensitive(client->ui->login_btn, 1);
     gtk_widget_set_sensitive(client->ui->show_registration_btn, 1);

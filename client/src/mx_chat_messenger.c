@@ -114,17 +114,30 @@ void message_str(GtkWidget *widget,  gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(client->ui->field), "");
     message_send(msg_str);
     client->msg_from_client.msg_str = msg_str;
+    // ------------------ new code from Alina ---------------------------
+    // ------------------ added lines 119, 123, 124 ---------------------
+    pthread_mutex_lock(&client->msg_sig_mut);
+
     client->msg_req = mx_message(client, client->scene);
+
+    pthread_mutex_unlock(&client->msg_sig_mut);
+    pthread_cond_signal(&client->msg_cond);
+    // ------------------ ------------------- ---------------------------
 
     GtkTreeIter iter;
     gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
     gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, msg_str, -1);
 
     gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
-    if (client->msg_req) printf("message\n%s\n", (client->msg_req));
-    fflush(stdout);
-    free(client->msg_req);
 
+    // ------------------ new code from Alina ---------------------------
+    // --- commented  lines 136 - 139 'cause of conflict with sending to srvr ----
+    // ------------------------------------------------------------------
+//     if (client->msg_req) printf("message\n%s\n", (client->msg_req));
+//     fflush(stdout);
+//     free(client->msg_req);
+//     client->msg_req = NULL;
+//  // ------------------ ------------------- ---------------------------
     // printf("%s\n", msg_str);
     free(msg_str);
 }
@@ -180,7 +193,7 @@ void mx_chat_messenger(t_client *client) {
     if (!builder) {
         g_critical("Builder getting error!");
     }
-    
+
     gtk_builder_connect_signals(builder, NULL);
 
     init_chat_window(builder, client);
