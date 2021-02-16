@@ -13,7 +13,7 @@ char *mx_message(t_client *client, t_scene type) {
     printf("%s\n", client->msg_time);
     cJSON *time = cJSON_CreateString(client->msg_time);
 
-    // datetime 
+    // datetime
 
     cJSON_AddNumberToObject(str_line, "req_type", NEW_MSG);
     // TODO: change to chat id
@@ -128,8 +128,9 @@ void message_str(GtkWidget *widget,  gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(client->ui->field), "");
     message_send(msg_str);
     client->msg_from_client.msg_str = msg_str;
+
     // ------------------ new code from Alina ---------------------------
-    // ------------------ added lines 119, 123, 124 ---------------------
+    // ------------------ added lines 133, 137, 138 ---------------------
     pthread_mutex_lock(&client->msg_sig_mut);
 
     client->msg_req = mx_message(client, client->scene);
@@ -145,7 +146,7 @@ void message_str(GtkWidget *widget,  gpointer data) {
     gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
 
     // ------------------ new code from Alina ---------------------------
-    // --- commented  lines 136 - 139 'cause of conflict with sending to srvr ----
+    // --- commented  lines 151 - 154 'cause of conflict with sending to srvr ----
     // ------------------------------------------------------------------
 //     if (client->msg_req) printf("message\n%s\n", (client->msg_req));
 //     fflush(stdout);

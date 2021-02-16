@@ -126,7 +126,8 @@ typedef struct s_client {
 	char *name;
 	int th_ret;
 	int sock_fd;
-
+	
+	char *msg_time;
 	char *msg_req;
 	char *auth_req;
 
