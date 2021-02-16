@@ -12,6 +12,14 @@
 #define SEND_TH_ERR "Err: failed to create sending msg handler thread\n"
 #define RECV_TH_ERR "Err: failed to create receiving msg handler thread\n"
 
+// response codes
+#define OK 200
+#define CREATED 201
+#define BAD_REQ 400
+#define UNAUTHORIZED 401
+#define NOT_FOUND 404
+#define INTERNAL_SRVR_ERR 500
+
 // ===== includes =====
 #include <errno.h>
 #include <stdbool.h>
@@ -83,6 +91,13 @@ typedef struct s_ui {
 	GtkWidget *show_login_btn;
 }			   t_ui;
 
+typedef struct s_self {
+	char *username;
+	char *first_name;
+	char *last_name;
+	int uid;
+}			   t_self;
+
 typedef struct s_client {
 	pthread_t connection_th;
 	pthread_t auth_th;
@@ -97,6 +112,7 @@ typedef struct s_client {
 	t_ui *ui;
 	t_scene scene;
 	t_scene prev_scene;
+	t_self *self;
 
 	cJSON *auth_req;
 }			   t_client;
@@ -140,5 +156,8 @@ const gchar *mx_get_n_check_entry(char **err, bool is_req, gpointer entry, gpoin
 // create req JSON
 cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs, t_scene type);
 
+// processing auth response
+void mx_parse_n_proceed_auth_response(t_client *client, char *res_buf);
+
 void *mx_do_auth_th(void *arg);
- void exit_gtk(GtkWidget *widget, void *param);
+void exit_gtk(GtkWidget *widget, void *param);
