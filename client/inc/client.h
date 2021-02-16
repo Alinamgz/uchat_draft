@@ -28,6 +28,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <assert.h>
 
 #include <arpa/inet.h>
 
@@ -124,6 +125,7 @@ typedef struct s_client {
 	int th_ret;
 	int sock_fd;
 	char *msg_req;
+	char *msg_time;
 
 	char **argv;
 	t_ui *ui;
