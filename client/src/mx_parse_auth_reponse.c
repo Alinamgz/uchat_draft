@@ -60,7 +60,7 @@ static void parse_ok_response(t_client *client, cJSON *res) {
     cJSON *last_name = cJSON_GetObjectItemCaseSensitive(res, "last_name");
 
     client->self->uid = uid->valueint;
-    client->self->username = username->valuestring;
-    client->self->first_name = first_name->valuestring;
-    client->self->last_name = last_name->valuestring;
+    client->self->username = strdup(username->valuestring);
+    client->self->first_name = strdup(first_name->valuestring);
+    client->self->last_name = strdup(last_name->valuestring);
 }

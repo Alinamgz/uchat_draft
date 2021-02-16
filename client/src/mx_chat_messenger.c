@@ -4,20 +4,29 @@ pthread_t watcher;
 int sock = 0;
 char msg_buf[MESSAGE_BUF_SIZE];
 
-cJSON *mx_message(t_client *client, const char *str, t_scene type) {
+char *mx_message(t_client *client, t_scene type) {
+    char *msg_req = NULL;
+
     cJSON *str_line = cJSON_CreateObject();
-    cJSON *rq_type = NULL;
-    cJSON *msg = cJSON_CreateString(str);
+    cJSON *msg = cJSON_CreateString(client->msg_from_client.msg_str);
+    cJSON *username = cJSON_CreateString(client->self->username);
+    printf("%s\n", client->msg_time);
+    cJSON *time = cJSON_CreateString(client->msg_time);
 
-    // printf("%s\n", str->string);
-    // cJSON *message = msg_chat->string ? cJSON_CreateString(msg_chat->string) : NULL;
+    // datetime
 
+    cJSON_AddNumberToObject(str_line, "req_type", NEW_MSG);
+    // TODO: change to chat id
+    cJSON_AddNumberToObject(str_line, "chat_id", client->self->uid);
+    cJSON_AddNumberToObject(str_line, "from_id", client->self->uid);
     cJSON_AddItemToObject(str_line, "message", msg);
+    cJSON_AddItemToObject(str_line, "username", username);
+    cJSON_AddItemToObject(str_line, "msg_time", time);
 
-    // if (type == CHAT) {
-    //     cJSON_AddNullToObject(str_line, "string", msg);
-    // }
-    return str_line;
+    msg_req = cJSON_PrintUnformatted(str_line);
+    cJSON_Delete(str_line);
+
+    return msg_req;
 }
 
 struct chat_msg *chat_message(char type, unsigned line_count) {
@@ -52,7 +61,7 @@ void message_send(const char *type) {
 void message_str(GtkWidget *widget,  gpointer data) {
     t_client *client = (t_client *)data;
     // struct msg_chat string = {NULL};
-    cJSON *msg = NULL;
+    // char *msg = NULL;
 
     if(!gtk_widget_get_sensitive(client->ui->entry_msg))
         return;
@@ -92,6 +101,21 @@ void message_str(GtkWidget *widget,  gpointer data) {
         gtk_entry_set_text(GTK_ENTRY(client->ui->field), "");
         return;
     }
+    // timestamp now
+
+    time_t t = time(NULL);
+    struct tm *tm = localtime(&t);
+    char s[64];
+    assert(strftime(s, sizeof(s), "%c", tm));
+    client->msg_time = strdup(s);
+    printf("time is %s\n", client->msg_time);
+
+    // time_t t = time(NULL);
+    // struct tm tm = *localtime(&t);
+    // printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    // char time;
+    // time = concat("dfgh", "dfghj");
+    // printf("%s", time);
 
     char *msg_str = malloc(strlen(message) + 1);
 
@@ -104,13 +128,31 @@ void message_str(GtkWidget *widget,  gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(client->ui->field), "");
     message_send(msg_str);
     client->msg_from_client.msg_str = msg_str;
-    printf("%s\n",client->msg_from_client.msg_str);
-    msg = mx_message(client, msg_str, client->scene);
+
+    // ------------------ new code from Alina ---------------------------
+    // ------------------ added lines 133, 137, 138 ---------------------
+    pthread_mutex_lock(&client->msg_sig_mut);
+
+    client->msg_req = mx_message(client, client->scene);
+
+    pthread_mutex_unlock(&client->msg_sig_mut);
+    pthread_cond_signal(&client->msg_cond);
+    // ------------------ ------------------- ---------------------------
+
     GtkTreeIter iter;
     gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
-    gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, msg_str, -1);
+    gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, client->self->username, 1, msg_str, 2, client->msg_time, -1);
+
     gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
-    if (msg) printf("message\n%s\n", cJSON_Print(msg));
+
+    // ------------------ new code from Alina ---------------------------
+    // --- commented  lines 151 - 154 'cause of conflict with sending to srvr ----
+    // ------------------------------------------------------------------
+//     if (client->msg_req) printf("message\n%s\n", (client->msg_req));
+//     fflush(stdout);
+//     free(client->msg_req);
+//     client->msg_req = NULL;
+//  // ------------------ ------------------- ---------------------------
     // printf("%s\n", msg_str);
     free(msg_str);
 }
@@ -166,7 +208,7 @@ void mx_chat_messenger(t_client *client) {
     if (!builder) {
         g_critical("Builder getting error!");
     }
-    
+
     gtk_builder_connect_signals(builder, NULL);
 
     init_chat_window(builder, client);

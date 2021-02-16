@@ -5,7 +5,8 @@ void mx_send_msg(char *msg, t_list *cur_client, t_cl_data *client) {
 
 	t_list *tmp = client->cl_list;
 	while (tmp) {
-		if (tmp->uid && tmp->uid != cur_client->uid) {
+		// if (tmp->uid && tmp->uid != cur_client->uid) {
+		if (tmp->uid && cur_client) {
 			if (send(tmp->sock_fd, msg, strlen(msg), 0) < 0) {
 				perror("Sending err");
 				printf("FAILED Send to: name %s, uid %d , fd %d||\n", tmp->name, tmp->uid, tmp->sock_fd);
