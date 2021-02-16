@@ -57,6 +57,7 @@ typedef enum e_scene {
 	LOGIN,
 	REGISTRATION,
 	CHAT,
+	NEW_MSG,
 	TOTAL
 }			 t_scene;
 
