@@ -10,8 +10,10 @@ char *mx_message(t_client *client, t_scene type) {
     cJSON *str_line = cJSON_CreateObject();
     cJSON *msg = cJSON_CreateString(client->msg_from_client.msg_str);
     cJSON *username = cJSON_CreateString(client->self->username);
+    printf("%s\n", client->msg_time);
+    cJSON *time = cJSON_CreateString(client->msg_time);
 
-    // datetime
+    // datetime 
 
     cJSON_AddNumberToObject(str_line, "req_type", NEW_MSG);
     // TODO: change to chat id
@@ -19,6 +21,7 @@ char *mx_message(t_client *client, t_scene type) {
     cJSON_AddNumberToObject(str_line, "from_id", client->self->uid);
     cJSON_AddItemToObject(str_line, "message", msg);
     cJSON_AddItemToObject(str_line, "username", username);
+    cJSON_AddItemToObject(str_line, "msg_time", time);
 
     msg_req = cJSON_PrintUnformatted(str_line);
     cJSON_Delete(str_line);
@@ -99,9 +102,20 @@ void message_str(GtkWidget *widget,  gpointer data) {
         return;
     }
     // timestamp now
+
     time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    struct tm *tm = localtime(&t);
+    char s[64];
+    assert(strftime(s, sizeof(s), "%c", tm));
+    client->msg_time = strdup(s);
+    printf("time is %s\n", client->msg_time);
+
+    // time_t t = time(NULL);
+    // struct tm tm = *localtime(&t);
+    // printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    // char time;
+    // time = concat("dfgh", "dfghj");
+    // printf("%s", time);
 
     char *msg_str = malloc(strlen(message) + 1);
 
@@ -126,7 +140,7 @@ void message_str(GtkWidget *widget,  gpointer data) {
 
     GtkTreeIter iter;
     gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
-    gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, msg_str, -1);
+    gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, client->self->username, 1, msg_str, 2, client->msg_time, -1);
 
     gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
 
