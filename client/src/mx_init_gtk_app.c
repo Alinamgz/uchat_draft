@@ -25,6 +25,7 @@ static void init_windows(t_client *client) {
     mx_init_error_dialog(client);
     mx_init_login_window(client);
     mx_init_registration_window(client);
+    mx_chat_messenger(client);
 }
 
  void exit_gtk(GtkWidget *widget, void *param) {
