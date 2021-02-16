@@ -39,6 +39,7 @@ gboolean mx_check_scene(void *param) {
             if (client->scene != client->prev_scene) {
                 gtk_widget_hide(client->ui->login_window);
                 gtk_widget_show_all(client->ui->uchat_client);
+                mx_init_chat_ths(client);
             }
             return G_SOURCE_CONTINUE;
         default:

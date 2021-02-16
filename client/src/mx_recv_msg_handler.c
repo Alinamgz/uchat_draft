@@ -1,9 +1,9 @@
 #include "client.h"
 
-static inline void str_overwrite_stdout(void) {
-	printf(" >> ");
-	fflush(stdout);
-}
+// static inline void str_overwrite_stdout(void) {
+// 	printf(" >> ");
+// 	fflush(stdout);
+// }
 
 void *mx_recv_msg_handler(void *arg) {
 	t_client *client = arg;
@@ -26,7 +26,7 @@ void *mx_recv_msg_handler(void *arg) {
 			printf("<:> %s\n", msg);
 		}
 
-		str_overwrite_stdout();
+		// str_overwrite_stdout();
 	}
 
 	return (void*)client;

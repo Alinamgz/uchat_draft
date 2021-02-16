@@ -194,3 +194,4 @@ void exit_gtk(GtkWidget *widget, void *param);
 
 #define MESSAGE_BUF_SIZE (1 << 17)
 void mx_chat_messenger(t_client *client);
+void mx_init_chat_ths(t_client *client);
