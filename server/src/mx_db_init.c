@@ -15,8 +15,11 @@ void mx_db_init(t_cl_data *client) {
 				"uid		INTEGER NOT NULL ,"\
 				"fd			INTEGER NOT NULL );";
 
+// TODO: delete qwer and gogi
 	char *insert_init_val_sql = "INSERT OR IGNORE INTO users (uid,user_name,password,first_name,last_name)"\
 		  		"VALUES (0, '__head', 'head_pass', '__head_name', 'head_lastname');"\
+				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
+		  		"VALUES ('qwer', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'qwer', '');"\
 				"INSERT OR IGNORE INTO connected_users (connection_id,uid,fd)"\
 		  		"VALUES (0, 0, -1);";
 
