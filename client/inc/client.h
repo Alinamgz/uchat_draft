@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 #include <arpa/inet.h>
 
@@ -57,6 +58,7 @@ typedef enum e_scene {
 	LOGIN,
 	REGISTRATION,
 	CHAT,
+	NEW_MSG,
 	TOTAL
 }			 t_scene;
 
@@ -121,6 +123,7 @@ typedef struct s_client {
 	char *name;
 	int th_ret;
 	int sock_fd;
+	char *msg_req;
 
 	char **argv;
 	t_ui *ui;

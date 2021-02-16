@@ -24,6 +24,7 @@
     <property name="title" translatable="yes">ЕБАНЫЙ РОТ ЭТОГО КАЗИНО</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <signal name="destroy" handler="exit_gtk" swapped="no"/>
     <child>
       <object class="GtkFixed">
         <property name="visible">True</property>
