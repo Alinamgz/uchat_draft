@@ -11,6 +11,8 @@ char *mx_message(t_client *client, t_scene type) {
     cJSON *msg = cJSON_CreateString(client->msg_from_client.msg_str);
     cJSON *username = cJSON_CreateString(client->self->username);
 
+    // datetime
+
     cJSON_AddNumberToObject(str_line, "req_type", NEW_MSG);
     // TODO: change to chat id
     cJSON_AddNumberToObject(str_line, "chat_id", client->self->uid);
@@ -56,7 +58,7 @@ void message_send(const char *type) {
 void message_str(GtkWidget *widget,  gpointer data) {
     t_client *client = (t_client *)data;
     // struct msg_chat string = {NULL};
-    char *msg = NULL;
+    // char *msg = NULL;
 
     if(!gtk_widget_get_sensitive(client->ui->entry_msg))
         return;
@@ -96,6 +98,10 @@ void message_str(GtkWidget *widget,  gpointer data) {
         gtk_entry_set_text(GTK_ENTRY(client->ui->field), "");
         return;
     }
+    // timestamp now
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 
     char *msg_str = malloc(strlen(message) + 1);
 
@@ -108,15 +114,16 @@ void message_str(GtkWidget *widget,  gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(client->ui->field), "");
     message_send(msg_str);
     client->msg_from_client.msg_str = msg_str;
-    msg = mx_message(client, client->scene);
+    client->msg_req = mx_message(client, client->scene);
 
     GtkTreeIter iter;
     gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
     gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, msg_str, -1);
+
     gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
-    if (msg) printf("message\n%s\n", (msg));
+    if (client->msg_req) printf("message\n%s\n", (client->msg_req));
     fflush(stdout);
-    free(msg);
+    free(client->msg_req);
 
     // printf("%s\n", msg_str);
     free(msg_str);
