@@ -89,6 +89,15 @@ typedef struct s_ui {
 	GtkWidget *lastname_status;
 	GtkWidget *register_btn;
 	GtkWidget *show_login_btn;
+
+		// chat_client
+	GtkWidget *uchat_client; // window
+	GtkWidget *entry_msg; //button
+	GtkWidget *field; //поле ввода текста
+	GtkWidget *messagesTreeView;
+	GtkListStore *messagesListStore;
+	GtkScrolledWindow *scrolledWindow;
+	GtkAdjustment *vAdjust;
 }			   t_ui;
 
 typedef struct s_self {
@@ -97,6 +106,11 @@ typedef struct s_self {
 	char *last_name;
 	int uid;
 }			   t_self;
+
+typedef struct s_msg_from_client {
+
+	char *msg_str;
+} t_msg_from_client;
 
 typedef struct s_client {
 	pthread_t connection_th;
@@ -113,9 +127,22 @@ typedef struct s_client {
 	t_scene scene;
 	t_scene prev_scene;
 	t_self *self;
+	t_msg_from_client msg_from_client;
 
 	cJSON *auth_req;
 }			   t_client;
+
+struct proto_line
+{
+    char *data;
+    unsigned length;
+};
+
+struct chat_msg {
+	struct proto_line *lines;
+	unsigned line_count;
+	char type;
+};
 
 // ====== funcs ======
 
@@ -161,3 +188,6 @@ void mx_parse_n_proceed_auth_response(t_client *client, char *res_buf);
 
 void *mx_do_auth_th(void *arg);
 void exit_gtk(GtkWidget *widget, void *param);
+
+#define MESSAGE_BUF_SIZE (1 << 17)
+void mx_chat_messenger(t_client *client);
