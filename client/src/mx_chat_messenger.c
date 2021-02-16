@@ -97,9 +97,7 @@ void message_str(GtkWidget *widget,  gpointer data) {
 
     //struct for msg_str  !!!!!!!!!!!!!!!!!!!!!!!!
 
-    //client->msg_from_client = (t_msg_from_client*)malloc(sizeof(t_msg_from_client));
-    // t_msg_from_client
-    // client->msg_from_client.msg_str = (char *)malloc(strlen(msg_str) * sizeof(char));
+
     client->msg_from_client = *(t_msg_from_client *)malloc(sizeof(t_msg_from_client));
 
     strcpy(msg_str, message);
@@ -108,174 +106,15 @@ void message_str(GtkWidget *widget,  gpointer data) {
     client->msg_from_client.msg_str = msg_str;
     printf("%s\n",client->msg_from_client.msg_str);
     msg = mx_message(client, msg_str, client->scene);
-    // GtkTreeIter iter;
-    // gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
-    // gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, msg_str, -1);
-    // gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
+    GtkTreeIter iter;
+    gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
+    gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, msg_str, -1);
+    gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
     if (msg) printf("message\n%s\n", cJSON_Print(msg));
     // printf("%s\n", msg_str);
     free(msg_str);
 }
-/////////////////////////////
 
-static void write_num(unsigned a, char *buf)
-{
-    *(unsigned*)buf = (a << 24) | ((a & 0x0000ff00) << 8) | ((a & 0x00ff0000) >> 8) | (a >> 24);
-}
-
-void proto_free(struct chat_msg *s)
-{
-    if(!s)
-        return;
-    if(!s->lines)
-    {
-        free(s);
-        return;
-    }
-    for(unsigned i=0;i<s->line_count;++i)
-    {
-        if(s->lines[i].data)
-            free(s->lines[i].data);
-    }
-    free(s->lines);
-    free(s);
-}
-
-unsigned proto_encode(struct chat_msg *msg, char **buf)
-{
-    unsigned length = 5;
-    for(unsigned i=0;i<msg->line_count;++i)
-    {
-        length += 4 + msg->lines[i].length;
-    }
-    *buf = malloc(length);
-    char *data = *buf;
-    *data++ = msg->type;
-    write_num(length - 5, data);
-    data += 4;
-    for(unsigned i=0;i<msg->line_count;++i)
-    {
-        write_num(msg->lines[i].length, data);
-        data += 4;
-        if(msg->lines[i].length)
-            memcpy(data, msg->lines[i].data, msg->lines[i].length);
-        data += msg->lines[i].length;
-    }
-    return length;
-}
-
-static void _send(struct chat_msg *p)
-{
-    char *buf;
-    unsigned len = proto_encode(p, &buf);
-    proto_free(p);
-    send(sock, buf, len, 0);
-    free(buf);
-}
-
-
-void proto_set_int(struct chat_msg *msg, unsigned line_no, int value)
-{
-    if(line_no >= msg->line_count)
-        return;
-    if(msg->lines[line_no].data)
-        free(msg->lines[line_no].data);
-    msg->lines[line_no].length = 4;
-    msg->lines[line_no].data = malloc(5);
-    write_num(value, msg->lines[line_no].data);
-}
-
-void message_request_history(int cnt)
-{
-    struct chat_msg *p = chat_message('h', 1);
-    proto_set_int(p, 0, cnt);
-    _send(p);
-}
-
-static unsigned read_num(char *buf) {
-    unsigned a = *(unsigned*)buf;
-    return (a << 24) | ((a & 0x0000ff00) << 8) | ((a & 0x00ff0000) >> 8) | (a >> 24);
-}
-
-static int recv_bytes(char *buf, int sock, int len) {
-    while(len) {
-        int t = recv(sock, buf, len, 0);
-        if(t <= 0)
-            return (t);
-        len -= t;
-        buf += t;
-    }
-    return 1;
-}
-
-int recv_packet(char *buf, int sock) {
-    int r = recv_bytes(buf, sock, 5);
-    if (r <= 0)
-        return (0);
-    int len = read_num(buf + 1);
-    if (len > MESSAGE_BUF_SIZE - 5)
-        return (0);
-    r = recv_bytes(buf + 5, sock, len);
-    if (r <= 0)
-        return (0);
-    return len + 5;
-}
-
-int message_receive(char **author, char **body) {
-    int len = recv_packet(msg_buf, sock);
-    if (len <= 0) {
-        return (-1);
-    }
-    return 0;
-}
-
-void sleep_ms(int milliseconds)
-{
-    struct timespec ts;
-    ts.tv_sec = milliseconds / 1000;
-    ts.tv_nsec = (milliseconds % 1000) * 1000000;
-    nanosleep(&ts, NULL);
-}
-
-void add_list_entry(const char *a, const char *m, int sleep, t_client *client)
-{
-    GtkTreeIter iter;
-    gtk_list_store_append(GTK_LIST_STORE(client->ui->messagesListStore), &iter);
-    gtk_list_store_set(GTK_LIST_STORE(client->ui->messagesListStore), &iter, 0, a, 1, m, -1);
-    if(sleep)
-        sleep_ms(100);
-    gtk_adjustment_set_value(client->ui->vAdjust, gtk_adjustment_get_upper(client->ui->vAdjust) - gtk_adjustment_get_page_size(client->ui->vAdjust));
-}
-
-void *watcher_thread(void *param) {
-    // (void)param;
-    t_client *client = (t_client *)param;
-    char *author, *body;
-
-    printf("%s\n",client->msg_from_client.msg_str);
-
-    message_request_history(10);
-    while (1) {
-        int k = message_receive(&author, &body);
-        if (k < 0) {
-            gtk_widget_set_sensitive(client->ui->entry_msg, 1);
-            break;
-        }
-        if (k == 0) {
-            continue;
-        }
-        if(!author) {
-            continue;
-        }
-        add_list_entry(author, body, k != 'h', client);
-        printf("%s", body);
-        free(author);
-        free(body);
-    }
-    return param;
-}
-
-////////////////////////////
 static void init_chat_window(GtkBuilder * builder, t_client *client) {
     if (!builder) return;
 
@@ -313,7 +152,7 @@ static void init_chat_window(GtkBuilder * builder, t_client *client) {
     if(!client->ui->vAdjust) {
         g_critical("Error vAdjust");
     }
-    pthread_create(&watcher, 0, watcher_thread, (void *)client);
+    // pthread_create(&watcher, 0, watcher_thread, (void *)client);
     // printf("Hi");
 }
 
