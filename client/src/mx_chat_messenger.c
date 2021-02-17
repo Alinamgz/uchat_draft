@@ -196,15 +196,30 @@ static void init_chat_window(GtkBuilder * builder, t_client *client) {
     }
     // pthread_create(&watcher, 0, watcher_thread, (void *)client);
     // printf("Hi");
+
+    // --------------------- Search bar ---------------------------
+    client->ui->search_bar = GTK_WIDGET(gtk_builder_get_object(builder, "search_bar"));
+    if (!client->ui->search_bar)
+        g_critical("Can't get search_bar");
+    client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "search_status"));
+    if (!client->ui->search_status)
+        g_critical("Can't get search_status");
 }
 
 static void init_siganl(t_client *client) {
     g_signal_connect(G_OBJECT(client->ui->field), "activate", G_CALLBACK(message_str), client);
     g_signal_connect(G_OBJECT(client->ui->entry_msg), "clicked", G_CALLBACK(message_str), client);
+
+    // --------------------- Search bar ---------------------------
+    g_signal_connect(G_OBJECT(client->ui->search_bar),
+                              "search-changed",
+                              G_CALLBACK(mx_do_search_req),
+                              client);
 }
 
 void mx_chat_messenger(t_client *client) {
-    GtkBuilder *builder = gtk_builder_new_from_file("client/templates/chat.glade");
+    // GtkBuilder *builder = gtk_builder_new_from_file("client/templates/chat.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("client/templates/chat_n_search.glade");
     if (!builder) {
         g_critical("Builder getting error!");
     }
