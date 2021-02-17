@@ -60,6 +60,7 @@ typedef enum e_scene {
 	REGISTRATION,
 	CHAT,
 	NEW_MSG,
+	SEARCH,
 	TOTAL
 }			 t_scene;
 
@@ -101,6 +102,10 @@ typedef struct s_ui {
 	GtkListStore *messagesListStore;
 	GtkScrolledWindow *scrolledWindow;
 	GtkAdjustment *vAdjust;
+
+	// search for new chat
+	GtkWidget *search_bar;
+	GtkWidget *search_status;
 }			   t_ui;
 
 typedef struct s_self {
@@ -126,10 +131,11 @@ typedef struct s_client {
 	char *name;
 	int th_ret;
 	int sock_fd;
-	
+
 	char *msg_time;
 	char *msg_req;
 	char *auth_req;
+	char *search_req;
 
 	char **argv;
 	t_ui *ui;
@@ -201,3 +207,4 @@ void exit_gtk(GtkWidget *widget, void *param);
 #define MESSAGE_BUF_SIZE (1 << 17)
 void mx_chat_messenger(t_client *client);
 void mx_init_chat_ths(t_client *client);
+void mx_do_search_req(GtkWidget *widget, gpointer data);

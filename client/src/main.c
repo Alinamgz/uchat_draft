@@ -24,7 +24,8 @@ int main(int argc, char **argv) {
 	client->prev_scene = -1;
 	client->th_ret = 1;
 	client->auth_req = NULL;
-	client->msg_req = NULL;
+	client->search_req = NULL;
+	// client->scene = CONNECTION;
 	// client->scene = CONNECTION;
 	pthread_mutex_init(&client->mut, NULL);
 	pthread_mutex_init(&client->connection_mut, NULL);
