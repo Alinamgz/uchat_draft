@@ -39,7 +39,6 @@ void *mx_handle_client(void *arg) {
 
 	printf("\n----------------------- THREAD EXIT -------------\n");
 	system("leaks -q uchat_server");
-
 //TODO: check if this func (pthread_detach()) is OK
 	pthread_detach(pthread_self());
 	return NULL;

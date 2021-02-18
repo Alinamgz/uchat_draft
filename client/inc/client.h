@@ -43,6 +43,9 @@
 #include "cJSON.h"
 #include <gtk/gtk.h>
 
+//----------- CSS3 -----------//
+#define CHAT_MSG_CSS "client/templates/style/mx_window_login.css"
+
 // ===== structs =====
 
 typedef struct s_raw_inputs {
@@ -94,10 +97,19 @@ typedef struct s_ui {
 	GtkWidget *register_btn;
 	GtkWidget *show_login_btn;
 
-		// chat_client
+	// chat_client
 	GtkWidget *uchat_client; // window
-	GtkWidget *entry_msg; //button
-	GtkWidget *field; //поле ввода текста
+
+	GtkWidget *sending_files; //sending_files
+	GtkScrolledWindow *message_input_box; //поле ввода текста
+	GtkWidget *text_msg;
+	GtkWidget *button_msg; //button send
+	GtkStack *stack_messages;
+
+	GtkScrolledWindow *box_message;
+	GtkListBox *box_text_msg;
+
+
 	GtkWidget *messagesTreeView;
 	GtkListStore *messagesListStore;
 	GtkScrolledWindow *scrolledWindow;

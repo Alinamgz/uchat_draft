@@ -11,6 +11,7 @@
       <object class="GtkFixed">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+
         <child>
           <object class="GtkBox">
             <property name="width-request">200</property>
@@ -46,47 +47,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">label</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkListBox">
-                            <property name="height-request">31</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                 </child>
@@ -118,8 +79,9 @@
             <property name="y">10</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="sending_files">
             <property name="label" translatable="yes">button</property>
             <property name="width-request">78</property>
             <property name="height-request">49</property>
@@ -132,15 +94,16 @@
             <property name="y">417</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkScrolledWindow" id="message_input_box">
             <property name="width-request">366</property>
             <property name="height-request">48</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="shadow-type">in</property>
             <child>
-              <object class="GtkTextView">
+              <object class="GtkTextView" id="text_msg">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="buffer">textbuffer1</property>
@@ -152,8 +115,9 @@
             <property name="y">417</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="button_msg">
             <property name="label" translatable="yes">button</property>
             <property name="width-request">80</property>
             <property name="height-request">48</property>
@@ -166,6 +130,7 @@
             <property name="y">417</property>
           </packing>
         </child>
+
         <child>
           <object class="GtkStack" id="stack_messages">
             <property name="width-request">531</property>
@@ -190,8 +155,9 @@
             <property name="y">112</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkScrolledWindow" id="box_messages">
+          <object class="GtkScrolledWindow" id="box_message">
             <property name="width-request">528</property>
             <property name="height-request">199</property>
             <property name="visible">True</property>
@@ -202,7 +168,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkListBox" id="box_msg_container">
+                  <object class="GtkListBox" id="box_text_msg">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                   </object>
