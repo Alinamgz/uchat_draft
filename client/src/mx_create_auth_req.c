@@ -1,7 +1,7 @@
 #include "client.h"
 
-cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs,
-                          t_scene type) {
+
+void mx_create_auth_req(t_client *client, t_raw_inputs *inputs, t_scene type) {
     cJSON *req = cJSON_CreateObject();
 
     char *hashed_pass = g_compute_checksum_for_string( G_CHECKSUM_SHA256, inputs->password, -1);
@@ -15,6 +15,7 @@ cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs,
         cJSON_AddStringToObject(req, "last_name", inputs->last_name);
     }
 
+    client->auth_req = cJSON_PrintUnformatted(req);
     free(hashed_pass);
-    return req;
+    cJSON_Delete(req);
 }

@@ -9,7 +9,7 @@ const gchar *mx_get_n_check_entry(char **err, bool is_req, gpointer entry, gpoin
     *err = validate_input(rslt, is_req);
     gtk_label_set_text(GTK_LABEL(status), *err);
 
-    if (err[0])
+    if (is_req && err[0])
         gtk_widget_grab_focus(entry);
 
     return rslt;

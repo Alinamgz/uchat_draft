@@ -43,6 +43,9 @@
 #include "cJSON.h"
 #include <gtk/gtk.h>
 
+//----------- CSS3 -----------//
+#define CHAT_MSG_CSS "client/templates/style/mx_window_login.css"
+
 // ===== structs =====
 
 typedef struct s_raw_inputs {
@@ -60,6 +63,7 @@ typedef enum e_scene {
 	REGISTRATION,
 	CHAT,
 	NEW_MSG,
+	SEARCH,
 	TOTAL
 }			 t_scene;
 
@@ -93,14 +97,27 @@ typedef struct s_ui {
 	GtkWidget *register_btn;
 	GtkWidget *show_login_btn;
 
-		// chat_client
+	// chat_client
 	GtkWidget *uchat_client; // window
-	GtkWidget *entry_msg; //button
-	GtkWidget *field; //поле ввода текста
+
+	GtkWidget *sending_files; //sending_files
+	GtkScrolledWindow *message_input_box; //поле ввода текста
+	GtkWidget *text_msg;
+	GtkWidget *button_msg; //button send
+	GtkStack *stack_messages;
+
+	GtkScrolledWindow *box_message;
+	GtkListBox *box_text_msg;
+
+
 	GtkWidget *messagesTreeView;
 	GtkListStore *messagesListStore;
 	GtkScrolledWindow *scrolledWindow;
 	GtkAdjustment *vAdjust;
+
+	// search for new chat
+	GtkWidget *search_bar;
+	GtkWidget *search_status;
 }			   t_ui;
 
 typedef struct s_self {
@@ -121,11 +138,16 @@ typedef struct s_client {
 	pthread_mutex_t mut;
 	pthread_mutex_t connection_mut;
 	pthread_mutex_t auth_mut;
+	pthread_cond_t msg_cond;
+	pthread_mutex_t msg_sig_mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
-	char *msg_req;
+
 	char *msg_time;
+	char *msg_req;
+	char *auth_req;
+	char *search_req;
 
 	char **argv;
 	t_ui *ui;
@@ -134,7 +156,7 @@ typedef struct s_client {
 	t_self *self;
 	t_msg_from_client msg_from_client;
 
-	cJSON *auth_req;
+	// cJSON *auth_req;
 }			   t_client;
 
 struct proto_line
@@ -185,8 +207,8 @@ void mx_submit_registration_handler(GtkWidget *widget, gpointer data);
 bool mx_get_input_values(t_client *client, t_raw_inputs *inputs, t_scene type);
 const gchar *mx_get_n_check_entry(char **err, bool is_req, gpointer entry, gpointer status);
 
-// create req JSON
-cJSON *mx_create_auth_req(t_client *client, t_raw_inputs *inputs, t_scene type);
+// create req
+void mx_create_auth_req(t_client *client, t_raw_inputs *inputs, t_scene type);
 
 // processing auth response
 void mx_parse_n_proceed_auth_response(t_client *client, char *res_buf);
@@ -196,3 +218,5 @@ void exit_gtk(GtkWidget *widget, void *param);
 
 #define MESSAGE_BUF_SIZE (1 << 17)
 void mx_chat_messenger(t_client *client);
+void mx_init_chat_ths(t_client *client);
+void mx_do_search_req(GtkWidget *widget, gpointer data);

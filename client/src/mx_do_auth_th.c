@@ -23,17 +23,18 @@ void *mx_do_auth_th(void *arg) {
     else {
         write(STDERR_FILENO, "Err: recv auth response failed\n", strlen("/!\\Err: recv auth response failed\n"));
     }
-    cJSON_Delete(client->auth_req);
+
     pthread_mutex_unlock(&client->connection_mut);
     return NULL;
 }
 
 static void send_req(t_client *client) {
-    char *send_buf = cJSON_PrintUnformatted(client->auth_req);
+    // char *send_buf = cJSON_PrintUnformatted(client->auth_req);
 
-    if (send(client->sock_fd, send_buf, strlen(send_buf), 0) < 0) {
+    if (send(client->sock_fd, client->auth_req, strlen(client->auth_req), 0) < 0) {
         write(STDERR_FILENO, "Err: sending auth failed\n", strlen("Err: sending auth failed\n"));
     }
 
-    free(send_buf);
+    free(client->auth_req);
+    client->auth_req = NULL;
 }
