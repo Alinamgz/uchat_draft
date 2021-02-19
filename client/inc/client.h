@@ -3,7 +3,7 @@
 // ===== defines =====
 #define MAXSLEEP 8
 #define SRVR_PORT 9001
-#define BUF_SZ 128
+#define BUF_SZ 1024
 #define NAME_LEN 32
 
 #define USG_ERR_START "Usage: "

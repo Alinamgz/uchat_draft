@@ -28,7 +28,12 @@ void mx_db_init(t_cl_data *client) {
 		  		"VALUES ('qwer', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'qwer', '');"\
 				/*
 				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
-		  		"VALUES ('gogi', '9fbccf7674cf9191d7a16fa528a89b6ba3b894d3aa947f4401b500e55603ac2c', '', '');" */ \
+		  		"VALUES ('gogi', '9fbccf7674cf9191d7a16fa528a89b6ba3b894d3aa947f4401b500e55603ac2c', '', '');" \
+				*/
+				"INSERT OR IGNORE INTO chats (chat_id, chat_name,from_uid,to_uid)"\
+		  		"VALUES (0, 'test_1', '2', '4');" \
+				"INSERT OR IGNORE INTO chats (chat_id, chat_name,from_uid,to_uid)"\
+		  		"VALUES (1, 'test_2', '5', '2');" \
 				"INSERT OR IGNORE INTO connected_users (connection_id,uid,fd)"\
 		  		"VALUES (0, 0, -1);";
 
