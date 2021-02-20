@@ -11,6 +11,7 @@
       <object class="GtkFixed">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+
         <child>
           <object class="GtkBox">
             <property name="width-request">200</property>
@@ -22,7 +23,7 @@
               <object class="GtkSearchEntry">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="primary-icon-name">edit-find-symbolic</property>
+                <property name="primary-icon-pixbuf">icons/1user.png</property>
                 <property name="primary-icon-activatable">False</property>
                 <property name="primary-icon-sensitive">False</property>
               </object>
@@ -46,47 +47,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">label</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkListBox">
-                            <property name="height-request">31</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                 </child>
@@ -118,6 +79,7 @@
             <property name="y">10</property>
           </packing>
         </child>
+
         <child>
           <object class="GtkButton" id="sending_files">
             <property name="label" translatable="yes">button</property>
@@ -132,8 +94,9 @@
             <property name="y">417</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkScrolledWindow" id ="message_input_box">
+          <object class="GtkScrolledWindow" id="message_input_box">
             <property name="width-request">366</property>
             <property name="height-request">48</property>
             <property name="visible">True</property>
@@ -143,7 +106,6 @@
               <object class="GtkTextView" id="text_msg">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="events">GDK_KEY_PRESS_MASK</property>
                 <property name="buffer">textbuffer1</property>
               </object>
             </child>
@@ -153,6 +115,7 @@
             <property name="y">417</property>
           </packing>
         </child>
+
         <child>
           <object class="GtkButton" id="button_msg">
             <property name="label" translatable="yes">button</property>
@@ -161,15 +124,13 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
-            <signal name="clicked" handler="mx_widget_switch_visibility" object="box_editing_msg" swapped="no"/>
-            <signal name="clicked" handler="mx_widget_switch_visibility" object="btn_edit_msg_apply" swapped="no"/>
-            <signal name="clicked" handler="mx_widget_switch_visibility" object="btn_send_msg" swapped="no"/>
           </object>
           <packing>
             <property name="x">661</property>
             <property name="y">417</property>
           </packing>
         </child>
+
         <child>
           <object class="GtkStack" id="stack_messages">
             <property name="width-request">531</property>
@@ -194,8 +155,9 @@
             <property name="y">112</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkScrolledWindow" id="box_messages">
+          <object class="GtkScrolledWindow" id="box_message">
             <property name="width-request">528</property>
             <property name="height-request">199</property>
             <property name="visible">True</property>
@@ -206,7 +168,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkListBox" id="box_msg_container">
+                  <object class="GtkListBox" id="box_text_msg">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                   </object>

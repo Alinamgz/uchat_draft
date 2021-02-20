@@ -20,6 +20,18 @@
 #define NOT_FOUND 404
 #define INTERNAL_SRVR_ERR 500
 
+/*
+ * Keybord
+ */
+#define MX_KEY_ENTER (gint)65293
+#define MX_KEY_SHIFT (gint)65505
+#define MX_MAX_MESSAGE 800
+
+#define MX_LOG_FILE "info.log"
+#define MX_ROOM_CTRL 0
+#define MX_MSG_CTRL 1
+
+
 // ===== includes =====
 #include <errno.h>
 #include <stdbool.h>
@@ -29,6 +41,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <assert.h>
+#include <glib/gprintf.h>
+#include <glib.h>
 
 #include <arpa/inet.h>
 
@@ -43,7 +57,12 @@
 #include "cJSON.h"
 #include <gtk/gtk.h>
 
+//----------- CSS3 -----------//
+#define CHAT_MSG_CSS "client/templates/style/mx_window_login.css"
+
 // ===== structs =====
+
+typedef struct s_dtp t_dtp;
 
 typedef struct s_raw_inputs {
 	const gchar *username;
@@ -94,18 +113,45 @@ typedef struct s_ui {
 	GtkWidget *register_btn;
 	GtkWidget *show_login_btn;
 
-		// chat_client
+	// chat_client
+	GtkBuilder *builder;
 	GtkWidget *uchat_client; // window
+<<<<<<< HEAD
 	GtkWidget *entry_msg; //button
 	GtkWidget *field; //поле ввода текста
 	GtkWidget *messagesTreeView;
 	GtkListStore *messagesListStore;
 	GtkScrolledWindow *scrolledWindow;
 	GtkAdjustment *vAdjust;
+=======
+	// GtkWidget *textview;
+	// GtkWidget *btn_edit;
+	// GtkWidget *btn_send;
+	GObject *textview;
+	GObject *btn_edit;
+	GObject *btn_send;
+	//сегодня добавил
+	GObject *box_entry;
+	GObject *box_header;
+	GObject *box_editing;
+	GObject *stack;
+
+
+
+	gboolean visibility;
+
+>>>>>>> f4b639c5eb29a6ad8f2a05fdc87763e60cf1718a
 
 	// search for new chat
 	GtkWidget *search_bar;
 	GtkWidget *search_status;
+<<<<<<< HEAD
+=======
+
+	gboolean shift_hold;
+	gboolean msg_placeholder;
+	GDataOutputStream *out;
+>>>>>>> f4b639c5eb29a6ad8f2a05fdc87763e60cf1718a
 }			   t_ui;
 
 typedef struct s_self {
@@ -119,6 +165,14 @@ typedef struct s_msg_from_client {
 
 	char *msg_str;
 } t_msg_from_client;
+
+
+struct s_dtp {
+    char *str;
+    cJSON *json;
+    size_t len;
+    gint type;
+};
 
 typedef struct s_client {
 	pthread_t connection_th;
@@ -142,22 +196,14 @@ typedef struct s_client {
 	t_scene scene;
 	t_scene prev_scene;
 	t_self *self;
-	t_msg_from_client msg_from_client;
 
+<<<<<<< HEAD
+=======
+	char *msg;
+	t_dtp *data;
+>>>>>>> f4b639c5eb29a6ad8f2a05fdc87763e60cf1718a
 	// cJSON *auth_req;
 }			   t_client;
-
-struct proto_line
-{
-    char *data;
-    unsigned length;
-};
-
-struct chat_msg {
-	struct proto_line *lines;
-	unsigned line_count;
-	char type;
-};
 
 // ====== funcs ======
 
@@ -208,3 +254,20 @@ void exit_gtk(GtkWidget *widget, void *param);
 void mx_chat_messenger(t_client *client);
 void mx_init_chat_ths(t_client *client);
 void mx_do_search_req(GtkWidget *widget, gpointer data);
+<<<<<<< HEAD
+=======
+void mx_req_send_message(GtkButton *btn, t_client *client);
+gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
+void mx_trim_message(gchar **message);
+void mx_clear_buffer_text(gchar *buff_name, GtkBuilder *builder);
+void mx_req_edit_message(GtkButton *btn, t_client *client);
+void mx_req_send_message(GtkButton *btn, t_client *client);
+gssize mx_send(t_client *client, t_dtp *dtp);
+void mx_send_message_handle_shift(GtkTextView *textview, GdkEvent *event, t_client *client);
+t_dtp *mx_request_creation(char *req_body);
+void mx_free_request(t_dtp **request) ;
+void mx_free(void **ptr);
+void mx_logger(gchar *file_name, GLogLevelFlags flags, gchar *error);
+gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
+gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
+>>>>>>> f4b639c5eb29a6ad8f2a05fdc87763e60cf1718a
