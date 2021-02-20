@@ -1,6 +1,5 @@
 #include "server.h"
 
-// char *mx_create_auth_res(t_auth_req *req_res, t_chat_req_res **chats_req_res) {
 char *mx_create_auth_res(t_list *cur_client) {
     char *rslt = NULL;
     cJSON *res = cJSON_CreateObject();
@@ -20,13 +19,6 @@ char *mx_create_auth_res(t_list *cur_client) {
 
             for (int i = 0; i < cur_client->rows_cnt; i++) {
                 msg_obj = cJSON_CreateObject();
-
-                printf("\n----------- json iter %d ----------------\n", i);
-                printf("id: %s, from: %s, to: %s, name: %s\n",
-                        cur_client->chat_req_res[i]->chat_id,
-                        cur_client->chat_req_res[i]->from_uid,
-                        cur_client->chat_req_res[i]->to_uid,
-                        cur_client->chat_req_res[i]->name_or_msg);
 
                 cJSON_AddStringToObject(msg_obj,
                                         "chat_id",
@@ -63,12 +55,9 @@ char *mx_create_auth_res(t_list *cur_client) {
             cJSON_AddStringToObject(res, "msg", "Unknown status code\n");
             break;
     }
-
-    char *rslt_chck = cJSON_Print(res);
+    
     rslt = cJSON_PrintUnformatted(res);
     cJSON_Delete(res);
 
-printf("-- Ok login rslt:\n%s\n---------------\n", rslt_chck);
-    free(rslt_chck);
     return rslt;
 }
