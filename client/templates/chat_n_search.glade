@@ -119,7 +119,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="sending_files">
             <property name="label" translatable="yes">button</property>
             <property name="width-request">78</property>
             <property name="height-request">49</property>
@@ -133,16 +133,17 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkScrolledWindow" id ="message_input_box">
             <property name="width-request">366</property>
             <property name="height-request">48</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="shadow-type">in</property>
             <child>
-              <object class="GtkTextView">
+              <object class="GtkTextView" id="text_msg">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="events">GDK_KEY_PRESS_MASK</property>
                 <property name="buffer">textbuffer1</property>
               </object>
             </child>
@@ -153,13 +154,16 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="button_msg">
             <property name="label" translatable="yes">button</property>
             <property name="width-request">80</property>
             <property name="height-request">48</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
+            <signal name="clicked" handler="mx_widget_switch_visibility" object="box_editing_msg" swapped="no"/>
+            <signal name="clicked" handler="mx_widget_switch_visibility" object="btn_edit_msg_apply" swapped="no"/>
+            <signal name="clicked" handler="mx_widget_switch_visibility" object="btn_send_msg" swapped="no"/>
           </object>
           <packing>
             <property name="x">661</property>
