@@ -44,8 +44,11 @@ void mx_send_message_handle_enter(GtkTextView *textview, GdkEvent *event, t_clie
         client->ui->shift_hold = TRUE;
     g_usleep(0);
     if (event->key.keyval == MX_KEY_ENTER) {
-        if (client->ui->shift_hold)
+        if (client->ui->shift_hold) {
+
+            printf("222222_____asdfasdf___\n");
             gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
+        }
         else if (!mx_widget_is_visible("box_editing_msg", client->ui->builder)){
             mx_req_send_message(NULL, client);
             mx_clear_buffer_text("buffer_message", client->ui->builder);
@@ -78,34 +81,47 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
     client->ui->textview = gtk_builder_get_object(builder, "msg_entry");
     client->ui->btn_send = gtk_builder_get_object(builder, "btn_send_msg");
     //
-    // client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
-    // client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
-    // client->ui->box_header = gtk_builder_get_object(builder, "box_room_header");
-    //
+    client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
+    client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
+    client->ui->box_header = gtk_builder_get_object(builder, "box_room_header");
+    //end
     client->ui->box_editing = gtk_builder_get_object(builder, "box_editing_msg");
-    //
-    // if (client->ui->visibility) {
-    //     mx_switch_room_header(client, builder, MX_ROOM_CTRL);
-    //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_entry));
-    //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_header));
-    // }
-    // else {
-    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_entry));
-    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_header));
-    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_editing));
+    //start
+    if (client->ui->visibility) {
+        mx_switch_room_header(client, builder, MX_ROOM_CTRL);
+        gtk_widget_show_all(GTK_WIDGET(client->ui->box_entry));
+        gtk_widget_show_all(GTK_WIDGET(client->ui->box_header));
+    }
+    else {
+        gtk_widget_hide(GTK_WIDGET(client->ui->box_entry));
+        gtk_widget_hide(GTK_WIDGET(client->ui->box_header));
+        gtk_widget_hide(GTK_WIDGET(client->ui->box_editing));
 
-    // }
+    }
+    //
 }
 
 static void init_siganl(t_client *client) {
     printf("start handler entry\n");
-    g_signal_connect(client->ui->textview, "key-press-event", G_CALLBACK(mx_send_message_handle_enter), client);
+    g_signal_connect(client->ui->textview,
+                     "key-press-event",
+                     G_CALLBACK(mx_send_message_handle_enter),
+                     client);
+
     printf("end handler entry\n");
-    g_signal_connect(client->ui->textview, "key-release-event", G_CALLBACK(mx_send_message_handle_shift), client);
+    g_signal_connect(client->ui->textview,
+                    "key-release-event",
+                    G_CALLBACK(mx_send_message_handle_shift),
+                    client);
+
     printf("start button 1\n");
-    g_signal_connect(client->ui->btn_send, "clicked", G_CALLBACK(mx_req_send_message), client);
+    g_signal_connect(client->ui->btn_send,
+                    "clicked",
+                    G_CALLBACK(mx_req_send_message),
+                    client);
+
     printf("end button1\n");
-    g_signal_connect(client->ui->btn_send, "clicked", G_CALLBACK(mx_req_edit_message), client);
+    // g_signal_connect(client->ui->btn_send, "clicked", G_CALLBACK(mx_req_edit_message), client);
 }
 
 void mx_chat_messenger(t_client *client) {

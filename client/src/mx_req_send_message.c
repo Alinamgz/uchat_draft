@@ -130,6 +130,8 @@ void mx_req_edit_message(GtkButton *btn, t_client *client) {
     t_dtp *dtp = NULL;
 
     g_strstrip(new_text);
+    new_text ? printf("new text len: %lu\n", strlen(new_text)) : printf("------ kanker --------\n");
+    client->msg ? printf("client->msg len: %lu\n", strlen(new_text)) : printf("------ client->msg kanker --------\n");
     if (strcmp(client->msg, new_text) && strlen(new_text) > 0) {
         mx_trim_message(&new_text);
         // dtp = mx_edit_msg_request(new_text, gmsg->room_id, gmsg->message_id);

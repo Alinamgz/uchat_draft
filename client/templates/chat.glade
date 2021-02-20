@@ -102,7 +102,8 @@
           <object class="GtkBox" id="box_main">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <!-- <child>
+            <!-- start -->
+            <child>
               <object class="GtkBox" id="box_rooms_list">
                 <property name="width-request">280</property>
                 <property name="visible">True</property>
@@ -271,7 +272,8 @@
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
-            </child> -->
+            </child>
+            <!-- end -->
             <child>
               <object class="GtkBox" id="box_current_room">
                 <property name="width-request">570</property>
@@ -282,7 +284,8 @@
                 <child>
                   <object class="GtkBox" id="box_entry_field">
                     <property name="can-focus">False</property>
-                    <!-- <child>
+                    <!-- start -->
+                    <child>
                       <object class="GtkButton" id="btn_attachment">
                         <property name="width-request">48</property>
                         <property name="height-request">48</property>
@@ -303,7 +306,8 @@
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
-                    </child> -->
+                    </child>
+                    <!-- end -->
                     <child>
                       <object class="GtkScrolledWindow">
                         <property name="visible">True</property>
@@ -331,7 +335,8 @@
                         <property name="position">1</property>
                       </packing>
                     </child>
-                    <!-- <child>
+                    <!-- start -->
+                    <child>
                       <object class="GtkButton" id="btn_choose_sticker">
                         <property name="width-request">48</property>
                         <property name="height-request">48</property>
@@ -353,7 +358,8 @@
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
-                    </child> -->
+                    </child>
+                    <!-- end -->
                     <child>
                       <object class="GtkButton" id="btn_send_msg">
                         <property name="width-request">48</property>
@@ -363,7 +369,8 @@
                         <property name="focus-on-click">False</property>
                         <property name="receives-default">True</property>
                         <property name="valign">end</property>
-                        <property name="image">image3</property>
+                        <property name="label">Send</property>
+                        <!-- <property name="icon">icons/3email.png</property> -->
                         <style>
                           <class name="button_send_message"/>
                         </style>
@@ -394,7 +401,8 @@
                         <property name="position">4</property>
                       </packing>
                     </child>
-                    <!-- <child>
+                    <!-- start -->
+                    <child>
                       <object class="GtkButton" id="btn_go_down">
                         <property name="width-request">40</property>
                         <property name="height-request">40</property>
@@ -417,7 +425,8 @@
                         <property name="fill">True</property>
                         <property name="position">5</property>
                       </packing>
-                    </child> -->
+                    </child>
+                    <!-- end -->
                     <style>
                       <class name="box_msg_send"/>
                     </style>
@@ -429,7 +438,8 @@
                     <property name="position">-1</property>
                   </packing>
                 </child>
-                <!-- <child>
+                <!-- start -->
+                <child>
                   <object class="GtkBox" id="box_room_header">
                     <property name="height-request">40</property>
                     <property name="can-focus">False</property>
@@ -839,7 +849,8 @@
                     <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
-                </child> -->
+                </child>
+                <!-- end -->
               </object>
               <packing>
                 <property name="expand">True</property>
