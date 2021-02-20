@@ -4,30 +4,30 @@ pthread_t watcher;
 int sock = 0;
 char msg_buf[MESSAGE_BUF_SIZE];
 
-char *mx_message(t_client *client, t_scene type) {
-    char *msg_req = NULL;
+// char *mx_message(t_client *client, t_scene type) {
+//     char *msg_req = NULL;
 
-    cJSON *str_line = cJSON_CreateObject();
-    cJSON *msg = cJSON_CreateString(client->msg_from_client.msg_str);
-    cJSON *username = cJSON_CreateString(client->self->username);
-    printf("%s\n", client->msg_time);
-    cJSON *time = cJSON_CreateString(client->msg_time);
+//     cJSON *str_line = cJSON_CreateObject();
+//     cJSON *msg = cJSON_CreateString(client->msg_from_client.msg_str);
+//     cJSON *username = cJSON_CreateString(client->self->username);
+//     printf("%s\n", client->msg_time);
+//     cJSON *time = cJSON_CreateString(client->msg_time);
 
-    // datetime
+//     // datetime
 
-    cJSON_AddNumberToObject(str_line, "req_type", NEW_MSG);
-    // TODO: change to chat id
-    cJSON_AddNumberToObject(str_line, "chat_id", client->self->uid);
-    cJSON_AddNumberToObject(str_line, "from_id", client->self->uid);
-    cJSON_AddItemToObject(str_line, "message", msg);
-    cJSON_AddItemToObject(str_line, "username", username);
-    cJSON_AddItemToObject(str_line, "msg_time", time);
+//     cJSON_AddNumberToObject(str_line, "req_type", NEW_MSG);
+//     // TODO: change to chat id
+//     cJSON_AddNumberToObject(str_line, "chat_id", client->self->uid);
+//     cJSON_AddNumberToObject(str_line, "from_id", client->self->uid);
+//     cJSON_AddItemToObject(str_line, "message", msg);
+//     cJSON_AddItemToObject(str_line, "username", username);
+//     cJSON_AddItemToObject(str_line, "msg_time", time);
 
-    msg_req = cJSON_PrintUnformatted(str_line);
-    cJSON_Delete(str_line);
+//     msg_req = cJSON_PrintUnformatted(str_line);
+//     cJSON_Delete(str_line);
 
-    return msg_req;
-}
+//     return msg_req;
+// }
 
 gboolean mx_widget_is_visible(gchar *widget_name, GtkBuilder *builder) {
     GObject *widget = gtk_builder_get_object(builder, widget_name);
@@ -77,10 +77,13 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
 
     client->ui->textview = gtk_builder_get_object(builder, "msg_entry");
     client->ui->btn_send = gtk_builder_get_object(builder, "btn_send_msg");
+    //
     // client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
     // client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
     // client->ui->box_header = gtk_builder_get_object(builder, "box_room_header");
+    //
     client->ui->box_editing = gtk_builder_get_object(builder, "box_editing_msg");
+    //
     // if (client->ui->visibility) {
     //     mx_switch_room_header(client, builder, MX_ROOM_CTRL);
     //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_entry));
@@ -106,17 +109,14 @@ static void init_siganl(t_client *client) {
 }
 
 void mx_chat_messenger(t_client *client) {
-    // GtkBuilder *builder = gtk_builder_new_from_file("client/templates/chat.glade");
-    GtkBuilder *builder = gtk_builder_new_from_file("client/templates/chat_n_search.glade");
-    if (!builder) {
+    client->ui->builder = gtk_builder_new_from_file("client/templates/chat.glade");
+    if (!client->ui->builder) {
         g_critical("Builder getting error!");
     }
 
-    gtk_builder_connect_signals(builder, NULL);
+    gtk_builder_connect_signals(client->ui->builder, NULL);
 
     // mx_activate_content_test(client);
-    init_chat_window(builder, client);
+    init_chat_window(client->ui->builder, client);
     init_siganl(client);
-
-    g_object_unref(builder);
 }

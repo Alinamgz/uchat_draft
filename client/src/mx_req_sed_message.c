@@ -1,5 +1,16 @@
 #include "client.h"
 
+void mx_trim_message(gchar **message) {
+    gchar *trimed = NULL;
+    if (strlen(*message) > MX_MAX_MESSAGE) {
+        trimed = g_strndup(*message, MX_MAX_MESSAGE);
+        g_free(*message);
+        *message = g_strdup(trimed);
+        g_free(trimed);
+    }
+}
+
+
 void mx_send_message_handle_shift(GtkTextView *textview, GdkEvent *event, t_client *client) {
     if (event->key.keyval == MX_KEY_SHIFT)
         client->ui->shift_hold = FALSE;

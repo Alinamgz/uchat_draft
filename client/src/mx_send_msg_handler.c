@@ -8,7 +8,14 @@ void *mx_send_msg_handler(void *arg) {
 
     while (client->th_ret) {
         pthread_cond_wait(&client->msg_cond, &client->msg_sig_mut);
-        req = client->search_req ? client->search_req : client->msg_req;
+        // req = client->search_req ? client->search_req : client->msg_req;
+        if (client->search_req)
+            req = client->search_req;
+        else if (client->msg_req)
+            req = client->msg_req;
+        else
+            req = NULL;
+
 		// TODO: delete it
         printf("\n\t-----\n\tsender: fd: %d,\nreq: %s\nreq_len: %lu\n", client->sock_fd, req, strlen(req));
         fflush(stdout);
@@ -19,10 +26,9 @@ void *mx_send_msg_handler(void *arg) {
             perror("Msg sending err");
         }
 		else {
-            printf("\n------------\n\tSent: %s\n", client->msg_req);
-            // free(client->msg_req);
+            printf("\n------------\n\tSent: %s\n", req);
             free(req);
-            client->msg_req = NULL;
+            req = NULL;
         }
         pthread_mutex_unlock(&client->msg_sig_mut);
     }
