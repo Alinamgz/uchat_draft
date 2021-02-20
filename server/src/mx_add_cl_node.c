@@ -9,6 +9,9 @@ void mx_add_cl_node(t_cl_data *client) {
 	new_node->addr = client->addr;
 	new_node->sock_fd = client->sock_fd;
 	new_node->uid = client->uid;
+	new_node->auth_req_res = NULL;
+	new_node->chat_req_res = NULL;
+
 	memset(new_node->name, 0, NAME_LEN);
 
 	new_node->next = tmp ? tmp->next : NULL;
@@ -30,7 +33,7 @@ void mx_add_cl_node(t_cl_data *client) {
 	else {
 		printf("Added client list head\n");
 	}
-	
+
 	pthread_mutex_unlock(client->mut);
 }
 

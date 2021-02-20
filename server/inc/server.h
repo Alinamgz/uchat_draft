@@ -28,6 +28,13 @@ typedef struct s_auth_req {
 	int uid;
 }			   t_auth_req;
 
+typedef struct s_chat_req_res {
+	char *chat_id;
+	char *name_or_msg;
+	char *from_uid;
+	char *to_uid;
+}			   t_chat_req_res;
+
 typedef struct s_srvr_data {
 	struct sockaddr_in addr;
 	int sock_fd;
@@ -41,6 +48,9 @@ typedef struct s_list {
 	unsigned uid;
 	char name[NAME_LEN];
 	t_auth_req *auth_req_res;
+	t_chat_req_res **chat_req_res;
+	int cur_row;
+	int rows_cnt;
 	struct s_list *next;
 }			   t_list;
 
@@ -80,5 +90,11 @@ void mx_usg_err(char *name);
 void mx_parse_auth_req(t_auth_req **data, const char *req_str);
 
 void mx_do_login(sqlite3 *db, t_list *cur_client);
-void mx_do_registration(sqlite3 *db, t_auth_req *req_parsed);
-char *mx_create_auth_res(t_auth_req *req_res);
+void mx_do_registration(sqlite3 *db, t_list *cur_client);
+
+char *mx_create_auth_res(t_list *cur_client);
+
+// select chats test
+void mx_count_chat_rows(sqlite3 *db, t_list *cur_client);
+void mx_select_chats(sqlite3 *db, t_list *cur_client);
+void mx_create_new_chat(sqlite3 *db, t_list *cur_client, t_list *peer_client);
