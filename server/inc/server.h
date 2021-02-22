@@ -15,6 +15,7 @@ typedef enum e_req_type {
 	ERR,
 	LOGIN,
 	REGISTRATION,
+	USER_SEARCH,
 	TOTAL
 }			 t_req_type;
 
@@ -48,9 +49,12 @@ typedef struct s_list {
 	unsigned uid;
 	char name[NAME_LEN];
 	t_auth_req *auth_req_res;
+	t_chat_req_res **found_users;
 	t_chat_req_res **chat_req_res;
+	int res_code;
 	int cur_row;
 	int rows_cnt;
+	int *receivers;
 	struct s_list *next;
 }			   t_list;
 
@@ -61,6 +65,7 @@ typedef struct s_cl_data {
 	int sock_fd;
 	unsigned uid;
 	pthread_mutex_t *mut;
+	pthread_mutex_t *req_mut;
 
 	sqlite3 *db;
 	t_req_type req_type;
@@ -87,14 +92,22 @@ void mx_remove_cl_node(unsigned cur_uid, t_cl_data *client);
 void mx_usg_err(char *name);
 
 // ----------------------------------
-void mx_parse_auth_req(t_auth_req **data, const char *req_str);
+// draft for parsing and selecting search or msg req
+void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client);
+void mx_send_response(char *msg, t_list *cur_client, t_cl_data *client);
 
+// login and registration
+void mx_parse_auth_req(t_auth_req **data, const char *req_str);
 void mx_do_login(sqlite3 *db, t_list *cur_client);
 void mx_do_registration(sqlite3 *db, t_list *cur_client);
-
 char *mx_create_auth_res(t_list *cur_client);
 
 // select chats test
 void mx_count_chat_rows(sqlite3 *db, t_list *cur_client);
 void mx_select_chats(sqlite3 *db, t_list *cur_client);
 void mx_create_new_chat(sqlite3 *db, t_list *cur_client, t_list *peer_client);
+
+// search for users
+// void mx_do_search_user(sqlite3 *db, t_list *cur_client);
+void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str);
+char *mx_create_search_response(t_list *cur_client);

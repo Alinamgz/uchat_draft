@@ -78,9 +78,9 @@ typedef enum e_scene {
 	CONNECTION_ERR,
 	LOGIN,
 	REGISTRATION,
-	CHAT,
-	NEW_MSG,
 	SEARCH,
+	NEW_MSG,
+	CHAT,
 	TOTAL
 }			 t_scene;
 

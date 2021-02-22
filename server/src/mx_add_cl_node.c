@@ -11,6 +11,8 @@ void mx_add_cl_node(t_cl_data *client) {
 	new_node->uid = client->uid;
 	new_node->auth_req_res = NULL;
 	new_node->chat_req_res = NULL;
+	new_node->found_users = NULL;
+	new_node->receivers = NULL;
 
 	memset(new_node->name, 0, NAME_LEN);
 

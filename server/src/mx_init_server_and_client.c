@@ -10,6 +10,8 @@ void mx_init_server_and_client(int argc, char **argv, t_srvr_data *server, t_cl_
 	client->uid = server->uid;
 	client->mut = &(server->mut);
 
+	pthread_mutex_init(&client->req_mut, NULL);
+
 	mx_set_addr(&server->addr, &client->addr, argv[1]);
 
 	mx_add_cl_node(client);

@@ -1,7 +1,6 @@
 #include "server.h"
 
-static int reqistration_callback(void *data, int argc, char **argv,
-                                  char **azColName) {
+static int reqistration_callback(void *data, int argc, char **argv, char **azColName) {
     if (argc && argv && azColName) {
         *(int*)data = atoi(argv[0]);
     }

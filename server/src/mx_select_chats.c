@@ -27,7 +27,6 @@ void mx_select_chats(sqlite3 *db, t_list *cur_client) {
 }
 
 static int select_chats_callback(void *data, int argc, char **argv, char **azColName) {
-
     t_list *cur_client = (t_list *)data;
 
     cur_client->chat_req_res[cur_client->cur_row] =(t_chat_req_res*)malloc(sizeof(t_chat_req_res));
