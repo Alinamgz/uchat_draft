@@ -6,7 +6,6 @@
     <property name="can-focus">False</property>
     <property name="window-position">center</property>
     <property name="title" translatable="yes">Uchat</property>
-    <signal name="destroy" handler="exit_gtk" swapped="no"/>
     <child>
       <object class="GtkBox" id="login_box">
         <property name="visible">True</property>

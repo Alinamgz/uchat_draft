@@ -29,12 +29,14 @@ static void init_windows(t_client *client) {
 }
 
  void exit_gtk(GtkWidget *widget, void *param) {
-    //  TODO: add here:
-    // pthread_mutex_destroy(&client->mut, NULL);
-	// pthread_mutex_destroy(&client->connection_mut, NULL);
-	// pthread_cond_destroy(&client->msg_cond, NULL);
-	// pthread_mutex_destroy(&client->msg_sig_mut, NULL);
+    t_client *client = (t_client *)param;
 
+    pthread_mutex_destroy(&client->mut);
+	pthread_mutex_destroy(&client->connection_mut);
+	pthread_cond_destroy(&client->msg_cond);
+	pthread_mutex_destroy(&client->msg_sig_mut);
+
+    close(client->sock_fd);
     gtk_main_quit();
     system("leaks -q uchat");
     exit(0);
