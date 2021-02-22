@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
 	client->th_ret = 1;
 	client->auth_req = NULL;
 	client->search_req = NULL;
+	client->chats = NULL;
 	// client->scene = CONNECTION;
 	// client->scene = CONNECTION;
 	pthread_mutex_init(&client->mut, NULL);

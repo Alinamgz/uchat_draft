@@ -15,6 +15,7 @@ void mx_parse_n_proceed_auth_response(t_client *client, char *res_buf) {
     switch(res_code) {
         case OK:
             parse_ok_response(client, res);
+            mx_parse_chats_response(client, res_buf);
             client->prev_scene = client->scene;
             client->scene = CHAT;
             break;

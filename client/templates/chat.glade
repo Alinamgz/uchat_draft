@@ -114,10 +114,12 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="max-length">40</property>
-                    <property name="primary-icon-name">search</property>
+                    <property name="primary-icon-pixbuf">icons/1user.png</property>
+                    <property name="secondary-icon-pixbuf">icons/backspace-arrow.png</property>
+                    <!-- <property name="primary-icon-name">search</property> -->
                     <property name="primary-icon-activatable">False</property>
                     <property name="primary-icon-sensitive">False</property>
-                    <property name="placeholder-text" translatable="yes">Search room</property>
+                    <property name="placeholder-text" translatable="yes">Search</property>
                     <signal name="focus-out-event" handler="mx_stop_search_room" swapped="no"/>
                     <signal name="stop-search" handler="mx_stop_search_room" swapped="no"/>
                   </object>
@@ -203,6 +205,7 @@
                                 <property name="position">3</property>
                               </packing>
                             </child>
+                            <!-- here gonna try to put all chats -->
                             <child>
                               <object class="GtkListBox" id="listbox_global_rooms">
                                 <property name="visible">True</property>
@@ -251,7 +254,8 @@
                     <property name="focus-on-click">False</property>
                     <property name="receives-default">True</property>
                     <property name="halign">center</property>
-                    <property name="image">image5</property>
+                    <!-- <property name="image">image5</property> -->
+                    <property name="label">add room</property>
                     <signal name="clicked" handler="mx_widget_switch_visibility" object="dialog_addroom" swapped="no"/>
                     <style>
                       <class name="add-room-button"/>
@@ -285,7 +289,7 @@
                   <object class="GtkBox" id="box_entry_field">
                     <property name="can-focus">False</property>
                     <!-- start -->
-                    <child>
+                    <!-- <child>
                       <object class="GtkButton" id="btn_attachment">
                         <property name="width-request">48</property>
                         <property name="height-request">48</property>
@@ -306,7 +310,7 @@
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
-                    </child>
+                    </child> -->
                     <!-- end -->
                     <child>
                       <object class="GtkScrolledWindow">
@@ -336,7 +340,7 @@
                       </packing>
                     </child>
                     <!-- start -->
-                    <child>
+                    <!-- <child>
                       <object class="GtkButton" id="btn_choose_sticker">
                         <property name="width-request">48</property>
                         <property name="height-request">48</property>
@@ -358,7 +362,7 @@
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
-                    </child>
+                    </child> -->
                     <!-- end -->
                     <child>
                       <object class="GtkButton" id="btn_send_msg">
@@ -370,7 +374,6 @@
                         <property name="receives-default">True</property>
                         <property name="valign">end</property>
                         <property name="label">Send</property>
-                        <!-- <property name="icon">icons/3email.png</property> -->
                         <style>
                           <class name="button_send_message"/>
                         </style>
@@ -381,7 +384,8 @@
                         <property name="position">3</property>
                       </packing>
                     </child>
-                    <child>
+                    <!-- start to uncomment -->
+                    <!-- <child>
                       <object class="GtkButton" id="btn_edit_msg_apply">
                         <property name="width-request">48</property>
                         <property name="height-request">48</property>
@@ -400,9 +404,10 @@
                         <property name="fill">True</property>
                         <property name="position">4</property>
                       </packing>
-                    </child>
+                    </child> -->
+                    <!-- end to uncomment -->
                     <!-- start -->
-                    <child>
+                    <!-- <child>
                       <object class="GtkButton" id="btn_go_down">
                         <property name="width-request">40</property>
                         <property name="height-request">40</property>
@@ -425,7 +430,7 @@
                         <property name="fill">True</property>
                         <property name="position">5</property>
                       </packing>
-                    </child>
+                    </child> -->
                     <!-- end -->
                     <style>
                       <class name="box_msg_send"/>
@@ -469,7 +474,8 @@
                                 <property name="position">0</property>
                               </packing>
                             </child>
-                            <child>
+                            <!-- start to uncomment -->
+                            <!-- <child>
                               <object class="GtkSearchEntry" id="sentry_messages">
                                 <property name="width-request">260</property>
                                 <property name="visible">True</property>
@@ -522,7 +528,8 @@
                                 <property name="fill">True</property>
                                 <property name="position">3</property>
                               </packing>
-                            </child>
+                            </child> -->
+                            <!-- end to uncomment -->
                             <style>
                               <class name="boxroom_header-in"/>
                             </style>
@@ -572,7 +579,8 @@
                                 <property name="position">0</property>
                               </packing>
                             </child>
-                            <child>
+                            <!-- start to unocmment -->
+                            <!-- <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -620,8 +628,9 @@
                                 <property name="fill">False</property>
                                 <property name="position">1</property>
                               </packing>
-                            </child>
-                            <child>
+                            </child> -->
+                            <!-- ent to uncommen -->
+                            <!-- <child>
                               <object class="GtkButton" id="btn_unselect_msg">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -636,7 +645,9 @@
                                 <property name="pack-type">end</property>
                                 <property name="position">2</property>
                               </packing>
-                            </child>
+                            </child> -->
+                          <!-- end to uncommen -->
+
                             <style>
                               <class name="box_msg_ctrl"/>
                             </style>
@@ -664,7 +675,8 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
-                <child>
+                <!-- start uncomment -->
+                <!-- <child>
                   <object class="GtkBox" id="box_msg_list">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -765,8 +777,9 @@
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
-                </child>
-                <child>
+                </child> -->
+                <!-- end uncomment -->
+                <!-- <child>
                   <object class="GtkBox" id="box_editing_msg">
                     <property name="name">box_edit_msg</property>
                     <property name="can-focus">False</property>
@@ -849,7 +862,8 @@
                     <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
-                </child>
+                </child> -->
+                <!-- end uncomment -->
                 <!-- end -->
               </object>
               <packing>

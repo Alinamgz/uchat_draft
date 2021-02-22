@@ -14,6 +14,7 @@
 
 // response codes
 #define OK 200
+#define OK_CHATS 2001
 #define CREATED 201
 #define BAD_REQ 400
 #define UNAUTHORIZED 401
@@ -115,7 +116,11 @@ typedef struct s_ui {
 
 	// chat_client
 	GtkBuilder *builder;
-	GtkWidget *uchat_client; // window
+	GtkWidget *uchat_client;
+	GtkWidget *chats_list;
+	GtkWidget *chats_label;
+
+	// window
 	// GtkWidget *textview;
 	// GtkWidget *btn_edit;
 	// GtkWidget *btn_send;
@@ -128,10 +133,7 @@ typedef struct s_ui {
 	GObject *box_editing;
 	GObject *stack;
 
-
-
 	gboolean visibility;
-
 
 	// search for new chat
 	GtkWidget *search_bar;
@@ -147,6 +149,7 @@ typedef struct s_self {
 	char *first_name;
 	char *last_name;
 	int uid;
+
 }			   t_self;
 
 typedef struct s_msg_from_client {
@@ -161,6 +164,13 @@ struct s_dtp {
     size_t len;
     gint type;
 };
+
+typedef struct s_chats {
+	int chat_id;
+	int from_uid;
+	int to_uid;
+	char *chat_name;
+}			   t_chats;
 
 typedef struct s_client {
 	pthread_t connection_th;
@@ -184,6 +194,7 @@ typedef struct s_client {
 	t_scene scene;
 	t_scene prev_scene;
 	t_self *self;
+	t_chats **chats;
 
 	char *msg;
 	t_dtp *data;
@@ -254,3 +265,7 @@ void mx_free(void **ptr);
 void mx_logger(gchar *file_name, GLogLevelFlags flags, gchar *error);
 gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
 gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
+
+
+void mx_parse_chats_response(t_client *client, char *resp_str);
+void mx_show_chats(t_client *client);

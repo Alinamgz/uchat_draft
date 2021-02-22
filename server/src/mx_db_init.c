@@ -33,7 +33,7 @@ void mx_db_init(t_cl_data *client) {
 				"INSERT OR IGNORE INTO chats (chat_id, chat_name,from_uid,to_uid)"\
 		  		"VALUES (0, 'test_1', '2', '4');" \
 				"INSERT OR IGNORE INTO chats (chat_id, chat_name,from_uid,to_uid)"\
-		  		"VALUES (1, 'test_2', '5', '2');" \
+		  		"VALUES (1, 'test_2', '3', '2');" \
 				"INSERT OR IGNORE INTO connected_users (connection_id,uid,fd)"\
 		  		"VALUES (0, 0, -1);";
 

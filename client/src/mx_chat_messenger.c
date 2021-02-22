@@ -80,24 +80,27 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
 
     client->ui->textview = gtk_builder_get_object(builder, "msg_entry");
     client->ui->btn_send = gtk_builder_get_object(builder, "btn_send_msg");
-    //
-    client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
-    client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
-    client->ui->box_header = gtk_builder_get_object(builder, "box_room_header");
-    //end
-    client->ui->box_editing = gtk_builder_get_object(builder, "box_editing_msg");
-    //start
-    if (client->ui->visibility) {
-        mx_switch_room_header(client, builder, MX_ROOM_CTRL);
-        gtk_widget_show_all(GTK_WIDGET(client->ui->box_entry));
-        gtk_widget_show_all(GTK_WIDGET(client->ui->box_header));
-    }
-    else {
-        gtk_widget_hide(GTK_WIDGET(client->ui->box_entry));
-        gtk_widget_hide(GTK_WIDGET(client->ui->box_header));
-        gtk_widget_hide(GTK_WIDGET(client->ui->box_editing));
 
-    }
+    client->ui->chats_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_global_rooms"));
+    client->ui->chats_label = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_nothing_global"));
+    //
+    // client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
+    // client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
+    // client->ui->box_header = gtk_builder_get_object(builder, "box_room_header");
+    //end
+    // client->ui->box_editing = gtk_builder_get_object(builder, "box_editing_msg");
+    //start
+    // if (client->ui->visibility) {
+    //     mx_switch_room_header(client, builder, MX_ROOM_CTRL);
+    //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_entry));
+    //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_header));
+    // }
+    // else {
+    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_entry));
+    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_header));
+    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_editing));
+
+    // }
     //
 }
 

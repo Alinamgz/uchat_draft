@@ -17,6 +17,7 @@ char *mx_create_auth_res(t_list *cur_client) {
             cJSON_AddStringToObject(res, "last_name", cur_client->auth_req_res->last_name);
             chats_arr = cJSON_AddArrayToObject(res, "chats_arr");
 
+            cJSON_AddNumberToObject(res, "chats_amt", cur_client->rows_cnt);
             for (int i = 0; i < cur_client->rows_cnt; i++) {
                 msg_obj = cJSON_CreateObject();
 
@@ -55,7 +56,7 @@ char *mx_create_auth_res(t_list *cur_client) {
             cJSON_AddStringToObject(res, "msg", "Unknown status code\n");
             break;
     }
-    
+
     rslt = cJSON_PrintUnformatted(res);
     cJSON_Delete(res);
 
