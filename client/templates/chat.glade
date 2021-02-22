@@ -194,7 +194,7 @@
                               <object class="GtkLabel" id="label_search_delim_global">
                                 <property name="height-request">25</property>
                                 <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Global search result of rooms</property>
+                                <property name="label" translatable="yes">Your chats</property>
                                 <style>
                                   <class name="label_search_result"/>
                                 </style>

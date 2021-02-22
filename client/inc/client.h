@@ -119,6 +119,7 @@ typedef struct s_ui {
 	GtkWidget *uchat_client;
 	GtkWidget *chats_list;
 	GtkWidget *chats_label;
+	GtkWidget *cur_chat_name;
 
 	// window
 	// GtkWidget *textview;
@@ -195,6 +196,7 @@ typedef struct s_client {
 	t_scene prev_scene;
 	t_self *self;
 	t_chats **chats;
+	t_chats *cur_chat;
 
 	char *msg;
 	t_dtp *data;
