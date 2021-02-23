@@ -1,5 +1,7 @@
 #include "client.h"
 
+static void free_found_users(t_client *client);
+
 void mx_parse_search_response(t_client *client, char *resp_str) {
     pthread_mutex_lock(&client->resp_mut);
 
@@ -56,10 +58,36 @@ if (client->found_users) {
     printf("DONE users check\n");
 }
     // mx_show_found_users(client);
-    
+
 // TODO: free arr and check if it caused segfault
     free_found_users(client);
     cJSON_Delete(res);
 
     pthread_mutex_unlock(&client->resp_mut);
+}
+
+static void free_found_users(t_client *client) {
+    t_self **runner = client->found_users;
+
+    if (runner && *runner){
+        for (int i = 0; runner[i]; i++) {
+
+            if (runner[i]->username) {
+                free(runner[i]->username);
+                runner[i]->username = NULL;
+            }
+            if (runner[i]->first_name) {
+                free(runner[i]->first_name);
+                runner[i]->first_name = NULL;
+            }
+            if (runner[i]->last_name) {
+                free(runner[i]->last_name);
+                runner[i]->last_name = NULL;
+            }
+            free(runner[i]);
+            runner[i] = NULL;
+        }
+    }
+    free(client->found_users);
+    client->found_users = NULL;
 }
