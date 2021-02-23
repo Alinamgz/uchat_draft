@@ -7,7 +7,7 @@ void mx_parse_n_proceed_auth_response(t_client *client, char *res_buf) {
     char res_msg[40] = "";
 
     cJSON *res = cJSON_Parse(res_buf);
-    cJSON *code = cJSON_GetObjectItemCaseSensitive(res, "code");
+    cJSON *code = cJSON_GetObjectItemCaseSensitive(res, "resp_code");
     cJSON *resp_msg = cJSON_GetObjectItemCaseSensitive(res, "msg");
 
     res_code = code->valueint;

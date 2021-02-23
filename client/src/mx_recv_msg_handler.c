@@ -20,6 +20,7 @@ void *mx_recv_msg_handler(void *arg) {
 		}
 		else if (recv_rslt > 0) {
 			printf("\n\t--<Received>-- %s\n", msg);
+			mx_parse_search_response(client, msg);
 		}
 	}
 

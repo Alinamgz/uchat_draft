@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
 	pthread_mutex_init(&client->connection_mut, NULL);
 	pthread_cond_init(&client->msg_cond, NULL);
 	pthread_mutex_init(&client->msg_sig_mut, NULL);
+	pthread_mutex_init(&client->resp_mut, NULL);
 
 	signal(SIGINT, leaks_ch);
 

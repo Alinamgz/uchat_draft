@@ -181,6 +181,8 @@ typedef struct s_client {
 	pthread_mutex_t auth_mut;
 	pthread_cond_t msg_cond;
 	pthread_mutex_t msg_sig_mut;
+	// pthread_cond_t msg_cond;
+	pthread_mutex_t resp_mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
@@ -195,6 +197,7 @@ typedef struct s_client {
 	t_scene scene;
 	t_scene prev_scene;
 	t_self *self;
+	t_self **found_users;
 	t_chats **chats;
 	t_chats *cur_chat;
 
@@ -276,3 +279,6 @@ gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
 
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
+
+
+void mx_parse_search_response(t_client *client, char *resp_str);

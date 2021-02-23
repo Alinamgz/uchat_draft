@@ -6,7 +6,7 @@ char *mx_create_auth_res(t_list *cur_client) {
     cJSON *chats_arr = NULL;
     cJSON *msg_obj = NULL;
 
-    cJSON_AddNumberToObject(res, "code", cur_client->auth_req_res->res_code);
+    cJSON_AddNumberToObject(res, "resp_code", cur_client->auth_req_res->res_code);
 
     switch(cur_client->auth_req_res->res_code) {
         case OK:

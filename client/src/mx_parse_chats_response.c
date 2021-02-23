@@ -1,10 +1,10 @@
 #include "client.h"
 
-static void add_chats_as_rows(t_client *client);
-
 void mx_parse_chats_response(t_client *client, char *resp_str) {
+    // pthread_mutex_lock(&client->resp_mut);
+
     cJSON *res = cJSON_Parse(resp_str);
-    cJSON *code = cJSON_GetObjectItemCaseSensitive(res,"code");
+    cJSON *code = cJSON_GetObjectItemCaseSensitive(res,"resp_code");
     cJSON *chats_amt = cJSON_GetObjectItemCaseSensitive(res,"chats_amt");
     cJSON *msg = NULL;
     cJSON *chats_arr = NULL;
@@ -21,7 +21,6 @@ void mx_parse_chats_response(t_client *client, char *resp_str) {
             client->chats = (t_chats**)calloc(chats_amt->valueint + 1, sizeof(t_chats*));
 
             cJSON_ArrayForEach(chat, chats_arr) {
-                printf("step %d\n", i);
                 chat_id = cJSON_GetObjectItemCaseSensitive(chat, "chat_id");
                 chat_name = cJSON_GetObjectItemCaseSensitive(chat, "name_or_msg");
                 from_uid = cJSON_GetObjectItemCaseSensitive(chat, "from_uid");
@@ -51,4 +50,6 @@ void mx_parse_chats_response(t_client *client, char *resp_str) {
     mx_show_chats(client);
 
     cJSON_Delete(res);
+
+    // pthread_mutex_unlock(&client->resp_mut);
 }
