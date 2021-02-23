@@ -54,25 +54,25 @@ static void chat_row_selected_handler(GtkListBox *box, GtkListBoxRow *row, gpoin
         if (gtk_list_box_row_is_selected(row)) {
             row_ind = gtk_list_box_row_get_index(row);
             if (row_ind > -1) {
-                if(client->cur_chat) {
-                    free(client->cur_chat);
+                if(client->selected_chat) {
+                    free(client->selected_chat);
                 }
-                    client->cur_chat = (t_chats*)malloc(sizeof(t_chats));
+                    client->selected_chat = (t_chats*)malloc(sizeof(t_chats));
 
-                    client->cur_chat->chat_name = client->chats[row_ind]->chat_name;
-                    client->cur_chat->chat_id = client->chats[row_ind]->chat_id;
-                    client->cur_chat->from_uid = client->chats[row_ind]->from_uid;
-                    client->cur_chat->to_uid = client->chats[row_ind]->to_uid;
+                    client->selected_chat->chat_name = client->chats[row_ind]->chat_name;
+                    client->selected_chat->chat_id = client->chats[row_ind]->chat_id;
+                    client->selected_chat->from_uid = client->chats[row_ind]->from_uid;
+                    client->selected_chat->to_uid = client->chats[row_ind]->to_uid;
 
 
                 cur_name = client->chats[row_ind]->chat_name;
                 printf("\t--------- %s --------\n", cur_name);
                 printf("chat_id: %d\t from: %d\t to: %d\n",
-                        client->cur_chat->chat_id,
-                        client->cur_chat->from_uid,
-                        client->cur_chat->to_uid);
+                        client->selected_chat->chat_id,
+                        client->selected_chat->from_uid,
+                        client->selected_chat->to_uid);
 
-                gtk_label_set_text(GTK_LABEL(client->ui->cur_chat_name), cur_name);
+                gtk_label_set_text(GTK_LABEL(client->ui->selected_chat_name), cur_name);
 
             }
             else {

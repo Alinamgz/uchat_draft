@@ -1,7 +1,5 @@
 #include "client.h"
 
-static void free_found_users(t_client *client);
-
 void mx_parse_search_response(t_client *client, char *resp_str) {
     pthread_mutex_lock(&client->resp_mut);
 
@@ -22,7 +20,6 @@ void mx_parse_search_response(t_client *client, char *resp_str) {
         client->found_users = (t_self**)calloc(users_amt->valueint + 1, sizeof(t_self*));
 
         cJSON_ArrayForEach(user_obj, users_arr) {
-            printf("step %d\n", i);
             uid = cJSON_GetObjectItemCaseSensitive(user_obj, "uid");
             username = cJSON_GetObjectItemCaseSensitive(user_obj, "username");
             first_name = cJSON_GetObjectItemCaseSensitive(user_obj, "first_name");
@@ -43,36 +40,7 @@ void mx_parse_search_response(t_client *client, char *resp_str) {
          gtk_label_set_text(GTK_LABEL(client->ui->search_status), msg->valuestring);
     }
 
-    mx_show_found_users(client);
-
-    free_found_users(client);
     cJSON_Delete(res);
 
     pthread_mutex_unlock(&client->resp_mut);
-}
-
-static void free_found_users(t_client *client) {
-    t_self **runner = client->found_users;
-
-    if (runner && *runner){
-        for (int i = 0; runner[i]; i++) {
-
-            if (runner[i]->username) {
-                free(runner[i]->username);
-                runner[i]->username = NULL;
-            }
-            if (runner[i]->first_name) {
-                free(runner[i]->first_name);
-                runner[i]->first_name = NULL;
-            }
-            if (runner[i]->last_name) {
-                free(runner[i]->last_name);
-                runner[i]->last_name = NULL;
-            }
-            free(runner[i]);
-            runner[i] = NULL;
-        }
-    }
-    free(client->found_users);
-    client->found_users = NULL;
 }

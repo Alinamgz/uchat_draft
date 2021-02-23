@@ -119,7 +119,7 @@ typedef struct s_ui {
 	GtkWidget *uchat_client;
 	GtkWidget *chats_list;
 	GtkWidget *chats_label;
-	GtkWidget *cur_chat_name;
+	GtkWidget *selected_chat_name;
 	GtkWidget *users_list;
 	// GtkWidget *username_row_label;
 	// GtkWidget *fullname_row_label;
@@ -201,9 +201,10 @@ typedef struct s_client {
 	t_scene scene;
 	t_scene prev_scene;
 	t_self *self;
+	t_self *selected_user;
 	t_self **found_users;
 	t_chats **chats;
-	t_chats *cur_chat;
+	t_chats *selected_chat;
 
 	char *msg;
 	t_dtp *data;
@@ -284,5 +285,8 @@ gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
 
+void mx_proceed_search_response(t_client *client, char *resp_str);
 void mx_parse_search_response(t_client *client, char *resp_str);
 void mx_show_found_users(t_client *client);
+
+void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);

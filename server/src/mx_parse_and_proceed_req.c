@@ -9,8 +9,12 @@ void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client) 
     cJSON *type = cJSON_GetObjectItemCaseSensitive(req, "type");
     cJSON *str = NULL;
     char *resp = NULL;
+
+    search_req_res_memfree(cur_client);
+    
     switch(type->valueint) {
         case USER_SEARCH:
+
             str = cJSON_GetObjectItemCaseSensitive(req, "search_str");
             mx_do_search_user(client->db, cur_client, str->valuestring);
 
@@ -24,7 +28,6 @@ void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client) 
             free(cur_client->receivers);
             free(resp);
             cJSON_Delete(req);
-            search_req_res_memfree(cur_client);
 
             break;
         default:

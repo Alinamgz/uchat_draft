@@ -82,7 +82,7 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
 
     client->ui->chats_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_global_rooms"));
     client->ui->chats_label = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_nothing_global"));
-    client->ui->cur_chat_name = GTK_WIDGET(gtk_builder_get_object(builder, "label_header_roomname"));
+    client->ui->selected_chat_name = GTK_WIDGET(gtk_builder_get_object(builder, "label_header_roomname"));
 
     client->ui->search_bar = GTK_WIDGET(gtk_builder_get_object(builder, "sentry_rooms"));
     client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_delim_local"));
