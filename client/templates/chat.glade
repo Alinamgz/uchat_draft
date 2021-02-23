@@ -179,6 +179,7 @@
                             </child>
                             <child>
                               <object class="GtkListBox" id="listbox_rooms">
+                                <property name="height-request">30</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="activate-on-single-click">False</property>
@@ -192,7 +193,7 @@
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                            <child>
+                            <!-- <child>
                               <object class="GtkLabel" id="label_search_nothing_local">
                                 <property name="height-request">60</property>
                                 <property name="can-focus">False</property>
@@ -206,7 +207,7 @@
                                 <property name="fill">True</property>
                                 <property name="position">2</property>
                               </packing>
-                            </child>
+                            </child> -->
                             <child>
                               <object class="GtkLabel" id="label_search_delim_global">
                                 <property name="height-request">25</property>
@@ -238,7 +239,7 @@
                                 <property name="position">4</property>
                               </packing>
                             </child>
-                            <child>
+                            <!-- <child>
                               <object class="GtkLabel" id="label_search_nothing_global">
                                 <property name="height-request">60</property>
                                 <property name="can-focus">False</property>
@@ -252,7 +253,7 @@
                                 <property name="fill">True</property>
                                 <property name="position">5</property>
                               </packing>
-                            </child>
+                            </child> -->
                           </object>
                         </child>
                       </object>

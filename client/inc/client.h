@@ -184,6 +184,7 @@ typedef struct s_client {
 	pthread_mutex_t auth_mut;
 	pthread_cond_t msg_cond;
 	pthread_mutex_t msg_sig_mut;
+	pthread_mutex_t render_search_mut;
 	// pthread_cond_t msg_cond;
 	pthread_mutex_t resp_mut;
 	char *name;

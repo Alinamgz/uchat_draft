@@ -17,7 +17,6 @@ void mx_parse_search_response(t_client *client, char *resp_str) {
     cJSON *last_name = NULL;
     int i = 0;
 
-printf("\tFound users recv parse start\n");
     if (code->valueint == OK && users_amt->valueint > 0) {
         users_arr = cJSON_GetObjectItemCaseSensitive(res, "users_arr");
         client->found_users = (t_self**)calloc(users_amt->valueint + 1, sizeof(t_self*));
@@ -44,22 +43,8 @@ printf("\tFound users recv parse start\n");
          gtk_label_set_text(GTK_LABEL(client->ui->search_status), msg->valuestring);
     }
 
-    printf("\tFound users recv parse DONE\n");
-
-    if (client->found_users) {
-        printf("start users check\n");
-        for(int i = 0; client->found_users[i]; i++) {
-            printf("got user|| uid: %d, username: %s, first_name: %s, last_name: %s ||\n",
-            client->found_users[i]->uid,
-            client->found_users[i]->username,
-            client->found_users[i]->first_name,
-            client->found_users[i]->last_name);
-        }
-        printf("DONE users check\n");
-    }
     mx_show_found_users(client);
 
-// TODO: free arr and check if it caused segfault
     free_found_users(client);
     cJSON_Delete(res);
 

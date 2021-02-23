@@ -19,7 +19,7 @@ void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str) {
 
         memset(sql, 0, 128);
         sprintf(sql,
-                "SELECT uid, user_name, first_name, last_name FROM users WHERE user_name LIKE '%%%s%%'",
+                "SELECT uid, user_name, first_name, last_name FROM users WHERE uid <> '0' AND user_name LIKE '%%%s%%'",
                 search_str);
 
         if (sqlite3_exec(db, sql, search_users_callback, cur_client, &err)) {
@@ -74,7 +74,7 @@ static int count_found_users(sqlite3 *db, t_list *cur_client, const char *search
     cur_client->cur_row = 0;
 
     memset(sql, 0, 128);
-    sprintf(sql, "SELECT COUNT(*) from users WHERE user_name LIKE '%%%s%%'", search_str);
+    sprintf(sql, "SELECT COUNT(*) from users WHERE uid <> '0' AND user_name LIKE '%%%s%%'", search_str);
 
     if (sqlite3_exec(db, sql, count_callback, &cur_client->rows_cnt, &err)) {
         cur_client->res_code = INTERNAL_SRVR_ERR;
