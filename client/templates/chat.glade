@@ -132,9 +132,13 @@
               <object class="GtkSearchEntry" id="sentry_rooms">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="max-length">24</property>
                 <property name="primary-icon-pixbuf">icons/1user.png</property>
                 <property name="primary-icon-activatable">False</property>
                 <property name="primary-icon-sensitive">False</property>
+                <!-- check  -->
+                <signal name="focus-out-event" handler="mx_stop_search_room" swapped="no"/>
+                <signal name="stop-search" handler="mx_stop_search_room" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

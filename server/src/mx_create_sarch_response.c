@@ -6,6 +6,8 @@ char *mx_create_search_response(t_list *cur_client) {
     cJSON *users_arr = NULL;
     cJSON *user_obj = NULL;
 
+    cJSON_AddNumberToObject(res, "res_code", cur_client->res_code);
+
     switch(cur_client->res_code) {
         case OK:
             cJSON_AddStringToObject(res, "msg", OK_MSG);

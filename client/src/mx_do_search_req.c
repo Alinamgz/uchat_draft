@@ -8,12 +8,12 @@ void mx_do_search_req(GtkWidget *widget, gpointer data) {
 
     const gchar *search_str = mx_get_n_check_entry(&err, 0, widget, client->ui->search_status);
     if (!err[0] && search_str[0]) {
-        create_search_req(client, search_str);
+        // if (search_str[0])
+            create_search_req(client, search_str);
     }
-    else {
-        printf("search_addr: %p\n", (void*)search_str);
-        gtk_entry_set_text(GTK_ENTRY(widget), "");
-    }
+    // else if (!err[0]) {
+    //     gtk_entry_set_text(GTK_ENTRY(widget), "");
+    // }
 }
 
 void mx_stop_search_room(GtkWidget *widget, gpointer data) {

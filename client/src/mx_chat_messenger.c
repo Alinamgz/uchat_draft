@@ -46,7 +46,6 @@ void mx_send_message_handle_enter(GtkTextView *textview, GdkEvent *event, t_clie
     if (event->key.keyval == MX_KEY_ENTER) {
         if (client->ui->shift_hold) {
 
-            printf("222222_____asdfasdf___\n");
             gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
         }
         else if (!mx_widget_is_visible("box_editing_msg", client->ui->builder)){
