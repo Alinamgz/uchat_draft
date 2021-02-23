@@ -44,20 +44,20 @@ printf("\tFound users recv parse start\n");
          gtk_label_set_text(GTK_LABEL(client->ui->search_status), msg->valuestring);
     }
 
-printf("\tFound users recv parse DONE\n");
+    printf("\tFound users recv parse DONE\n");
 
-if (client->found_users) {
-    printf("start users check\n");
-    for(int i = 0; client->found_users[i]; i++) {
-        printf("got user|| uid: %d, username: %s, first_name: %s, last_name: %s ||\n",
-        client->found_users[i]->uid,
-        client->found_users[i]->username,
-        client->found_users[i]->first_name,
-        client->found_users[i]->last_name);
+    if (client->found_users) {
+        printf("start users check\n");
+        for(int i = 0; client->found_users[i]; i++) {
+            printf("got user|| uid: %d, username: %s, first_name: %s, last_name: %s ||\n",
+            client->found_users[i]->uid,
+            client->found_users[i]->username,
+            client->found_users[i]->first_name,
+            client->found_users[i]->last_name);
+        }
+        printf("DONE users check\n");
     }
-    printf("DONE users check\n");
-}
-    // mx_show_found_users(client);
+    mx_show_found_users(client);
 
 // TODO: free arr and check if it caused segfault
     free_found_users(client);

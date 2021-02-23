@@ -87,6 +87,9 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
     client->ui->search_bar = GTK_WIDGET(gtk_builder_get_object(builder, "sentry_rooms"));
     client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_delim_local"));
 
+    client->ui->users_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_rooms"));
+
+
 
     //
     // client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");

@@ -120,6 +120,9 @@ typedef struct s_ui {
 	GtkWidget *chats_list;
 	GtkWidget *chats_label;
 	GtkWidget *cur_chat_name;
+	GtkWidget *users_list;
+	// GtkWidget *username_row_label;
+	// GtkWidget *fullname_row_label;
 
 	// window
 	// GtkWidget *textview;
@@ -280,5 +283,5 @@ gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
 
-
 void mx_parse_search_response(t_client *client, char *resp_str);
+void mx_show_found_users(t_client *client);

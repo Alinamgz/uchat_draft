@@ -1,7 +1,7 @@
 #include "client.h"
 
 static GtkWidget *create_chat_row(char *chat_name_str, bool is_unread);
-static void row_selected_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+static void chat_row_selected_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
 void mx_show_chats(t_client *client) {
     GtkWidget *row = NULL;
@@ -15,7 +15,7 @@ void mx_show_chats(t_client *client) {
         row = create_chat_row(client->chats[i]->chat_name, is_unread);
         g_signal_connect(G_OBJECT(client->ui->chats_list),
                               "row-selected",
-                              G_CALLBACK(row_selected_handler),
+                              G_CALLBACK(chat_row_selected_handler),
                               client);
 
         gtk_list_box_insert((GtkListBox *)client->ui->chats_list, row, -1);
@@ -45,7 +45,7 @@ static GtkWidget *create_chat_row(char *chat_name_str, bool is_unread) {
     return row;
 }
 
-static void row_selected_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
+static void chat_row_selected_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
     t_client *client = (t_client*)user_data;
     gint row_ind = -1;
     char *cur_name = NULL;
