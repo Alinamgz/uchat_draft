@@ -3,14 +3,14 @@
 
 static int count_found_users(sqlite3 *db, t_list *cur_client, const char *search_str);
 static int count_callback(void *data, int argc, char **argv, char **azColName);
-static void search_users_callback(void *data, int argc, char **argv, char **azColName);
+static int search_users_callback(void *data, int argc, char **argv, char **azColName);
 // TODO: instead of reusinf auth_req_res make new struct for search req or rename this struct less specific
 
 void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str) {
     char sql[128] = "";
     char *err = NULL;
     int rows = 0;
-    char *response = NULL;
+    // char *response = NULL;
 
     rows = count_found_users(db, cur_client, search_str);
 
@@ -38,12 +38,13 @@ void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str) {
 
 }
 
-static void search_users_callback(void *data, int argc, char **argv, char **azColName) {
+static int search_users_callback(void *data, int argc, char **argv, char **azColName) {
     t_list *cur_client = (t_list *)data;
-
+printf("callback _01\t cur_row: %d\t total: %d\n", cur_client->cur_row, cur_client->rows_cnt);
     cur_client->found_users[cur_client->cur_row] =(t_chat_req_res*)malloc(sizeof(t_chat_req_res));
-    memset(cur_client->chat_req_res[cur_client->cur_row], 0, sizeof(cur_client->chat_req_res));
+    memset(cur_client->found_users[cur_client->cur_row], 0, sizeof(cur_client->found_users));
 
+printf("callback _02\n");
     for (int i = 0; i <= argc; i++) {
         if (!strcmp(azColName[i], "uid")) {
             cur_client->found_users[cur_client->cur_row]->chat_id = strdup(argv[i]);
@@ -74,7 +75,7 @@ static int count_found_users(sqlite3 *db, t_list *cur_client, const char *search
     char *err = NULL;
     cur_client->rows_cnt = 0;
     cur_client->cur_row = 0;
-
+printf("GOGI was here\n");
     memset(sql, 0, 128);
     sprintf(sql, "SELECT COUNT(*) from users WHERE user_name LIKE '%%%s%%'", search_str);
 

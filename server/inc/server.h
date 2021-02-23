@@ -65,7 +65,7 @@ typedef struct s_cl_data {
 	int sock_fd;
 	unsigned uid;
 	pthread_mutex_t *mut;
-	pthread_mutex_t *req_mut;
+	pthread_mutex_t req_mut;
 
 	sqlite3 *db;
 	t_req_type req_type;

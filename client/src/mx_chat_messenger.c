@@ -84,6 +84,11 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
     client->ui->chats_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_global_rooms"));
     client->ui->chats_label = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_nothing_global"));
     client->ui->cur_chat_name = GTK_WIDGET(gtk_builder_get_object(builder, "label_header_roomname"));
+
+    client->ui->search_bar = GTK_WIDGET(gtk_builder_get_object(builder, "sentry_rooms"));
+    client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_delim_local"));
+
+
     //
     // client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
     // client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
@@ -126,6 +131,13 @@ static void init_siganl(t_client *client) {
 
     printf("end button1\n");
     // g_signal_connect(client->ui->btn_send, "clicked", G_CALLBACK(mx_req_edit_message), client);
+
+    // --------------------- Search bar ---------------------------
+// Test for search req-res
+    g_signal_connect(G_OBJECT(client->ui->search_bar),
+                              "search-changed",
+                              G_CALLBACK(mx_do_search_req),
+                              client);
 }
 
 void mx_chat_messenger(t_client *client) {

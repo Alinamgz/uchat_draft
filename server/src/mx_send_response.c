@@ -7,8 +7,8 @@ void mx_send_response(char *msg, t_list *cur_client, t_cl_data *client) {
     while (tmp) {
         // if (tmp->uid && tmp->uid != cur_client->uid) {
         if (tmp->uid && cur_client) {
-            for (int i = 0; cur_client->receivers && cur_client->receivers[i]; i++) {
-                if (tmp->uid == cur_client->receivers[i]) {
+            for (int i = 0; cur_client->receivers && cur_client->receivers[i] > 0; i++) {
+                if ((int)tmp->uid == cur_client->receivers[i]) {
                     if (send(tmp->sock_fd, msg, strlen(msg), 0) < 0) {
                         perror("Sending err");
                         printf("FAILED Send to: name %s, uid %d , fd %d||\n", tmp->name, tmp->uid, tmp->sock_fd);

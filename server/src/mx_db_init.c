@@ -26,6 +26,14 @@ void mx_db_init(t_cl_data *client) {
 		  		"VALUES (0, '__head', 'head_pass', '__head_name', 'head_lastname');"\
 				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
 		  		"VALUES ('qwer', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'qwer', '');"\
+				  				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
+		  		"VALUES ('gogi', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'gogi', '');"\
+				  				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
+		  		"VALUES ('vangogi', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'vangogi', '');"\
+				  				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
+		  		"VALUES ('gahan', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'gahan', '');"\
+				  				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
+		  		"VALUES ('vangahan', 'f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3', 'vangahan', '');"\
 				/*
 				"INSERT OR IGNORE INTO users (user_name,password,first_name,last_name)"\
 		  		"VALUES ('gogi', '9fbccf7674cf9191d7a16fa528a89b6ba3b894d3aa947f4401b500e55603ac2c', '', '');" \

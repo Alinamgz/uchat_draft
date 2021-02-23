@@ -109,14 +109,13 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
-                <child>
+                <!-- <child>
                   <object class="GtkSearchEntry" id="sentry_rooms">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="max-length">40</property>
+                    <property name="max-length">24</property>
                     <property name="primary-icon-pixbuf">icons/1user.png</property>
                     <property name="secondary-icon-pixbuf">icons/backspace-arrow.png</property>
-                    <!-- <property name="primary-icon-name">search</property> -->
                     <property name="primary-icon-activatable">False</property>
                     <property name="primary-icon-sensitive">False</property>
                     <property name="placeholder-text" translatable="yes">Search</property>
@@ -128,7 +127,21 @@
                     <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
-                </child>
+                </child> -->
+            <child>
+              <object class="GtkSearchEntry" id="sentry_rooms">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-pixbuf">icons/1user.png</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="primary-icon-sensitive">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
                 <child>
                   <object class="GtkScrolledWindow" id="scrlldwnd_rooms">
                     <property name="visible">True</property>

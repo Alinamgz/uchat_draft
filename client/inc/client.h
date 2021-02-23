@@ -251,7 +251,12 @@ void exit_gtk(GtkWidget *widget, void *param);
 #define MESSAGE_BUF_SIZE (1 << 17)
 void mx_chat_messenger(t_client *client);
 void mx_init_chat_ths(t_client *client);
+
+// ---- search ----
 void mx_do_search_req(GtkWidget *widget, gpointer data);
+void mx_stop_search_room(GtkWidget *widget, gpointer data);
+// ----------------
+
 void mx_req_send_message(GtkButton *btn, t_client *client);
 gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
 
