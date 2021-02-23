@@ -74,14 +74,9 @@ bool have_chat = 0;
 
             if (client->chats[i]->from_uid == client->selected_user->uid
                 || client->chats[i]->to_uid == client->selected_user->uid) {
-                    printf("have to create new chat for %d and %d\n",
-                    client->selected_user->uid, client->self->uid);
 
-                    printf("already have chat for %d and %d\n",
-                    client->selected_user->uid, client->self->uid);
                     have_chat = 1;
                     break;
-                    // mx_create_chats_req(client, client->self->uid; client->selected_user->uid);
                 }
             }
 
@@ -90,6 +85,8 @@ bool have_chat = 0;
                 client->selected_user->uid, client->self->uid)
             : printf("have to create new chat for %d and %d\n",
                 client->selected_user->uid, client->self->uid);
+
+// mx_create_chats_req(client, client->self->uid; client->selected_user->uid);
 // ----------------------------------------------------------------------------
         }
         else {
