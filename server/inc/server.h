@@ -104,13 +104,16 @@ void mx_do_registration(sqlite3 *db, t_list *cur_client);
 char *mx_create_auth_res(t_list *cur_client);
 
 // select chats test
-void mx_count_chat_rows(sqlite3 *db, t_list *cur_client);
-void mx_select_chats(sqlite3 *db, t_list *cur_client);
-void mx_create_new_chat(sqlite3 *db, t_list *cur_client, t_list *peer_client);
+void mx_count_chat_rows(sqlite3 *db, t_list *cur_client, int my_uid);
+void mx_select_chats(sqlite3 *db, t_list *cur_client, int my_uid);
+void mx_create_new_chat(sqlite3 *db, t_list *cur_client, int peer_uid, char *peer_name);
+void mx_proceed_newchat_req(char *buf, t_list *cur_client, t_cl_data *client);
+char *mx_create_chats_response(t_list *cur_client);
+void mx_chat_req_memfree(t_list *cur_client);
 
 // search for users
 void mx_proceed_search_req(char *buf, t_list *cur_client, t_cl_data *client);
 void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str);
 char *mx_create_search_response(t_list *cur_client);
 
-void mx_set_receivers(t_list *cur_client, int peer_uid);
+void mx_set_receivers(t_list *cur_client, int my_uid, int peer_uid);

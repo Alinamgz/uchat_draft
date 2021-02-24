@@ -15,6 +15,9 @@ void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client) 
         case USER_SEARCH:
             mx_proceed_search_req(req_str, cur_client, client);
             break;
+        case NEW_CHAT:
+            mx_proceed_newchat_req(req_str, cur_client, client);
+            break;
         default:
             printf("\n!!! --- Err: unknown request code ----- !!!\n");
             break;

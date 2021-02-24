@@ -27,7 +27,9 @@ void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
 
 
             if (!already_have_chat(client))
-                mx_create_chats_req(client, client->self->uid, client->selected_user->uid);
+                mx_create_chats_req(client,
+                                    client->selected_user->uid,
+                                    client->selected_user->username);
         }
     }
 }

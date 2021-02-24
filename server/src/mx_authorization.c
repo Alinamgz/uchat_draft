@@ -3,7 +3,6 @@
 static void do_auth(sqlite3 *db, t_list *cur_client);
 static void send_response(int fd, t_list *cur_client);
 
-static void chat_req_memfree(t_chat_req_res **chat_req_res);
 static void auth_req_memfree(t_auth_req *auth_req_parsed);
 
 void mx_authorization(sqlite3 *db, t_list *cur_client, int *leave_fl) {
@@ -25,7 +24,7 @@ void mx_authorization(sqlite3 *db, t_list *cur_client, int *leave_fl) {
             do_auth(db, cur_client);
             send_response(cur_client->sock_fd, cur_client);
 
-            chat_req_memfree(cur_client->chat_req_res);
+            mx_chat_req_memfree(cur_client);
             auth_req_memfree(cur_client->auth_req_res);
         }
     }
@@ -47,13 +46,13 @@ static void do_auth(sqlite3 *db, t_list *cur_client) {
         case LOGIN:
             mx_do_login(db, cur_client);
             if (cur_client->auth_req_res->res_code == OK) {
-                mx_count_chat_rows(db, cur_client);
-                mx_select_chats(db, cur_client);
+                mx_count_chat_rows(db, cur_client, cur_client->uid);
+                mx_select_chats(db, cur_client, cur_client->uid);
             }
             break;
         case REGISTRATION:
             mx_do_registration(db, cur_client);
-            mx_create_new_chat(db, cur_client, cur_client);
+            mx_create_new_chat(db, cur_client,cur_client->uid, cur_client->auth_req_res->username);
             break;
         default:
             break;
@@ -89,33 +88,3 @@ static void auth_req_memfree(t_auth_req *auth_req_parsed) {
         }
     }
 }
-
-static void chat_req_memfree(t_chat_req_res **chat_req_res) {
-    t_chat_req_res **runner = chat_req_res;
-
-    if (runner){
-        for (int i = 0; runner[i]; i++) {
-            if (runner[i]->chat_id) {
-                free(runner[i]->chat_id);
-                runner[i]->chat_id = NULL;
-            }
-            if (runner[i]->name_or_msg) {
-                free(runner[i]->name_or_msg);
-                runner[i]->name_or_msg = NULL;
-            }
-            if (runner[i]->from_uid) {
-                free(runner[i]->from_uid);
-                runner[i]->from_uid = NULL;
-            }
-            if (runner[i]->to_uid) {
-                free(runner[i]->to_uid);
-                runner[i]->to_uid = NULL;
-            }
-            free(runner[i]);
-            runner[i] = NULL;
-        }
-    }
-    free(chat_req_res);
-    chat_req_res = NULL;
-}
-

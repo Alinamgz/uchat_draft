@@ -3,7 +3,7 @@
 
 static int select_chats_callback(void *data, int argc, char **argv, char **azColName);
 
-void mx_select_chats(sqlite3 *db, t_list *cur_client) {
+void mx_select_chats(sqlite3 *db, t_list *cur_client, int my_uid) {
     char sql[128] = "";
     char *err = NULL;
     int rows = 0;
@@ -16,14 +16,17 @@ void mx_select_chats(sqlite3 *db, t_list *cur_client) {
     sprintf(sql,
             "SELECT chat_id, chat_name, from_uid, to_uid FROM chats WHERE "
             "from_uid = '%d' OR  to_uid = '%d';",
-            cur_client->uid,
-            cur_client->uid);
+            my_uid, my_uid);
 
      if (sqlite3_exec(db, sql, select_chats_callback, cur_client, &err)) {
-        cur_client->auth_req_res->res_code = INTERNAL_SRVR_ERR;
+        cur_client->res_code = INTERNAL_SRVR_ERR;
         fprintf(stderr, "select chats from db: %s\n", sqlite3_errmsg(db));
         free(err);
     }
+    else {
+        cur_client->res_code = OK;
+    }
+
 }
 
 static int select_chats_callback(void *data, int argc, char **argv, char **azColName) {

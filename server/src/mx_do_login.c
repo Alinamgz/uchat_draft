@@ -39,6 +39,7 @@ void mx_do_login(sqlite3 *db, t_list *cur_client) {
     }
     else if (cur_client->auth_req_res->res_code == OK) {
         cur_client->uid = cur_client->auth_req_res->uid;
-        strcpy(cur_client->name, cur_client->auth_req_res->username);
+        if (!cur_client->name[0])
+            strcpy(cur_client->name, cur_client->auth_req_res->username);
     }
 }

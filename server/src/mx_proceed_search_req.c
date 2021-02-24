@@ -11,7 +11,7 @@ void mx_proceed_search_req(char *buf, t_list *cur_client, t_cl_data *client) {
 
     resp = mx_create_search_response(cur_client);
 
-    mx_set_receivers(cur_client, -1);
+    mx_set_receivers(cur_client, cur_client->uid, -1);
     mx_send_response(resp, cur_client, client);
 
     search_req_res_memfree(cur_client);

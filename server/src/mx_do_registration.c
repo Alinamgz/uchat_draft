@@ -32,6 +32,7 @@ void mx_do_registration(sqlite3 *db, t_list *cur_client) {
     }
     else if (cur_client->auth_req_res->uid > 0) {
         cur_client->uid = cur_client->auth_req_res->uid;
+        strcpy(cur_client->name, cur_client->auth_req_res->username);
         cur_client->auth_req_res->res_code = CREATED;
     }
     else {

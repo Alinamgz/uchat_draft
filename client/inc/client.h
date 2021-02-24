@@ -283,7 +283,7 @@ gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
 void mx_parse_n_proceed_response(t_client *client, char *resp_str);
 
 // ----- chats ------
-void mx_create_chats_req(t_client *client, int my_uid, int peer_uid);
+void mx_create_chats_req(t_client *client, int peer_uid, char *peer_name);
 void mx_proceed_chat_response(t_client *client, char *resp_str);
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
