@@ -3,6 +3,7 @@
 void selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
     t_client *client = (t_client*)user_data;
     gint row_ind = -1;
+    int peer_uid = -1;
     char *cur_name = NULL;
 
     if (box && row) {
@@ -12,13 +13,17 @@ void selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer use
                 if(client->selected_chat) {
                     free(client->selected_chat);
                 }
+
                     client->selected_chat = (t_chats*)malloc(sizeof(t_chats));
 
                     client->selected_chat->chat_name = client->chats[row_ind]->chat_name;
                     client->selected_chat->chat_id = client->chats[row_ind]->chat_id;
-                    client->selected_chat->from_uid = client->chats[row_ind]->from_uid;
-                    client->selected_chat->to_uid = client->chats[row_ind]->to_uid;
+                    client->selected_chat->from_uid = client->self->uid;
 
+                    peer_uid = client->self->uid != client->chats[row_ind]->to_uid
+                             ? client->chats[row_ind]->to_uid
+                             : client->chats[row_ind]->from_uid;
+                    client->selected_chat->to_uid = peer_uid;
 
                 cur_name = client->chats[row_ind]->chat_name;
                 printf("\t--------- %s --------\n", cur_name);
