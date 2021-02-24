@@ -109,6 +109,8 @@ void mx_select_chats(sqlite3 *db, t_list *cur_client);
 void mx_create_new_chat(sqlite3 *db, t_list *cur_client, t_list *peer_client);
 
 // search for users
-// void mx_do_search_user(sqlite3 *db, t_list *cur_client);
+void mx_proceed_search_req(char *buf, t_list *cur_client, t_cl_data *client);
 void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str);
 char *mx_create_search_response(t_list *cur_client);
+
+void mx_set_receivers(t_list *cur_client, int peer_uid);

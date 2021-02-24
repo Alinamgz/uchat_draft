@@ -18,6 +18,8 @@ void *mx_handle_client(void *arg) {
 		if (recv_rslt > 0) {
 			if (strlen(buf) > 0) {
 				mx_parse_and_proceed_req(buf, cur_client, client);
+
+				// if you need server to send back clients request, uncomment next line. it should send buf to all connected users
 				// mx_send_msg(buf, cur_client, client);
 			}
 		}
