@@ -1,6 +1,5 @@
 #include "server.h"
 
-
 static int count_found_users(sqlite3 *db, t_list *cur_client, const char *search_str);
 static int count_callback(void *data, int argc, char **argv, char **azColName);
 static int search_users_callback(void *data, int argc, char **argv, char **azColName);

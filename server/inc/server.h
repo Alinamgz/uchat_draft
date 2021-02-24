@@ -16,6 +16,7 @@ typedef enum e_req_type {
 	LOGIN,
 	REGISTRATION,
 	USER_SEARCH,
+	NEW_CHAT,
 	TOTAL
 }			 t_req_type;
 

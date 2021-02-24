@@ -16,6 +16,8 @@ char *mx_create_auth_res(t_list *cur_client) {
             cJSON_AddStringToObject(res, "first_name", cur_client->auth_req_res->first_name);
             cJSON_AddStringToObject(res, "last_name", cur_client->auth_req_res->last_name);
 
+            // TODO: on chats have to add kinda req-resp type
+            // cJSON_AddNumberToObject(res, "type", MY_CHATS);
             cJSON_AddNumberToObject(res, "chats_amt", cur_client->rows_cnt);
             chats_arr = cJSON_AddArrayToObject(res, "chats_arr");
 

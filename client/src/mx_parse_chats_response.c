@@ -47,7 +47,7 @@ void mx_parse_chats_response(t_client *client, char *resp_str) {
         printf("chats recv err\n");
     }
 
-    mx_show_chats(client);
+    // mx_show_chats(client);
 
     cJSON_Delete(res);
 

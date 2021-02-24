@@ -3,7 +3,7 @@
 static void free_found_users(t_client *client);
 
 void mx_proceed_search_response(t_client *client, char *resp_str) {
-    // get rid of previous found results
+    // to get rid of previous found results
     mx_delete_old_rows(client, (GtkListBox *)client->ui->users_list);
     free_found_users(client);
 

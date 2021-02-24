@@ -1,8 +1,9 @@
 #include "client.h"
 
 static bool already_have_chat(t_client *clietn);
+static void free_selected_user(t_client *client);
 
-void selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
+void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
     t_client *client = (t_client*)user_data;
     gint row_ind = -1;
     char *cur_name = NULL;
@@ -11,7 +12,7 @@ void selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer use
         if (gtk_list_box_row_is_selected(row) && (row_ind= gtk_list_box_row_get_index(row)) > -1) {
 
             if(client->selected_user) {
-                free(client->selected_user);
+                free_selected_user(client);
             }
 
             client->selected_user = (t_self*)malloc(sizeof(t_self));
@@ -23,7 +24,7 @@ void selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer use
 
 
             if (!already_have_chat(client))
-                mx_create_chats_req(client, client->self->uid; client->selected_user->uid);
+                mx_create_chats_req(client, client->self->uid, client->selected_user->uid);
 
         }
         else {
@@ -51,4 +52,18 @@ static bool already_have_chat(t_client *client) {
     }
 
     return rslt;
+}
+
+static void free_selected_user(t_client *client) {
+    free(client->selected_user->username);
+    client->selected_user->username = NULL;
+
+    free(client->selected_user->first_name);
+    client->selected_user->first_name = NULL;
+
+    free(client->selected_user->last_name);
+    client->selected_user->last_name = NULL;
+
+    free(client->selected_user);
+    client->selected_user = NULL;
 }

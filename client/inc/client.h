@@ -79,6 +79,7 @@ typedef enum e_scene {
 	LOGIN,
 	REGISTRATION,
 	SEARCH,
+	NEW_CHAT,
 	NEW_MSG,
 	CHAT,
 	TOTAL
@@ -182,15 +183,16 @@ typedef struct s_client {
 	pthread_mutex_t mut;
 	pthread_mutex_t connection_mut;
 	pthread_mutex_t auth_mut;
-	pthread_cond_t msg_cond;
-	pthread_mutex_t msg_sig_mut;
+	pthread_cond_t req_cond;
+	pthread_mutex_t req_sig_mut;
 	pthread_mutex_t render_search_mut;
-	// pthread_cond_t msg_cond;
+	// pthread_cond_t req_cond;
 	pthread_mutex_t resp_mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
 
+	char *req;
 	char *msg_time;
 	char *msg_req;
 	char *auth_req;
@@ -223,8 +225,8 @@ void mx_get_name(char **str);
 
 void mx_init_client_gtk(t_client *client);
 
-void *mx_recv_msg_handler(void *arg);
-void *mx_send_msg_handler(void *arg);
+void *mx_recv_resp_handler(void *arg);
+void *mx_send_req_handler(void *arg);
 
 void mx_set_addr(struct sockaddr_in *srvr_addr, char *addr_str, char *port_str);
 void mx_strtrim(char **str);
@@ -260,11 +262,6 @@ void exit_gtk(GtkWidget *widget, void *param);
 void mx_chat_messenger(t_client *client);
 void mx_init_chat_ths(t_client *client);
 
-// ---- search ----
-void mx_do_search_req(GtkWidget *widget, gpointer data);
-void mx_stop_search_room(GtkWidget *widget, gpointer data);
-// ----------------
-
 void mx_req_send_message(GtkButton *btn, t_client *client);
 gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
 
@@ -282,13 +279,22 @@ gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
 gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
 
 
+// ------------- general resp handler -----------
+void mx_parse_n_proceed_response(t_client *client, char *resp_str);
+
+// ----- chats ------
+void mx_create_chats_req(t_client *client, int my_uid, int peer_uid);
+void mx_proceed_chat_response(t_client *client, char *resp_str);
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
-void selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
+// ---- search ----
+void create_search_req(GtkWidget *widget, gpointer data);
+void mx_stop_search_room(GtkWidget *widget, gpointer data);
 void mx_proceed_search_response(t_client *client, char *resp_str);
 void mx_parse_search_response(t_client *client, char *resp_str);
 void mx_show_found_users(t_client *client);
-void selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
 void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);

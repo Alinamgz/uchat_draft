@@ -11,7 +11,6 @@ void mx_init_gtk_app(t_client *client) {
 	gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), "Trying to reach...");
 
     mx_connection_retry_th(NULL, (gpointer*)client);
-    // mx_connect_retry_gtk(NULL, (gpointer*)client);
 
     g_timeout_add(50, mx_check_scene, client);
 
@@ -33,8 +32,8 @@ static void init_windows(t_client *client) {
 
     pthread_mutex_destroy(&client->mut);
 	pthread_mutex_destroy(&client->connection_mut);
-	pthread_cond_destroy(&client->msg_cond);
-	pthread_mutex_destroy(&client->msg_sig_mut);
+	pthread_cond_destroy(&client->req_cond);
+	pthread_mutex_destroy(&client->req_sig_mut);
 
     close(client->sock_fd);
     gtk_main_quit();

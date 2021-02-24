@@ -138,15 +138,15 @@ static void init_siganl(t_client *client) {
 // Test for search req-res
     g_signal_connect(G_OBJECT(client->ui->search_bar),
                               "search-changed",
-                              G_CALLBACK(mx_do_search_req),
+                              G_CALLBACK(create_search_req),
                               client);
     g_signal_connect(G_OBJECT(client->ui->users_list),
                               "row-selected",
-                              G_CALLBACK(selected_user_row_handler),
+                              G_CALLBACK(mx_selected_user_row_handler),
                               client);
     g_signal_connect(G_OBJECT(client->ui->chats_list),
                               "row-selected",
-                              G_CALLBACK(selected_chat_row_handler),
+                              G_CALLBACK(mx_selected_chat_row_handler),
                               client);
 
 

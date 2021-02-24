@@ -1,6 +1,6 @@
 #include "client.h"
 
-void selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
+void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data) {
     t_client *client = (t_client*)user_data;
     gint row_ind = -1;
     int peer_uid = -1;
