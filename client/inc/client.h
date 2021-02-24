@@ -284,9 +284,11 @@ gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
 
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
+void selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
 void mx_proceed_search_response(t_client *client, char *resp_str);
 void mx_parse_search_response(t_client *client, char *resp_str);
 void mx_show_found_users(t_client *client);
+void selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
 void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);

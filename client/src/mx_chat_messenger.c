@@ -140,6 +140,16 @@ static void init_siganl(t_client *client) {
                               "search-changed",
                               G_CALLBACK(mx_do_search_req),
                               client);
+    g_signal_connect(G_OBJECT(client->ui->users_list),
+                              "row-selected",
+                              G_CALLBACK(selected_user_row_handler),
+                              client);
+    g_signal_connect(G_OBJECT(client->ui->chats_list),
+                              "row-selected",
+                              G_CALLBACK(selected_chat_row_handler),
+                              client);
+
+
 }
 
 void mx_chat_messenger(t_client *client) {

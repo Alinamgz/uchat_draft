@@ -10,8 +10,7 @@ void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client) 
     cJSON *str = NULL;
     char *resp = NULL;
 
-    search_req_res_memfree(cur_client);
-    
+
     switch(type->valueint) {
         case USER_SEARCH:
 
@@ -25,6 +24,7 @@ void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client) 
 
             mx_send_response(resp, cur_client, client);
 
+            search_req_res_memfree(cur_client);
             free(cur_client->receivers);
             free(resp);
             cJSON_Delete(req);
