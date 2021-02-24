@@ -9,8 +9,11 @@ void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
     char *cur_name = NULL;
 
     if (box && row) {
-        if (gtk_list_box_row_is_selected(row) && (row_ind= gtk_list_box_row_get_index(row)) > -1) {
-
+        if (!gtk_list_box_row_is_selected(row)
+            || (row_ind = gtk_list_box_row_get_index(row)) < 0) {
+            printf("\nERR: can't check if row is selected OR get row index\n");
+        }
+        else {
             if(client->selected_user) {
                 free_selected_user(client);
             }
@@ -25,10 +28,6 @@ void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
 
             if (!already_have_chat(client))
                 mx_create_chats_req(client, client->self->uid, client->selected_user->uid);
-
-        }
-        else {
-            printf("\nERR: can't check if row is selected OR get row index\n");
         }
     }
 }

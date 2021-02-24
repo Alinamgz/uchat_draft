@@ -28,6 +28,7 @@ void *mx_send_req_handler(void *arg) {
 		else {
             printf("\n------------\n\tSent: %s\n", client->req);
         }
+
         free(client->req);
         client->req = NULL;
 
