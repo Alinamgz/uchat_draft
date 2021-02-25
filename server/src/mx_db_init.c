@@ -18,6 +18,7 @@ void mx_db_init(t_cl_data *client) {
 
 	char *create_msgs_table_sql = "CREATE TABLE IF NOT EXISTS messages ("\
 				"msg_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
+				"chat_id INTEGER NOT_NULL,"\
 				"from_uid INTEGER NOT_NULL,"\
 				"to_uid INTEGER NOT_NULL,"\
 				"msg VARCHAR NOT NULL,"\

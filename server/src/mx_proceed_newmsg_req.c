@@ -8,11 +8,17 @@ void mx_proceed_newmsg_req(char *buf, t_list *cur_client, t_cl_data *client) {
         printf("\n---------\nMsg req: %s\n----------\n", buf);
 
     bool is_sent = 0;
+    int peer_uid = -1;
+    char *response = NULL;
     t_chat_req_res *new_msg = parse_newmsg_req(buf, &is_sent);
 
     if (new_msg) {
-        printf("New msg: chat %s, from %s, to %s\n", new_msg->chat_id, new_msg->from_uid, new_msg->to_uid);
-        // mx_do_add_new_msg(client->db, cur_client, new_msg, is_sent);
+        mx_do_add_new_msg(client->db, cur_client, new_msg, is_sent);
+        response = mx_create_newmsg_response(cur_client, new_msg);
+        peer_uid = cur_client->res_code == OK ? atoi(new_msg->to_uid) : -1;
+
+        mx_set_receivers(cur_client, atoi(new_msg->from_uid), peer_uid);
+        mx_send_response(response, cur_client, client);
     }
 
     new_msg_memfree(&new_msg);
