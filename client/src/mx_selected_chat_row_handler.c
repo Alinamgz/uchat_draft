@@ -26,11 +26,6 @@ void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
                     client->selected_chat->to_uid = peer_uid;
 
                 cur_name = client->chats[row_ind]->chat_name;
-                printf("\t--------- %s --------\n", cur_name);
-                printf("chat_id: %d\t from: %d\t to: %d\n",
-                        client->selected_chat->chat_id,
-                        client->selected_chat->from_uid,
-                        client->selected_chat->to_uid);
 
                 gtk_label_set_text(GTK_LABEL(client->ui->selected_chat_name), cur_name);
 

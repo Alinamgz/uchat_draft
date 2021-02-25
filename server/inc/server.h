@@ -17,6 +17,7 @@ typedef enum e_req_type {
 	REGISTRATION,
 	USER_SEARCH,
 	NEW_CHAT,
+	NEW_MSG,
 	TOTAL
 }			 t_req_type;
 
@@ -115,5 +116,8 @@ void mx_chat_req_memfree(t_list *cur_client);
 void mx_proceed_search_req(char *buf, t_list *cur_client, t_cl_data *client);
 void mx_do_search_user(sqlite3 *db, t_list *cur_client, char *search_str);
 char *mx_create_search_response(t_list *cur_client);
+
+// new msg
+void mx_proceed_newmsg_req(char *buf, t_list *cur_client, t_cl_data *client);
 
 void mx_set_receivers(t_list *cur_client, int my_uid, int peer_uid);

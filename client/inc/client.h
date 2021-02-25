@@ -238,6 +238,8 @@ void mx_init_gtk_app(t_client *client);
 void mx_init_error_dialog(t_client *client);
 void mx_init_login_window(t_client *client);
 void mx_init_registration_window(t_client *client);
+void mx_init_chat_window(t_client *client);
+
 gboolean mx_check_scene(void *param);
 
 // switch between login/registration forms

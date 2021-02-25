@@ -10,16 +10,20 @@ void mx_db_init(t_cl_data *client) {
 				"first_name VRCHAR NOT_NULL,"\
 				"last_name 	VARCHAR );";
 
-	char *create_connected_users_sql = "CREATE TABLE IF NOT EXISTS connected_users ("\
-				"connection_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL  ,"\
-				"uid		INTEGER NOT NULL ,"\
-				"fd			INTEGER NOT NULL );";
-
 	char *create_chats_table_sql = "CREATE TABLE IF NOT EXISTS chats ("\
 				"chat_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
 				"chat_name VARCHAR NOT NULL,"\
 				"from_uid INTEGER NOT_NULL,"\
 				"to_uid INTEGER NOT_NULL );";
+
+	char *create_msgs_table_sql = "CREATE TABLE IF NOT EXISTS messages ("\
+				"msg_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
+				"from_uid INTEGER NOT_NULL,"\
+				"to_uid INTEGER NOT_NULL,"\
+				"msg VARCHAR NOT NULL)"\
+				"is_sent BOOLEAN NOT_NULL"\
+				"is_delivered BOOLEAN NOT_NULL);";
+
 
 // TODO: delete qwer and gogi
 	char *insert_init_val_sql = "INSERT OR IGNORE INTO users (uid,user_name,password,first_name,last_name)"\
@@ -57,12 +61,12 @@ void mx_db_init(t_cl_data *client) {
 		printf("Created table users\n");
 	}
 
-	if (sqlite3_exec(client->db, create_connected_users_sql, NULL, NULL, &err)) {
+	if (sqlite3_exec(client->db, create_msgs_table_sql, NULL, NULL, &err)) {
 		fprintf(stderr, "%s%s\n", DB_EXEC_ERR, sqlite3_errmsg(client->db));
 		free(err);
 	}
 	else {
-		printf("Created table connected_users\n");
+		printf("Created table msgs_table\n");
 	}
 
 	if (sqlite3_exec(client->db, create_chats_table_sql, NULL, NULL, &err)) {

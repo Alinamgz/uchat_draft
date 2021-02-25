@@ -40,6 +40,12 @@ void mx_send_message_handle_enter(GtkTextView *textview, GdkEvent *event, t_clie
 
     printf("buffer");
 
+    if (!client->selected_chat) {
+        gtk_label_set_text(GTK_LABEL(client->ui->selected_chat_name),
+                            "\t\t!!! Err: No chats selected!");
+        return;
+    }
+
     if (event->key.keyval == MX_KEY_SHIFT)
         client->ui->shift_hold = TRUE;
     g_usleep(0);
@@ -48,12 +54,13 @@ void mx_send_message_handle_enter(GtkTextView *textview, GdkEvent *event, t_clie
 
             gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
         }
-        else if (!mx_widget_is_visible("box_editing_msg", client->ui->builder)){
+        else {
+        // else if (!mx_widget_is_visible("box_editing_msg", client->ui->builder)){
             mx_req_send_message(NULL, client);
             mx_clear_buffer_text("buffer_message", client->ui->builder);
         }
-        else
-            mx_req_edit_message(NULL, client);
+        // else
+        //     mx_req_edit_message(NULL, client);
     }
 }
 
