@@ -16,6 +16,7 @@ void mx_show_chats(t_client *client) {
         gtk_list_box_insert((GtkListBox *)client->ui->chats_list, row, -1);
         printf("inserted_row %d\n", i);
     }
+    gtk_widget_show_all(GTK_WIDGET(client->ui->chats_list));
 }
 
 static GtkWidget *create_chat_row(char *chat_name_str, bool is_unread) {

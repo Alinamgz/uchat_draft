@@ -39,19 +39,13 @@ void mx_parse_n_proceed_auth_response(t_client *client, char *res_buf) {
             break;
         default:
             if (client->scene == LOGIN)
-                gtk_label_set_text(GTK_LABEL(client->ui->l_username_status), resp_msg->valuestring);
+                gtk_label_set_text(GTK_LABEL(client->ui->l_username_status),resp_msg->valuestring);
             else if (client->scene == REGISTRATION)
-                gtk_label_set_text(GTK_LABEL(client->ui->r_username_status), resp_msg->valuestring);
+                gtk_label_set_text(GTK_LABEL(client->ui->r_username_status),resp_msg->valuestring);
             break;
     }
 
     cJSON_Delete(res);
-
-    printf("============= auth resp pars ===============\n");
-    fflush(stdout);
-    system("leaks -q uchat");
-    printf("============= ============== ===============\n");
-    fflush(stdout);
 }
 
 static void parse_ok_response(t_client *client, cJSON *res) {

@@ -8,6 +8,10 @@ void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
     gint row_ind = -1;
     char *cur_name = NULL;
 
+printf("\t || nu sho? -1 || \n");
+
+if (client->found_users && client->found_users[0]) printf("--- Shukai dali ---\n");
+
     if (box && row) {
         if (!gtk_list_box_row_is_selected(row)
             || (row_ind = gtk_list_box_row_get_index(row)) < 0) {
@@ -25,7 +29,7 @@ void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
             client->selected_user->first_name = strdup(client->found_users[row_ind]->first_name);
             client->selected_user->last_name = strdup(client->found_users[row_ind]->last_name);
 
-
+printf("\t || nu sho? || \n");
             if (!already_have_chat(client))
                 mx_create_chats_req(client,
                                     client->selected_user->uid,
@@ -40,7 +44,8 @@ static bool already_have_chat(t_client *client) {
     GtkListBoxRow *row_in_chats = NULL;
 
     for (int i = 0; client->chats && client->chats[i]; i++) {
-        if (client->chats[i]->to_uid == client->selected_user->uid) {
+        if (client->chats[i]->to_uid == client->selected_user->uid
+            || client->chats[i]->from_uid == client->selected_user->uid) {
             row_in_chats = gtk_list_box_get_row_at_index(chats_list, i);
             gtk_list_box_select_row(chats_list, row_in_chats);
 

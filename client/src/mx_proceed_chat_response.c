@@ -26,6 +26,6 @@ static void free_found_chats(t_client *client) {
             runner[i] = NULL;
         }
     }
-    free(client->found_users);
-    client->found_users = NULL;
+    free(client->chats);
+    client->chats = NULL;
 }

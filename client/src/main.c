@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 
 	mx_init_gtk_app(client);
 
-	printf("\n---------------------------------------------\n");
-	system("leaks -q uchat");
+	// printf("\n---------------------------------------------\n");
+	// system("leaks -q uchat");
 	return 0;
 }

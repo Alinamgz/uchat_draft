@@ -21,7 +21,6 @@ void *mx_recv_resp_handler(void *arg) {
 		else if (recv_rslt > 0) {
 			printf("\n\t--<Received>-- %s\n", msg);
 			mx_parse_n_proceed_response(client, msg);
-			// mx_proceed_search_response(client, msg);
 		}
 	}
 

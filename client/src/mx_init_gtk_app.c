@@ -30,13 +30,13 @@ static void init_windows(t_client *client) {
  void exit_gtk(GtkWidget *widget, void *param) {
     t_client *client = (t_client *)param;
 
+    gtk_main_quit();
     pthread_mutex_destroy(&client->mut);
 	pthread_mutex_destroy(&client->connection_mut);
 	pthread_cond_destroy(&client->req_cond);
 	pthread_mutex_destroy(&client->req_sig_mut);
 
     close(client->sock_fd);
-    gtk_main_quit();
     system("leaks -q uchat");
     exit(0);
 }

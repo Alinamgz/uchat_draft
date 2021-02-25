@@ -1,6 +1,6 @@
 #include "client.h"
 
-static GtkWidget *create_chat_row(t_self *cur_rslt);
+static GtkWidget *create_user_row(t_self *cur_rslt);
 
 static void check_enter(void);
 static int ch = 0;
@@ -10,7 +10,7 @@ void mx_show_found_users(t_client *client) {
     GtkWidget *row = NULL;
 
     for (int i = 0; client->found_users && client->found_users[i]; i++) {
-        row = create_chat_row(client->found_users[i]);
+        row = create_user_row(client->found_users[i]);
 
         gtk_list_box_insert((GtkListBox *)client->ui->users_list, row, -1);
     }
@@ -18,7 +18,7 @@ void mx_show_found_users(t_client *client) {
 
 }
 
-static GtkWidget *create_chat_row(t_self *cur_rslt) {
+static GtkWidget *create_user_row(t_self *cur_rslt) {
     char full_name[50] = "";
     GtkWidget *row = gtk_list_box_row_new();
 
