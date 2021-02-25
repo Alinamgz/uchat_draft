@@ -4,14 +4,12 @@ static GtkWidget *create_chat_row(char *chat_name_str, bool is_unread);
 
 void mx_show_chats(t_client *client) {
     GtkWidget *row = NULL;
-    // TODO: delete it
-    bool is_unread = 0;
 
     for (int i = 0; client->chats && client->chats[i]; i++) {
         // TODO: delete it
-        is_unread = i % 2 ? 1 : 0;
+        client->chats[i]->is_unread = 1;
 
-        row = create_chat_row(client->chats[i]->chat_name, is_unread);
+        row = create_chat_row(client->chats[i]->chat_name, client->chats[i]->is_unread);
 
         gtk_list_box_insert((GtkListBox *)client->ui->chats_list, row, -1);
         printf("inserted_row %d\n", i);

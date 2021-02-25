@@ -23,6 +23,8 @@ int main(int argc, char **argv) {
 	// client->search_req = NULL;
 	client->req = NULL;
 	client->chats = NULL;
+	client->msg_arr = NULL;
+	client->new_msg = NULL;
 
 	pthread_mutex_init(&client->mut, NULL);
 	pthread_mutex_init(&client->connection_mut, NULL);

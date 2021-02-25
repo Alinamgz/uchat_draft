@@ -20,7 +20,7 @@ void mx_parse_n_proceed_response(t_client *client, char *resp_str) {
                 break;
             case NEW_MSG:
                 printf("got resp: %s\n", resp_str);
-                // mx_proceed_newmsg_response(client, resp);
+                mx_proceed_newmsg_response(client, resp);
                 break;
             default:
                 printf("\n ----- ??? ---- Unknown resp type ------- ??? ------\n");
@@ -32,7 +32,7 @@ void mx_parse_n_proceed_response(t_client *client, char *resp_str) {
         free(resp);
         resp = NULL;
     }
-    else{
+    else {
         printf("got UNPARSED resp: %s\n", resp_str);
-        }
+    }
 }

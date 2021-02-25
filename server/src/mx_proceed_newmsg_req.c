@@ -4,17 +4,15 @@ static t_chat_req_res *parse_newmsg_req(const char *req_str, bool *is_sent);
 static void new_msg_memfree(t_chat_req_res **new_msg);
 
 void mx_proceed_newmsg_req(char *buf, t_list *cur_client, t_cl_data *client) {
-    if (cur_client && client)
-        printf("\n---------\nMsg req: %s\n----------\n", buf);
-
     bool is_sent = 0;
     int peer_uid = -1;
+    int newmsg_id = -1;
     char *response = NULL;
     t_chat_req_res *new_msg = parse_newmsg_req(buf, &is_sent);
 
     if (new_msg) {
-        mx_do_add_new_msg(client->db, cur_client, new_msg, is_sent);
-        response = mx_create_newmsg_response(cur_client, new_msg);
+        newmsg_id = mx_do_add_new_msg(client->db, cur_client, new_msg, is_sent);
+        response = mx_create_newmsg_response(client->db, cur_client, new_msg, newmsg_id);
         peer_uid = cur_client->res_code == OK ? atoi(new_msg->to_uid) : -1;
 
         mx_set_receivers(cur_client, atoi(new_msg->from_uid), peer_uid);
@@ -22,6 +20,8 @@ void mx_proceed_newmsg_req(char *buf, t_list *cur_client, t_cl_data *client) {
     }
 
     new_msg_memfree(&new_msg);
+    free(response);
+    response = NULL;
 }
 
 static t_chat_req_res *parse_newmsg_req(const char *req_str, bool *is_sent) {

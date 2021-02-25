@@ -23,7 +23,8 @@ void mx_db_init(t_cl_data *client) {
 				"to_uid INTEGER NOT_NULL,"\
 				"msg VARCHAR NOT NULL,"\
 				"is_sent INTEGER NOT_NULL,"\
-				"is_delivered INTEDER NOT_NULL);";
+				"is_delivered INTEDER NOT_NULL,"\
+				"timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
 
 // TODO: delete qwer and gogi

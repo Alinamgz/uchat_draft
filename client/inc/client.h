@@ -174,8 +174,21 @@ typedef struct s_chats {
 	int chat_id;
 	int from_uid;
 	int to_uid;
+	bool is_unread;
 	char *chat_name;
 }			   t_chats;
+
+
+typedef struct s_msgs {
+	int chat_id;
+	int msg_id;
+	int from_uid;
+	int to_uid;
+	char *msg;
+	char *timestamp;
+	bool is_sent;
+	bool is_delivered;
+}			   t_msgs;
 
 typedef struct s_client {
 	pthread_t connection_th;
@@ -207,6 +220,8 @@ typedef struct s_client {
 	t_self **found_users;
 	t_chats **chats;
 	t_chats *selected_chat;
+	t_msgs **msg_arr;
+	t_msgs *new_msg;
 
 	char *msg;
 	t_dtp *data;
@@ -299,4 +314,8 @@ void mx_parse_search_response(t_client *client, char *resp_str);
 void mx_show_found_users(t_client *client);
 void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
+// ---- newmsg ----
+void mx_proceed_newmsg_response(t_client *client, char *resp_str);
+void mx_parse_newmsg_response(t_client *client, char *resp_str);
+void mx_show_new_msg(t_client *client, t_msgs *cur_msg);
 void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);
