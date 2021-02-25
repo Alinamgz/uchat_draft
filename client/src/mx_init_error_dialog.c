@@ -11,6 +11,12 @@ void mx_init_error_dialog(t_client *client) {
 
     client->ui->err_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "err_dialog"));
     if (!client->ui->err_dialog) g_critical("Can't get err_dialog");
+
+    g_signal_connect(G_OBJECT(client->ui->err_dialog),
+                    "destroy",
+                    G_CALLBACK(exit_gtk),
+                    client);
+
     client->ui->fail_reason_msg = GTK_WIDGET(gtk_builder_get_object(builder, "fail_reason_msg"));
     if (!client->ui->fail_reason_msg) g_critical("Can't get fail_reason_msg");
 
@@ -27,9 +33,6 @@ void mx_init_error_dialog(t_client *client) {
     t_client *client = (t_client*)data;
 
     gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), "Retrying...");
-
-    // while(gtk_events_pending())
-	//     gtk_main_iteration();
 
     client->prev_scene = client->scene;
     client->scene = CONNECTION_ERR;

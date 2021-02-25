@@ -17,7 +17,10 @@ void *mx_handle_client(void *arg) {
 
 		if (recv_rslt > 0) {
 			if (strlen(buf) > 0) {
-				mx_send_msg(buf, cur_client, client);
+				mx_parse_and_proceed_req(buf, cur_client, client);
+
+				// if you need server to send back clients request, uncomment next line. it should send buf to all connected users
+				// mx_send_msg(buf, cur_client, client);
 			}
 		}
 		else if (!recv_rslt || (recv_rslt < 0 && errno == ECONNRESET) || !strcmp(buf, "exit")) {
@@ -39,7 +42,6 @@ void *mx_handle_client(void *arg) {
 
 	printf("\n----------------------- THREAD EXIT -------------\n");
 	system("leaks -q uchat_server");
-
 //TODO: check if this func (pthread_detach()) is OK
 	pthread_detach(pthread_self());
 	return NULL;

@@ -84,6 +84,12 @@ static void init_widgets(GtkBuilder *builder, t_client *client) {
 }
 
 static void connect_signals(t_client *client) {
+// ------------------ window --------------------
+    g_signal_connect(G_OBJECT(client->ui->registration_window),
+                              "destroy",
+                              G_CALLBACK(exit_gtk),
+                              client);
+
 // ------------------ entry --------------------
     g_signal_connect(G_OBJECT(client->ui->r_username_entry),
                               "activate",

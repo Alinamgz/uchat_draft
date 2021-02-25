@@ -9,6 +9,7 @@ void mx_init_server_and_client(int argc, char **argv, t_srvr_data *server, t_cl_
 	client->cl_list = NULL;
 	client->uid = server->uid;
 	client->mut = &(server->mut);
+// printf("\n\tcheck\n");
 
 	mx_set_addr(&server->addr, &client->addr, argv[1]);
 
@@ -21,6 +22,7 @@ void mx_init_server_and_client(int argc, char **argv, t_srvr_data *server, t_cl_
 	if (listen(server->sock_fd, SOMAXCONN) < 0)
 		mx_server_err(errno, server->sock_fd, client->sock_fd);
 
+	pthread_mutex_init(&client->req_mut, NULL);
 	pthread_mutex_init(&server->mut, NULL);
 
 	// TODO: Delete it

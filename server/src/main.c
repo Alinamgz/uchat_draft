@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 		if(client.sock_fd < 0)
 			mx_server_err(errno, server.sock_fd, client.sock_fd);
 		// TODO: Do we need nonblocking I/O ?
-
+                        
 		client.uid = ++server.uid;
 		mx_add_cl_node(&client);
 
