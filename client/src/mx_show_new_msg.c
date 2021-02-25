@@ -15,7 +15,11 @@ void mx_show_new_msg(t_client *client, t_msgs *cur_msg) {
 
 static GtkWidget *create_new_msg_row(t_client *client, t_msgs *cur_msg) {
     GtkWidget *row = gtk_list_box_row_new();
-if (cur_msg) printf("\n");
-    // GtkWidet *msg_box = gtk_box_new
+    // GtkWidget *msg_outer_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
+    // GtkWidget *msg_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+    // GtkWidget *empty_vox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+
+    // GtkWidget
+
     return row;
 }

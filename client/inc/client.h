@@ -176,6 +176,7 @@ typedef struct s_chats {
 	int to_uid;
 	bool is_unread;
 	char *chat_name;
+	char *peer_name;
 }			   t_chats;
 
 
@@ -305,6 +306,7 @@ void mx_proceed_chat_response(t_client *client, char *resp_str);
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
 void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+void mx_get_peer_name(t_client *client, char *chat_name);
 
 // ---- search ----
 void create_search_req(GtkWidget *widget, gpointer data);

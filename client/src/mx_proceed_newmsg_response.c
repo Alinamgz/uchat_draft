@@ -16,6 +16,9 @@ static void new_msg_memfree(t_client *client) {
         free(client->new_msg->msg);
         client->new_msg->msg = NULL;
 
+        free(client->new_msg->timestamp);
+        client->new_msg->timestamp = NULL;
+        
         free(client->new_msg);
         client->new_msg = NULL;
     }

@@ -27,6 +27,8 @@ void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
 
                 cur_name = client->chats[row_ind]->chat_name;
 
+                mx_get_peer_name(client, cur_name);
+
                 gtk_label_set_text(GTK_LABEL(client->ui->selected_chat_name), cur_name);
 
             }
