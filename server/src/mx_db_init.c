@@ -20,9 +20,9 @@ void mx_db_init(t_cl_data *client) {
 				"msg_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
 				"from_uid INTEGER NOT_NULL,"\
 				"to_uid INTEGER NOT_NULL,"\
-				"msg VARCHAR NOT NULL)"\
-				"is_sent BOOLEAN NOT_NULL"\
-				"is_delivered BOOLEAN NOT_NULL);";
+				"msg VARCHAR NOT NULL,"\
+				"is_sent INTEGER NOT_NULL,"\
+				"is_delivered INTEDER NOT_NULL);";
 
 
 // TODO: delete qwer and gogi
@@ -45,9 +45,7 @@ void mx_db_init(t_cl_data *client) {
 				"INSERT OR IGNORE INTO chats (chat_id, chat_name,from_uid,to_uid)"\
 		  		"VALUES (0, 'test_1', '2', '4');" \
 				"INSERT OR IGNORE INTO chats (chat_id, chat_name,from_uid,to_uid)"\
-		  		"VALUES (1, 'test_2', '3', '2');" \
-				"INSERT OR IGNORE INTO connected_users (connection_id,uid,fd)"\
-		  		"VALUES (0, 0, -1);";
+		  		"VALUES (1, 'test_2', '3', '2');";
 
 	if (sqlite3_open("uchat.db", &client->db)) {
 		fprintf(stderr, "%s%s\n", DB_OPEN_ERR, sqlite3_errmsg(client->db));

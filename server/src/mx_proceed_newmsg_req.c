@@ -1,6 +1,7 @@
 #include "server.h"
 
 static t_chat_req_res *parse_newmsg_req(const char *req_str, bool *is_sent);
+static void new_msg_memfree(t_chat_req_res **new_msg);
 
 void mx_proceed_newmsg_req(char *buf, t_list *cur_client, t_cl_data *client) {
     if (cur_client && client)
@@ -13,6 +14,8 @@ void mx_proceed_newmsg_req(char *buf, t_list *cur_client, t_cl_data *client) {
         printf("New msg: chat %s, from %s, to %s\n", new_msg->chat_id, new_msg->from_uid, new_msg->to_uid);
         // mx_do_add_new_msg(client->db, cur_client, new_msg, is_sent);
     }
+
+    new_msg_memfree(&new_msg);
 }
 
 static t_chat_req_res *parse_newmsg_req(const char *req_str, bool *is_sent) {
@@ -37,4 +40,30 @@ static t_chat_req_res *parse_newmsg_req(const char *req_str, bool *is_sent) {
 
     cJSON_Delete(req);
     return rslt;
+}
+
+static void new_msg_memfree(t_chat_req_res **new_msg) {
+    t_chat_req_res *runner = *new_msg;
+
+    if (runner) {
+        if (runner->chat_id) {
+            free(runner->chat_id);
+            runner->chat_id = NULL;
+        }
+        if (runner->from_uid) {
+            free(runner->from_uid);
+            runner->from_uid = NULL;
+        }
+        if (runner->to_uid) {
+            free(runner->to_uid);
+            runner->to_uid = NULL;
+        }
+        if (runner->name_or_msg) {
+            free(runner->name_or_msg);
+            runner->name_or_msg = NULL;
+        }
+
+        free(*new_msg);
+        *new_msg = NULL;
+    }
 }
