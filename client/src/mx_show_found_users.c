@@ -30,7 +30,7 @@ static GtkWidget *create_user_row(t_self *cur_rslt) {
     else if (cur_rslt->last_name[0])
         sprintf(full_name, "%s", cur_rslt->last_name);
 
-    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
     GtkWidget *username_label = gtk_label_new(cur_rslt->username);
     GtkWidget *fullname_label = gtk_label_new(full_name);
 

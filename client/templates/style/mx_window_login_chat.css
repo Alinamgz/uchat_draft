@@ -1,0 +1,61 @@
+* {
+    font-family: "Gill Sans", sans-serif;
+    outline-style: double;
+    /* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);  */
+}
+
+button {
+    -gtk-icon-effect: none;
+    -gtk-icon-shadow: none;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.box_login_window{
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB); 
+}
+
+.box_entry_user entry, .box_entry_pass entry {
+    box-shadow: none;
+}
+
+.box_username_entry entry, .box_password_entry entry, .button_login entry {
+    box-shadow: none;
+}
+
+.welcom_text {
+    font-size: 1.75em;
+    font-weight: 700;
+    margin: 300px 10px 10px 10px;
+}
+
+.box_entry_user {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+    box-shadow: rgb(0, 0, 0);
+}
+
+.box_entry_pass {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+}
+
+.box_login_button {
+    min-width: 200px;
+    margin: 100px 10px 10px 10px;
+	background: linear-gradient(135deg, #7bd0f4 0%, #913ee4 100%);
+	padding: 15px 0 15px 0;
+    border-radius: 6.25em;
+}
+
+.box_password_entry textview {
+    font-size: 1.75em;
+    font-weight: 700;
+}
+  

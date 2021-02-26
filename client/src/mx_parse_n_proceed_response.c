@@ -22,6 +22,11 @@ void mx_parse_n_proceed_response(t_client *client, char *resp_str) {
                 printf("got resp: %s\n", resp_str);
                 mx_proceed_newmsg_response(client, resp);
                 break;
+            case HISTORY:
+                printf("HISTORY\n");
+                printf("res = %s\n", resp);
+                mx_proceed_history_response(client, resp);
+                break;
             default:
                 printf("\n ----- ??? ---- Unknown resp type ------- ??? ------\n");
                 printf("got resp: %s\n", resp_str);
