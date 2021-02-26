@@ -694,12 +694,12 @@
                   </packing>
                 </child>
                 <!-- start uncomment -->
-                <!-- <child>
+                 <child>
                   <object class="GtkBox" id="box_msg_list">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
-                    <child>
+                  <!--  <child>
                       <object class="GtkLabel" id="label_found_messages">
                         <property name="height-request">50</property>
                         <property name="can-focus">False</property>
@@ -761,7 +761,7 @@
                         <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
-                    </child>
+                    </child> -->
                     <child>
                       <object class="GtkScrolledWindow" id="scrlldwnd_found_msgs">
                         <property name="can-focus">True</property>

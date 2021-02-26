@@ -87,18 +87,40 @@ t_dtp *mx_get_transport_data(cJSON *json_result) {
     return dtp;
 }
 
-t_dtp *mx_msg_request(char *msg, t_client *client) {
+void mx_msg_request(char *msg, t_client *client) {
     cJSON *json_result = cJSON_CreateObject();
 
-    if (!cJSON_AddNumberToObject(json_result, "type", client->self->uid))
-        return NULL;
-    // if (!cJSON_AddNumberToObject(json_result, "room_id", room_id))
-    //     return NULL;
-    // if (!cJSON_AddStringToObject(json_result, "message", MX_J_STR(msg)))
-    //     return NULL;
-    // if (!cJSON_AddNumberToObject(json_result, "msg_type", DB_TEXT_MSG))
-    //     return NULL;
-    return mx_get_transport_data(json_result);
+    char buf[17];
+
+    if (!cJSON_AddNumberToObject(json_result, "type", NEW_MSG))
+        return ;
+
+    if (!cJSON_AddNumberToObject(json_result, "is_sent", 1))
+        return ;
+
+    memset(buf, 0, 17);
+    sprintf(buf, "%d", client->selected_chat->chat_id);
+    if (!cJSON_AddStringToObject(json_result, "chat_id", buf))
+        return ;
+
+    memset(buf, 0, 17);
+    sprintf(buf, "%d", client->selected_chat->from_uid);
+    if (!cJSON_AddStringToObject(json_result, "from_uid", buf))
+        return ;
+
+    memset(buf, 0, 17);
+    sprintf(buf, "%d", client->selected_chat->to_uid);
+    if (!cJSON_AddStringToObject(json_result, "to_uid", buf))
+        return ;
+
+    memset(buf, 0, 17);
+    if (!cJSON_AddStringToObject(json_result, "message", msg))
+        return ;
+
+        pthread_mutex_lock(&client->req_sig_mut);
+        client->req = cJSON_PrintUnformatted(json_result);
+        pthread_mutex_unlock(&client->req_sig_mut);
+        pthread_cond_signal(&client->req_cond);
 }
 
 void mx_req_send_message(GtkButton *btn, t_client *client) {
@@ -113,6 +135,8 @@ void mx_req_send_message(GtkButton *btn, t_client *client) {
     // if (room && !chat->msg_placeholder && strlen(message_text) > 0) {
     if (!client->ui->msg_placeholder && strlen(message_text) > 0) {
         mx_trim_message(&message_text);
+        mx_msg_request(message_text, client);
+
         // dtp = mx_msg_request(message_text, room->id);
         // dtp = mx_msg_request(message_text, client);
         mx_send(client, dtp);

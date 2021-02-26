@@ -10,10 +10,10 @@ static int count_callback(void *data, int argc, char **argv, char **azColName) {
 }
 
 void mx_create_new_chat(sqlite3 *db, t_list *cur_client, int peer_uid, char *peer_name) {
-    char sql[256];
-    char *err = NULL;
-    memset(sql, 0, 256);
     int rows_cnt = 0;
+    char *err = NULL;
+    char sql[256];
+    memset(sql, 0, 256);
 
 // check if chat between users already exists
     sprintf(sql,
