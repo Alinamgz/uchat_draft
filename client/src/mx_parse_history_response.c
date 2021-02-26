@@ -17,37 +17,26 @@ void mx_parse_history_response(t_client *client, char *resp_str) {
     int i = 0;
 
     if (code->valueint == OK) {
-printf("ch_01\n");
         history_arr = cJSON_GetObjectItemCaseSensitive(res, "history_arr");
         history_amt = cJSON_GetObjectItemCaseSensitive(res, "history_amt");
         client->msg_arr = (t_msgs**)calloc(history_amt->valueint + 1, sizeof(t_msgs*));
 
-printf("ch_02\n");
         cJSON_ArrayForEach(history_obj, history_arr) {
-            chat_id = cJSON_GetObjectItemCaseSensitive(res, "chat_id");
-            from_uid = cJSON_GetObjectItemCaseSensitive(res, "from_uid");
-            to_uid = cJSON_GetObjectItemCaseSensitive(res, "to_uid");
-            cJSON *msg =  cJSON_GetObjectItemCaseSensitive(res, "name_or_msg");
-            cJSON *timestamp =  cJSON_GetObjectItemCaseSensitive(res, "timestamp");
+            chat_id = cJSON_GetObjectItemCaseSensitive(history_obj, "chat_id");
+            from_uid = cJSON_GetObjectItemCaseSensitive(history_obj, "from_uid");
+            to_uid = cJSON_GetObjectItemCaseSensitive(history_obj, "to_uid");
+            cJSON *name_or_msg =  cJSON_GetObjectItemCaseSensitive(history_obj, "name_or_msg");
+            cJSON *timestamp =  cJSON_GetObjectItemCaseSensitive(history_obj, "timestamp");
 
-printf("ch_03\n");
             client->msg_arr[i] = (t_msgs*)malloc(sizeof(t_msgs));
-client->msg_arr ? printf("arr ok\n") : printf("arr foo\n");
-client->msg_arr[i] ? printf("arr item ok\n") : printf("arr item foo\n");
-            // client->msg_arr[i]->msg_id = -1;
-printf("g_01");
+
+            client->msg_arr[i]->msg_id = -1;
             client->msg_arr[i]->chat_id = atoi(chat_id->valuestring);
-printf("g_02");
             client->msg_arr[i]->from_uid = atoi(from_uid->valuestring);
-printf("g_03");
             client->msg_arr[i]->to_uid = atoi(to_uid->valuestring);
-printf("g_04");
-            client->msg_arr[i]->msg = strdup(chat_id->valuestring);
-printf("g_05");
+            client->msg_arr[i]->msg = strdup(name_or_msg->valuestring);
             client->msg_arr[i]->timestamp = strdup(timestamp->valuestring);
-printf("g_06");
-            
-printf("ch_04\n");
+
             i++;
         }
         client->msg_arr[i] = NULL;
