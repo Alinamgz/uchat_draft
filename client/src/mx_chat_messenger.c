@@ -95,32 +95,8 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
     client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_delim_local"));
 
     client->ui->users_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_rooms"));
-<<<<<<< HEAD
     client->ui->msg_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_found_msgs"));
-=======
->>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
 
-
-
-    //
-    // client->ui->btn_edit = gtk_builder_get_object(builder, "btn_edit_msg_apply");
-    // client->ui->box_entry = gtk_builder_get_object(builder, "box_entry_field");
-    // client->ui->box_header = gtk_builder_get_object(builder, "box_room_header");
-    //end
-    // client->ui->box_editing = gtk_builder_get_object(builder, "box_editing_msg");
-    //start
-    // if (client->ui->visibility) {
-    //     mx_switch_room_header(client, builder, MX_ROOM_CTRL);
-    //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_entry));
-    //     gtk_widget_show_all(GTK_WIDGET(client->ui->box_header));
-    // }
-    // else {
-    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_entry));
-    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_header));
-    //     gtk_widget_hide(GTK_WIDGET(client->ui->box_editing));
-
-    // }
-    //
 }
 
 static void init_siganl(t_client *client) {

@@ -6,7 +6,7 @@ button {
 }
 
 .reg_chat{
-    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB); 
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
 }
 
 .box_entry_user entry, .box_entry_pass entry {
@@ -90,3 +90,5 @@ button {
 .box_show_login {
     margin: 0 0 100px 0;
 }
+
+

@@ -36,7 +36,7 @@ static GtkWidget *create_new_msg_row(t_client *client, t_msgs *cur_msg) {
         gtk_box_pack_end(GTK_BOX(msg_outer_box), empty_box, TRUE, TRUE, 5);
     }
 
-    GtkWidget *sender_name = gtk_labelnew(sender);
+    GtkWidget *sender_name = gtk_label_new(sender);
     printf("|| msg check: %s\n", cur_msg->msg);
     GtkWidget *msg = gtk_label_new(cur_msg->msg);
     GtkWidget *date = gtk_label_new(cur_msg->timestamp);
