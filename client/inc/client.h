@@ -122,6 +122,7 @@ typedef struct s_ui {
 	GtkWidget *chats_label;
 	GtkWidget *selected_chat_name;
 	GtkWidget *users_list;
+	GtkWidget *msg_list;
 	// GtkWidget *username_row_label;
 	// GtkWidget *fullname_row_label;
 

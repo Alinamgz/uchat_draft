@@ -95,6 +95,7 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
     client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_delim_local"));
 
     client->ui->users_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_rooms"));
+    client->ui->msg_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_found_msgs"));
 
 
 
