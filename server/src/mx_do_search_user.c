@@ -59,6 +59,9 @@ static int search_users_callback(void *data, int argc, char **argv, char **azCol
             // TODO: change to less specific name
             cur_client->found_users[cur_client->cur_row]->to_uid = strdup(argv[i]);
         }
+        else if (!strcmp(azColName[i], "timestamp")) {
+            cur_client->found_users[cur_client->cur_row]->timestamp = NULL;
+        }
     }
 
     cur_client->found_users[++cur_client->cur_row] = NULL;

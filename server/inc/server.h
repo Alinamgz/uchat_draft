@@ -37,6 +37,7 @@ typedef struct s_chat_req_res {
 	char *name_or_msg;
 	char *from_uid;
 	char *to_uid;
+	char *timestamp;
 }			   t_chat_req_res;
 
 typedef struct s_srvr_data {
@@ -54,6 +55,7 @@ typedef struct s_list {
 	t_auth_req *auth_req_res;
 	t_chat_req_res **found_users;
 	t_chat_req_res **chat_req_res;
+	t_chat_req_res **history_req_res;
 	int res_code;
 	int cur_row;
 	int rows_cnt;
@@ -127,3 +129,8 @@ char *mx_create_newmsg_response(sqlite3 *db,
 								int newmsg_id);
 
 void mx_set_receivers(t_list *cur_client, int my_uid, int peer_uid);
+
+// history
+void mx_proceed_history_req(char *buf, t_list *cur_client, t_cl_data *client);
+void mx_do_history(sqlite3 *db, t_list *cur_client, char *search_str);
+char *mx_create_history_response(t_list *cur_client);

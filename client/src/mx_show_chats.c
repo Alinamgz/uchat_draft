@@ -22,17 +22,17 @@ static GtkWidget *create_chat_row(char *chat_name_str, bool is_unread) {
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     GtkWidget *chat_name = gtk_label_new(chat_name_str);
-    GtkWidget *new_msg = is_unread ? gtk_label_new("*new!") : gtk_label_new(NULL);
+    // GtkWidget *new_msg = is_unread ? gtk_label_new("*new!") : gtk_label_new(NULL);
 
     gtk_widget_set_size_request(box, 280, 30);
 
     gtk_label_set_xalign(GTK_LABEL(chat_name), 0.0);
-    gtk_label_set_xalign(GTK_LABEL(new_msg), 1.0);
+    // gtk_label_set_xalign(GTK_LABEL(new_msg), 1.0);
 
     gtk_label_set_line_wrap(GTK_LABEL(chat_name), TRUE);
 
     gtk_box_pack_start(GTK_BOX(box), chat_name, TRUE, TRUE, 15);
-    gtk_box_pack_start(GTK_BOX(box), new_msg, TRUE, TRUE, 10);
+    // gtk_box_pack_start(GTK_BOX(box), new_msg, TRUE, TRUE, 10);
 
     gtk_container_add(GTK_CONTAINER(row), box);
 

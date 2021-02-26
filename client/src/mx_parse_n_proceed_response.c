@@ -24,6 +24,7 @@ void mx_parse_n_proceed_response(t_client *client, char *resp_str) {
                 break;
             case HISTORY:
                 printf("HISTORY\n");
+                printf("res = %s\n", resp);
                 break;
             default:
                 printf("\n ----- ??? ---- Unknown resp type ------- ??? ------\n");

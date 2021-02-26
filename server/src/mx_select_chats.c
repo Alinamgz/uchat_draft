@@ -48,6 +48,9 @@ static int select_chats_callback(void *data, int argc, char **argv, char **azCol
         else if (!strcmp(azColName[i], "to_uid")) {
             cur_client->chat_req_res[cur_client->cur_row]->to_uid = strdup(argv[i]);
         }
+        else if (!strcmp(azColName[i], "timestamp")) {
+            cur_client->chat_req_res[cur_client->cur_row]->timestamp = NULL;
+        }
     }
 
     cur_client->chat_req_res[++cur_client->cur_row] = NULL;
