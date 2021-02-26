@@ -2,15 +2,49 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkWindow" id="login_window">
+  <object class="GtkApplicationWindow" id="login_window">
     <property name="can-focus">False</property>
-    <property name="window-position">center</property>
     <property name="title" translatable="yes">Uchat</property>
+    <property name="window-position">center</property>
+    <property name="default-width">300</property>
+    <property name="default-height">600</property>
+    <property name="destroy-with-parent">True</property>
+    <property name="show-menubar">False</property>
     <child>
       <object class="GtkBox" id="login_box">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">label</property>
+                <style>
+                  <class name="logo_text"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <style>
+              <class name="box_logo"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkLabel" id="welcome_msg">
             <property name="visible">True</property>
@@ -23,24 +57,48 @@
             <attributes>
               <attribute name="scale" value="2"/>
             </attributes>
+            <style>
+              <class name="welcom_text"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkBox">
+          <object class="GtkBox" id="box_labetext">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="username_label">
+              <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Username *</property>
-                <property name="xalign">0.10000000149011612</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkEntry" id="l_username_entry">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="tooltip-text" translatable="yes">Username</property>
+                    <property name="max-length">24</property>
+                    <property name="max-width-chars">30</property>
+                    <property name="primary-icon-tooltip-text" translatable="yes">Username</property>
+                    <property name="secondary-icon-tooltip-text" translatable="yes">Username</property>
+                    <style>
+                      <class name="box_username_entry"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="box_entry_user"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -49,16 +107,34 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="l_username_entry">
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="margin-start">20</property>
-                <property name="margin-end">20</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="max-length">24</property>
-                <property name="max-width-chars">30</property>
-                <property name="placeholder-text" translatable="yes">Username</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkEntry" id="l_pass_entry">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="tooltip-text" translatable="yes">Password</property>
+                    <property name="max-length">24</property>
+                    <property name="visibility">False</property>
+                    <property name="invisible-char">●</property>
+                    <property name="width-chars">10</property>
+                    <property name="max-width-chars">30</property>
+                    <property name="secondary-icon-tooltip-text" translatable="yes">Password</property>
+                    <style>
+                      <class name="box_password_entry"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="box_entry_pass"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -67,15 +143,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="l_username_status">
+              <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="margin-bottom">10</property>
-                <!-- <property name="label" translatable="yes"></property> -->
-                <property name="xalign">0.10000000149011612</property>
-                <attributes>
-                  <attribute name="foreground" value="#eded33333b3b"/>
-                </attributes>
+                <property name="label" translatable="yes">Forgot password?</property>
+                <style>
+                  <class name="forgot_password"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -83,62 +157,14 @@
                 <property name="position">2</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkLabel" id="password_label">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Password *</property>
-                <property name="xalign">0.10000000149011612</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="l_pass_entry">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="margin-start">20</property>
-                <property name="margin-end">20</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <property name="max-length">24</property>
-                <property name="visibility">False</property>
-                <property name="invisible-char">●</property>
-                <property name="width-chars">10</property>
-                <property name="max-width-chars">30</property>
-                <property name="placeholder-text" translatable="yes">Password</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="l_pass_status">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-bottom">5</property>
-                <!-- <property name="label" translatable="yes">Booo</property> -->
-                <property name="xalign">0.10000000149011612</property>
-                <attributes>
-                  <attribute name="foreground" value="#eded33333b3b"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">5</property>
-              </packing>
-            </child>
+            <style>
+              <class name="box_label_entre"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -152,12 +178,30 @@
             <property name="orientation">vertical</property>
             <property name="layout-style">start</property>
             <child>
-              <object class="GtkButton" id="login_btn">
-                <property name="label" translatable="yes">Submit</property>
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="valign">center</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkButton" id="login_btn">
+                    <property name="label" translatable="yes">Login</property>
+                    <property name="name">Login</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <style>
+                      <class name="button_login"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="box_login_button"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -172,6 +216,9 @@
                 <property name="margin-top">30</property>
                 <property name="margin-bottom">5</property>
                 <property name="label" translatable="yes">Don't have an account?</property>
+                <style>
+                  <class name="text_account"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -186,6 +233,9 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="valign">center</property>
+                <style>
+                  <class name="box_register"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -193,14 +243,23 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <style>
+              <class name="box_button"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
+        <style>
+          <class name="box_login"/>
+        </style>
       </object>
     </child>
+    <style>
+      <class name="box_login_window"/>
+    </style>
   </object>
 </interface>

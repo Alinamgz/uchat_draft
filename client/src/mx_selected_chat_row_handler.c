@@ -12,7 +12,6 @@ void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
             if (row_ind > -1) {
                 if (!client->selected_chat
                     || client->selected_chat->chat_id != client->chats[row_ind]->chat_id) {
-                        printf("TTTTTTT\n");
                         mx_create_history_req(client, client->chats[row_ind]->chat_id);
                 }
 

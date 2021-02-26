@@ -95,7 +95,10 @@ static void init_chat_window(GtkBuilder *builder, t_client *client) {
     client->ui->search_status = GTK_WIDGET(gtk_builder_get_object(builder, "label_search_delim_local"));
 
     client->ui->users_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_rooms"));
+<<<<<<< HEAD
     client->ui->msg_list = GTK_WIDGET(gtk_builder_get_object(builder, "listbox_found_msgs"));
+=======
+>>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
 
 
 
@@ -161,6 +164,28 @@ static void init_siganl(t_client *client) {
 }
 
 void mx_chat_messenger(t_client *client) {
+    //---------- CSS Style ------------//
+    GtkCssProvider *provider = gtk_css_provider_new();
+    char *style = CHAT_MSG_CSS;
+
+    gtk_css_provider_load_from_path(provider, style, NULL);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+                               GTK_STYLE_PROVIDER(provider),
+                               GTK_STYLE_PROVIDER_PRIORITY_USER);
+    client->ui->uchat_client = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    g_signal_connect(client->ui->uchat_client, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    gtk_window_set_resizable(GTK_WINDOW(client->ui->uchat_client), FALSE);
+    gtk_window_set_position(GTK_WINDOW(client->ui->uchat_client), GTK_WIN_POS_CENTER);
+
+    GtkWidget *fixed = gtk_fixed_new();
+    gtk_widget_set_name(fixed, "fixed");
+    gtk_container_add(GTK_CONTAINER(client->ui->uchat_client), fixed);
+    // fill_with_contant(fixed);
+    gtk_widget_show_all(fixed);
+
+
+    gtk_widget_show_all(client->ui->uchat_client);
+    //---------------------------------//
     client->ui->builder = gtk_builder_new_from_file("client/templates/chat.glade");
     if (!client->ui->builder) {
         g_critical("Builder getting error!");

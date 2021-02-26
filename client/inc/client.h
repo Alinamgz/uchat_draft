@@ -60,6 +60,8 @@
 
 //----------- CSS3 -----------//
 #define CHAT_MSG_CSS "client/templates/style/mx_window_login.css"
+#define CHAT_LOGIN_CSS "client/templates/style/mx_window_login_chat.css"
+#define CHAT_REG_CSS "client/templates/style/mx_reg_chat.css"
 
 // ===== structs =====
 
@@ -123,7 +125,10 @@ typedef struct s_ui {
 	GtkWidget *chats_label;
 	GtkWidget *selected_chat_name;
 	GtkWidget *users_list;
+<<<<<<< HEAD
 	GtkWidget *msg_list;
+=======
+>>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
 	// GtkWidget *username_row_label;
 	// GtkWidget *fullname_row_label;
 
@@ -176,6 +181,7 @@ typedef struct s_chats {
 	int chat_id;
 	int from_uid;
 	int to_uid;
+<<<<<<< HEAD
 	bool is_unread;
 	char *chat_name;
 	char *peer_name;
@@ -193,6 +199,11 @@ typedef struct s_msgs {
 	bool is_delivered;
 }			   t_msgs;
 
+=======
+	char *chat_name;
+}			   t_chats;
+
+>>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
 typedef struct s_client {
 	pthread_t connection_th;
 	pthread_t auth_th;
@@ -223,8 +234,11 @@ typedef struct s_client {
 	t_self **found_users;
 	t_chats **chats;
 	t_chats *selected_chat;
+<<<<<<< HEAD
 	t_msgs **msg_arr;
 	t_msgs *new_msg;
+=======
+>>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
 
 	char *msg;
 	t_dtp *data;
@@ -308,7 +322,10 @@ void mx_proceed_chat_response(t_client *client, char *resp_str);
 void mx_parse_chats_response(t_client *client, char *resp_str);
 void mx_show_chats(t_client *client);
 void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+<<<<<<< HEAD
 void mx_get_peer_name(t_client *client, char *chat_name);
+=======
+>>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
 
 // ---- search ----
 void create_search_req(GtkWidget *widget, gpointer data);
@@ -318,6 +335,7 @@ void mx_parse_search_response(t_client *client, char *resp_str);
 void mx_show_found_users(t_client *client);
 void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
 
+<<<<<<< HEAD
 // ---- newmsg ----
 void mx_proceed_newmsg_response(t_client *client, char *resp_str);
 void mx_parse_newmsg_response(t_client *client, char *resp_str);
@@ -328,3 +346,6 @@ void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);
 void mx_create_history_req(t_client *client, int chat_id);
 void mx_parse_history_response(t_client *client, char *resp_str);
 void mx_proceed_history_response(t_client *client, char *resp_str);
+=======
+void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);
+>>>>>>> d6cf4732bc99969f8d72f3edba584046fe0d0a10
