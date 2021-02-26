@@ -36,10 +36,6 @@ void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
                 mx_get_peer_name(client, cur_name);
 
                 gtk_label_set_text(GTK_LABEL(client->ui->selected_chat_name), cur_name);
-
-
-                mx_delete_old_rows(client, (GtkListBox *)client->ui->msg_list);
-
             }
             else {
                 printf("\nERR: can't get row index\n");
