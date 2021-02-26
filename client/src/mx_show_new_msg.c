@@ -43,7 +43,7 @@ static GtkWidget *create_new_msg_row(t_client *client, t_msgs *cur_msg) {
     gtk_label_set_xalign(GTK_LABEL(date), 1.0);
 
     gtk_box_pack_start(GTK_BOX(msg_box), sender_name, TRUE, TRUE, 5);
-    gtk_box_pack_end(GTK_BOX(msg_box), msg, TRUE, TRUE, 5);
+    gtk_box_pack_start(GTK_BOX(msg_box), msg, TRUE, TRUE, 5);
     gtk_box_pack_end(GTK_BOX(msg_box), date, TRUE, TRUE, 5);
 
     gtk_container_add(GTK_CONTAINER(row), msg_outer_box);

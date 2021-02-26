@@ -40,4 +40,6 @@ void mx_parse_newmsg_response(t_client *client, char *resp_str) {
             // show msg as unsent
             break;
     }
+
+    cJSON_Delete(res);
 }
