@@ -21,6 +21,10 @@ void mx_parse_and_proceed_req(char *buf, t_list *cur_client, t_cl_data *client) 
         case NEW_MSG:
             mx_proceed_newmsg_req(req_str, cur_client, client);
             break;
+        case HISTORY:
+            printf("SERVER HISTORY\n");
+            printf("Request = %s", buf);
+            break;
         default:
             printf("\n!!! --- Err: unknown request code ----- !!!\n");
             break;

@@ -81,6 +81,7 @@ typedef enum e_scene {
 	SEARCH,
 	NEW_CHAT,
 	NEW_MSG,
+	HISTORY,
 	CHAT,
 	TOTAL
 }			 t_scene;
@@ -322,3 +323,6 @@ void mx_proceed_newmsg_response(t_client *client, char *resp_str);
 void mx_parse_newmsg_response(t_client *client, char *resp_str);
 void mx_show_new_msg(t_client *client, t_msgs *cur_msg);
 void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);
+
+// ---- history ----
+void mx_create_history_req(t_client *client, int chat_id);

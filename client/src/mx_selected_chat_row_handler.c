@@ -10,6 +10,12 @@ void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
         if (gtk_list_box_row_is_selected(row)) {
             row_ind = gtk_list_box_row_get_index(row);
             if (row_ind > -1) {
+                if (!client->selected_chat
+                    || client->selected_chat->chat_id != client->chats[row_ind]->chat_id) {
+                        printf("TTTTTTT\n");
+                        mx_create_history_req(client, client->chats[row_ind]->chat_id);
+                }
+
                 if(client->selected_chat) {
                     free(client->selected_chat);
                 }
@@ -30,6 +36,9 @@ void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer 
                 mx_get_peer_name(client, cur_name);
 
                 gtk_label_set_text(GTK_LABEL(client->ui->selected_chat_name), cur_name);
+
+
+                mx_delete_old_rows(client, (GtkListBox *)client->ui->msg_list);
 
             }
             else {

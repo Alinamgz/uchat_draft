@@ -18,6 +18,7 @@ typedef enum e_req_type {
 	USER_SEARCH,
 	NEW_CHAT,
 	NEW_MSG,
+	HISTORY,
 	TOTAL
 }			 t_req_type;
 
