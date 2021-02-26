@@ -1,0 +1,92 @@
+button {
+    -gtk-icon-effect: none;
+    -gtk-icon-shadow: none;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.reg_chat{
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB); 
+}
+
+.box_entry_user entry, .box_entry_pass entry {
+    box-shadow: none;
+}
+
+.r_username_entry entry, .r_password_entry entry, .r_conf_password_entry entry,
+.r_first_name_entry entry, .r_last_name_entry entry {
+    box-shadow: none;
+}
+
+.box_name entry, .box_password entry, .box_conf_password entry,
+.box_first_name entry, .box_last_name entry {
+    box-shadow: none;
+}
+
+.box_name {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+    box-shadow: rgb(0, 0, 0);
+}
+
+.box_password {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+    box-shadow: rgb(0, 0, 0);
+}
+
+.box_conf_password {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+    box-shadow: rgb(0, 0, 0);
+}
+
+.box_first_name {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+    box-shadow: rgb(0, 0, 0);
+}
+
+.box_last_name {
+    min-width: 200px;
+	margin: 0 100px 10px 100px;
+	background-color: #fff;
+	padding: 15px 20px 15px 10px;
+    border-radius: 6.25em;
+    box-shadow: rgb(0, 0, 0);
+}
+
+.ref_text {
+    font-size: 1.75em;
+    font-weight: 700;
+    margin: 130px 10px 10px 10px;
+}
+
+.box_submit {
+    min-width: 50px;
+    margin: 0px 100px 10px 100px;
+	background: linear-gradient(135deg, #7bd0f4 0%, #913ee4 100%);
+	padding: 15px 0 15px 0;
+    border-radius: 6.25em;
+}
+
+.btn_submit textview {
+    font-size: 1.75em;
+    font-weight: 700;
+}
+
+.box_show_login {
+    margin: 0 0 100px 0;
+}

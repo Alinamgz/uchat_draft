@@ -15,7 +15,9 @@ void mx_clear_buffer_text(gchar *buff_name, GtkBuilder *builder) {
 }
 
 gchar *mx_get_buffer_text(gchar *buff_name, t_client *client) {
+
     GObject *buffer = gtk_builder_get_object(client->ui->builder, buff_name);
+
     GtkTextIter start;
     GtkTextIter end;
 

@@ -11,7 +11,6 @@ void mx_init_gtk_app(t_client *client) {
 	gtk_label_set_text(GTK_LABEL(client->ui->fail_reason_msg), "Trying to reach...");
 
     mx_connection_retry_th(NULL, (gpointer*)client);
-    // mx_connect_retry_gtk(NULL, (gpointer*)client);
 
     g_timeout_add(50, mx_check_scene, client);
 
@@ -25,17 +24,21 @@ static void init_windows(t_client *client) {
     mx_init_error_dialog(client);
     mx_init_login_window(client);
     mx_init_registration_window(client);
+    // mx_init_chat_window(client);
+
     mx_chat_messenger(client);
 }
 
  void exit_gtk(GtkWidget *widget, void *param) {
-    //  TODO: add here:
-    // pthread_mutex_destroy(&client->mut, NULL);
-	// pthread_mutex_destroy(&client->connection_mut, NULL);
-	// pthread_cond_destroy(&client->msg_cond, NULL);
-	// pthread_mutex_destroy(&client->msg_sig_mut, NULL);
+    t_client *client = (t_client *)param;
 
     gtk_main_quit();
+    pthread_mutex_destroy(&client->mut);
+	pthread_mutex_destroy(&client->connection_mut);
+	pthread_cond_destroy(&client->req_cond);
+	pthread_mutex_destroy(&client->req_sig_mut);
+
+    close(client->sock_fd);
     system("leaks -q uchat");
     exit(0);
 }

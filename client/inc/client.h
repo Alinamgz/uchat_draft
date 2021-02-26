@@ -3,7 +3,7 @@
 // ===== defines =====
 #define MAXSLEEP 8
 #define SRVR_PORT 9001
-#define BUF_SZ 128
+#define BUF_SZ 1024
 #define NAME_LEN 32
 
 #define USG_ERR_START "Usage: "
@@ -14,6 +14,7 @@
 
 // response codes
 #define OK 200
+#define OK_CHATS 2001
 #define CREATED 201
 #define BAD_REQ 400
 #define UNAUTHORIZED 401
@@ -59,6 +60,8 @@
 
 //----------- CSS3 -----------//
 #define CHAT_MSG_CSS "client/templates/style/mx_window_login.css"
+#define CHAT_LOGIN_CSS "client/templates/style/mx_window_login_chat.css"
+#define CHAT_REG_CSS "client/templates/style/mx_reg_chat.css"
 
 // ===== structs =====
 
@@ -77,9 +80,10 @@ typedef enum e_scene {
 	CONNECTION_ERR,
 	LOGIN,
 	REGISTRATION,
-	CHAT,
-	NEW_MSG,
 	SEARCH,
+	NEW_CHAT,
+	NEW_MSG,
+	CHAT,
 	TOTAL
 }			 t_scene;
 
@@ -115,7 +119,15 @@ typedef struct s_ui {
 
 	// chat_client
 	GtkBuilder *builder;
-	GtkWidget *uchat_client; // window
+	GtkWidget *uchat_client;
+	GtkWidget *chats_list;
+	GtkWidget *chats_label;
+	GtkWidget *selected_chat_name;
+	GtkWidget *users_list;
+	// GtkWidget *username_row_label;
+	// GtkWidget *fullname_row_label;
+
+	// window
 	// GtkWidget *textview;
 	// GtkWidget *btn_edit;
 	// GtkWidget *btn_send;
@@ -128,10 +140,7 @@ typedef struct s_ui {
 	GObject *box_editing;
 	GObject *stack;
 
-
-
 	gboolean visibility;
-
 
 	// search for new chat
 	GtkWidget *search_bar;
@@ -147,6 +156,7 @@ typedef struct s_self {
 	char *first_name;
 	char *last_name;
 	int uid;
+
 }			   t_self;
 
 typedef struct s_msg_from_client {
@@ -162,18 +172,29 @@ struct s_dtp {
     gint type;
 };
 
+typedef struct s_chats {
+	int chat_id;
+	int from_uid;
+	int to_uid;
+	char *chat_name;
+}			   t_chats;
+
 typedef struct s_client {
 	pthread_t connection_th;
 	pthread_t auth_th;
 	pthread_mutex_t mut;
 	pthread_mutex_t connection_mut;
 	pthread_mutex_t auth_mut;
-	pthread_cond_t msg_cond;
-	pthread_mutex_t msg_sig_mut;
+	pthread_cond_t req_cond;
+	pthread_mutex_t req_sig_mut;
+	pthread_mutex_t render_search_mut;
+	// pthread_cond_t req_cond;
+	pthread_mutex_t resp_mut;
 	char *name;
 	int th_ret;
 	int sock_fd;
 
+	char *req;
 	char *msg_time;
 	char *msg_req;
 	char *auth_req;
@@ -184,6 +205,10 @@ typedef struct s_client {
 	t_scene scene;
 	t_scene prev_scene;
 	t_self *self;
+	t_self *selected_user;
+	t_self **found_users;
+	t_chats **chats;
+	t_chats *selected_chat;
 
 	char *msg;
 	t_dtp *data;
@@ -202,8 +227,8 @@ void mx_get_name(char **str);
 
 void mx_init_client_gtk(t_client *client);
 
-void *mx_recv_msg_handler(void *arg);
-void *mx_send_msg_handler(void *arg);
+void *mx_recv_resp_handler(void *arg);
+void *mx_send_req_handler(void *arg);
 
 void mx_set_addr(struct sockaddr_in *srvr_addr, char *addr_str, char *port_str);
 void mx_strtrim(char **str);
@@ -215,6 +240,8 @@ void mx_init_gtk_app(t_client *client);
 void mx_init_error_dialog(t_client *client);
 void mx_init_login_window(t_client *client);
 void mx_init_registration_window(t_client *client);
+void mx_init_chat_window(t_client *client);
+
 gboolean mx_check_scene(void *param);
 
 // switch between login/registration forms
@@ -238,9 +265,10 @@ void exit_gtk(GtkWidget *widget, void *param);
 #define MESSAGE_BUF_SIZE (1 << 17)
 void mx_chat_messenger(t_client *client);
 void mx_init_chat_ths(t_client *client);
-void mx_do_search_req(GtkWidget *widget, gpointer data);
+
 void mx_req_send_message(GtkButton *btn, t_client *client);
 gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
+
 void mx_trim_message(gchar **message);
 void mx_clear_buffer_text(gchar *buff_name, GtkBuilder *builder);
 void mx_req_edit_message(GtkButton *btn, t_client *client);
@@ -253,3 +281,24 @@ void mx_free(void **ptr);
 void mx_logger(gchar *file_name, GLogLevelFlags flags, gchar *error);
 gchar *mx_get_buffer_text(gchar *buff_name, t_client *client);
 gchar *mx_get_text_from_buffer(GtkTextBuffer *buffer);
+
+
+// ------------- general resp handler -----------
+void mx_parse_n_proceed_response(t_client *client, char *resp_str);
+
+// ----- chats ------
+void mx_create_chats_req(t_client *client, int peer_uid, char *peer_name);
+void mx_proceed_chat_response(t_client *client, char *resp_str);
+void mx_parse_chats_response(t_client *client, char *resp_str);
+void mx_show_chats(t_client *client);
+void mx_selected_chat_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+
+// ---- search ----
+void create_search_req(GtkWidget *widget, gpointer data);
+void mx_stop_search_room(GtkWidget *widget, gpointer data);
+void mx_proceed_search_response(t_client *client, char *resp_str);
+void mx_parse_search_response(t_client *client, char *resp_str);
+void mx_show_found_users(t_client *client);
+void mx_selected_user_row_handler(GtkListBox *box, GtkListBoxRow *row, gpointer user_data);
+
+void mx_delete_old_rows(t_client *client, GtkListBox *cur_box);

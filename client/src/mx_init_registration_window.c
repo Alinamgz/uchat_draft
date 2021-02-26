@@ -4,9 +4,30 @@ static void init_widgets(GtkBuilder *builder, t_client *client);
 static void connect_signals(t_client *client);
 
 void mx_init_registration_window(t_client *client) {
+    //---------- CSS Style ------------//
+    GtkCssProvider *provider = gtk_css_provider_new();
+    char *style = CHAT_REG_CSS;
+
+    gtk_css_provider_load_from_path(provider, style, NULL);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+                               GTK_STYLE_PROVIDER(provider),
+                               GTK_STYLE_PROVIDER_PRIORITY_USER);
+    client->ui->registration_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    g_signal_connect(client->ui->registration_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    gtk_window_set_resizable(GTK_WINDOW(client->ui->registration_window), FALSE);
+    gtk_window_set_position(GTK_WINDOW(client->ui->registration_window), GTK_WIN_POS_CENTER);
+
+    GtkWidget *fixed = gtk_fixed_new();
+    gtk_widget_set_name(fixed, "fixed");
+    gtk_container_add(GTK_CONTAINER(client->ui->registration_window), fixed);
+    gtk_widget_show_all(fixed);
+
+
+    gtk_widget_show_all(client->ui->registration_window);
+    //---------------------------------//
     GtkBuilder *builder;
 
-    builder = gtk_builder_new_from_file("client/templates/registration_window.ui");
+    builder = gtk_builder_new_from_file("client/templates/reg_uchat.ui");
     if (!builder)
         g_critical("Builder getting error!");
 
@@ -84,6 +105,12 @@ static void init_widgets(GtkBuilder *builder, t_client *client) {
 }
 
 static void connect_signals(t_client *client) {
+// ------------------ window --------------------
+    g_signal_connect(G_OBJECT(client->ui->registration_window),
+                              "destroy",
+                              G_CALLBACK(exit_gtk),
+                              client);
+
 // ------------------ entry --------------------
     g_signal_connect(G_OBJECT(client->ui->r_username_entry),
                               "activate",
